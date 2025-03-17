@@ -29,8 +29,18 @@ def heartbeat():
 def getBasicRoute():
 
     logger.info("Getting route directly from google map API")
-    source = request.get_json()["source"]
-    destination = request.get_json()["destination"]
+
+    try:
+        source = request.get_json()["source"]
+
+    except:
+        return {"error": "No source was specified"}, 400
+
+    try:
+        destination = request.get_json()["destination"]
+
+    except:
+        return {"error": "No destination was specified"}, 400
 
     logger.info("Source of route: {}. Destination of route: {}. Travel mode: Drive. Routing preference: Traffice_Aware".format(source, destination))
 
@@ -56,7 +66,11 @@ def getBasicRoute():
     logger.debug("Body: {}".format(bodyData))
     logger.debug("Headers: {}".format(headers))
 
-    response = requests.post(url, json = bodyData, headers = headers)
+    try:
+        response = requests.post(url, json = bodyData, headers = headers)
+    
+    except:
+        return {"error": "Error retrieving route from google api"}, 400
 
     logger.debug("Response received. Decoding google map api response into dictionary for parsing")
 
