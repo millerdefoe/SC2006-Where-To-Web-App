@@ -28,8 +28,11 @@ def heartbeat():
 @app.route("/getBasicRoute", methods=["GET"])
 def getBasicRoute():
 
+    logger.info("Getting route directly from google map API")
     source = request.get_json()["source"]
     destination = request.get_json()["destination"]
+
+    logger.info("Source of route: {}. Destination of route: {}. Travel mode: Drive. Routing preference: Traffice_Aware".format(source, destination))
 
     url = "https://routes.googleapis.com/directions/v2:computeRoutes"
     bodyData = {
@@ -49,7 +52,13 @@ def getBasicRoute():
         "Content-Type" : "application/json"
     }
 
+    logger.debug("Sending request to google map api")
+    logger.debug("Body: {}".format(bodyData))
+    logger.debug("Headers: {}".format(headers))
+
     response = requests.post(url, json = bodyData, headers = headers)
+
+    logger.debug("Response received. Decoding google map api response into dictionary for parsing")
 
     responseData = response.json()
 
@@ -62,6 +71,8 @@ def getBasicRoute():
         "duration" : duration,
         "distance" : distance
     }
+
+    logger.info("Returning data {} with status code 200".format(returnData))
 
     return returnData, 200
 
