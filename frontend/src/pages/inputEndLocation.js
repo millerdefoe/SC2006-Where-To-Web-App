@@ -1,9 +1,9 @@
 import React from "react";
-import "../styles/inputStartLocation.css";
+import "../styles/inputEndLocation.css";
 import mapImage from "../assets/inputStartLocationMap.png";
 import settingsImage from "../assets/settingsIconImage.png";
 
-function InputStartLocation(){
+function InputEndLocation(){
     return (
         <div className="home-container">
             <div className="homeicon-container">
@@ -26,4 +26,4 @@ function InputStartLocation(){
     );
 }
 
-export default InputStartLocation; 
+export default InputEndLocation; 
