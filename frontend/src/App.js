@@ -1,12 +1,12 @@
 import React from "react";
 import logo from './logo.svg';
 import './App.css';
-import InputStartLocation from "./pages/inputStartLocation";
+import InputEndLocation from "./pages/inputEndLocation";
 
 function App() {
   return (
     <div className="App">
-      <InputStartLocation /> 
+      <InputEndLocation /> 
     </div>
   );
 }
