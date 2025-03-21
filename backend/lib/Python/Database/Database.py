@@ -8,7 +8,6 @@ import traceback
 import psycopg2
 
 from lib.Python.Logging.PythonLogger import PythonLogger
-from lib.Python.Helpers.AddExceptions import WrongValue
 import logging
 
 logger = PythonLogger(os.path.basename(__file__), level=logging.DEBUG)
