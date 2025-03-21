@@ -19,7 +19,7 @@ CREATE TABLE carparklots(
             REFERENCES carpark(carparkid, lottype)
 );
 
-CREATE TABLE MRTCrowdDensityLevel(
+CREATE TABLE MRTCongestionLevel(
     StartTime TIMESTAMP NOT NULL,
     EndTime TIMESTAMP NOT NULL,
     stationNumber TEXT NOT NULL,
@@ -31,5 +31,5 @@ CREATE TABLE MRTStationNumber(
     stationNumber TEXT NOT NULL,
     CONSTRAINT pkey PRIMARY KEY (stationNumber)
         FOREIGN KEY(stationNumber)
-            REFERENCES MRTCrowdDensityLevel(stationNumber)
+            REFERENCES MRTCongestionLevel(stationNumber)
 );
