@@ -5,7 +5,7 @@ import "../styles/HomeButton.css";
 const HomeButton = () => {
     const navigate = useNavigate();
     return(
-        <button className="home-button" onClick={() => navigate("/start-location")}>
+        <button className="home-button" onClick={() => navigate("/end-location")}>
             Where to...
         </button>
     );

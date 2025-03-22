@@ -8,15 +8,14 @@ import "../styles/ViewDrivingRoute.css";
 const ViewDrivingRoute = () => {
 
     return (
-        <div>
-            <HomeButton />
-            <SettingsButton />
-            <div className="transport-container">
-              <span className="transport-label">Mode of Transport:</span>
-      
-              <div className="car-icon-container">
-                <Car className="car-icon" />
-              </div>
+      <div>
+        <HomeButton />
+        <SettingsButton />
+        <div className="transport-container">
+          <span className="transport-label">Mode of Transport:</span>
+          <div className="car-icon-container">
+            <Car className="car-icon" />
+          </div>
         </div>
       </div>
     );
