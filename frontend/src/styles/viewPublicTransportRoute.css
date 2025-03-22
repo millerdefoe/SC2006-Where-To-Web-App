@@ -1,0 +1,10 @@
+.viewCongestionLevels-container {
+    display: flex; 
+    justify-content: center; 
+    background-color: #92A2C7;
+    border-radius: 30px;
+    height: 8%;
+    aspect-ratio: 4 / 1; 
+    flex-shrink: 0;
+}
+
