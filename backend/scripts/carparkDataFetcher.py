@@ -9,7 +9,7 @@ from lib.Python.Helper.HelperFunctions import loadDatabaseCredentials
 from lib.Python.Helper.HelperFunctions import getLtaAPIKey
 from lib.Python.Logging.PythonLogger import PythonLogger
 
-logger = PythonLogger(os.path.basename(__file__))
+logger = PythonLogger(os.path.basename(__file__), fileName=r".\logs\carparkdatafetcher.logs")
 
 databaseCreds = loadDatabaseCredentials(r".\creds\priv\database.json")
 ltaKey = getLtaAPIKey(r".\creds\priv\lta.json")

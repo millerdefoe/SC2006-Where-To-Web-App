@@ -23,26 +23,30 @@ class Carpark():
 
         return True
 
-    def getCarparkName():
+    def getCarparkName(carparkId):
 
         return True
 
-    def getAvailableLots():
+    def getCarparkID(carparkName):
 
         return True
 
-    def getCarparkRate():
+    def getAvailableLots(carparkId):
 
         return True
 
-    def setCarparkRate(rate):
+    def getCarparkRate(carparkId):
 
         return True
 
-    def setAvailableLots(lots):
+    def updateCarparkRate(carparkId, rate):
 
         return True
 
-    def setCarparkName(carparkName):
+    def updateAvailableLots(carparkId, lots):
+
+        return True
+
+    def updateCarparkName(carparkId, carparkName):
 
         return True
