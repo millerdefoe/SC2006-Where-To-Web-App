@@ -1,15 +1,17 @@
-import { Link } from "react-router-dom";
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
-const Navbar = () => {
+function Navbar() {
   return (
-    <nav style={{ background: "#333", padding: "10px", color: "#fff" }}>
-      <ul style={{ display: "flex", gap: "10px" }}>
-        <li><Link to="/" style={{ color: "#fff" }}>Home</Link></li>
-        <li><Link to="/dashboard" style={{ color: "#fff" }}>Dashboard</Link></li>
-        <li><Link to="/profile" style={{ color: "#fff" }}>Profile</Link></li>
+    <nav>
+      <ul>
+        <li><NavLink to="/">Home</NavLink></li>
+        <li><NavLink to="/input-start">Start Location</NavLink></li>
+        <li><NavLink to="/carpark-availability">Carpark Availability</NavLink></li>
+        <li><NavLink to="/settings-reset">Settings</NavLink></li>
       </ul>
     </nav>
   );
-};
+}
 
 export default Navbar;
