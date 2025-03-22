@@ -1,36 +1,53 @@
-/* Main Layout */
-.home-container {
-    display: flex;
-    flex-direction: column; /* Stacks items vertically */
-    height: 100vh;
-    width: 100wh;
-    background-color: #FFF;
-    padding: 20px;
-    align-items: center; /* Centers content horizontally */
-}
-
-/* Home Icon */
-.homeicon-container {
+.locationRetrieval-container{
     display: flex;
     justify-content: center;
     border-radius: 15px;
     background-color: #ECE9E9;
-    height: 8%;
-    aspect-ratio: 4 / 1; 
-    margin: 25px 0;
-    flex-shrink: 0;
+    height: 30%; 
+    aspect-ratio: 3/1; 
+    flex-direction: row;
 }
 
-/* Typography inside Home Icon */
-.homeicon-typography {
+.locationRetrieval-header{
     color: #000;
     font-family: Poppins, sans-serif;
-    font-size: 4vh; /* Scales based on viewport */
+    font-size: 2vh; 
     font-weight: 600;
     white-space: nowrap;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.locationRetrieval-button{
+    color: #000;
+    font-family: Poppins;
+    font-size: 1vh;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    opacity: 0.4;
+    text-align: left; 
+    padding-left: 20px;
+}
+
+.separator{
+    background: #ECE9E9;
+    height: 5%;
+    aspect-ratio: 20/1;
+    flex-shrink: 0;
+}
+
+.locationRetrievalSearch-bar{
+    color: #000;
+    font-family: Poppins;
+    font-size: 1vh;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    opacity: 0.4;
+    text-align: left; 
+    padding-left: 20px;
 }
 
 /* Map Container */
@@ -49,27 +66,4 @@
     height: 100%;
     object-fit: cover; /* Ensures the map scales correctly */
     border-radius: 20px;
-}
-
-/* Search Bar Container */
-.search-container {
-    width: 60%;
-    max-width: 320px;
-    aspect-ratio: 7 / 1;
-    display: flex;
-    justify-content: center;
-    margin-top: 25px;
-}
-
-/* Search Bar */
-.search-bar {
-    width: 100%;
-    border-radius: 15px;
-    background-color: #ECE9E9;
-    border: 1px solid #ECE9E9;
-    font-size: 80%;
-    text-align: left;
-    padding-left: 20px;
-    outline: none;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
