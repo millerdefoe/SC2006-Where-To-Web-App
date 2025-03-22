@@ -1,8 +1,8 @@
 import React from "react";
 import "../styles/inputStartLocation.css";
-import "../styles/common.css";
 import mapImage from "../assets/inputStartLocationMap.png";
-import settingsImage from "../assets/settingsIconImage.png";
+import SettingsButton from "../components/SettingsButton";
+import "../styles/common.css";
 
 function InputStartLocation(){
     return (
@@ -15,10 +15,7 @@ function InputStartLocation(){
                 <img src={mapImage} alt="Map" className="map-image"></img>
             </div>
 
-            <div className="settingsIcon-container">
-                <img src={settingsImage} alt="Settings Icon" className="settings-icon"/>
-                <div className="settingsicon-image"></div>
-            </div>
+            <SettingsButton /> 
 
             <div className="locationRetreval-container">
                 <div className="locationRetrieval-header">Input Start Location</div>
