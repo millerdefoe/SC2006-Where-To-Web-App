@@ -16,13 +16,16 @@ SC2006/
 ```
 frontend/
 │── 📂 src/
-│   ├── 📂 components/          # Reusable UI components (Buttons, Cards)
-│   ├── 📂 pages/               # Full pages (Dashboard, Profile)
-│   ├── 📂 api/                 # Axios API requests
-│   ├── 📂 hooks/               # Custom React hooks
-│   ├── 📂 context/             # Context API or state management
 │   ├── 📂 assets/              # Static assets (logos, images)
+│   ├── 📂 components/          # Reusable UI components (Buttons, Cards)
+│   ├── 📂 context/             # Context API or state management
+│   ├── 📂 hooks/               # Custom React hooks
+│   ├── 📂 pages/               # Full pages (Dashboard, Profile)
+│   ├── 📂 routes/              # Route Definition   
+│   ├── 📂 state/               # Global state  using Zustand
 │   ├── 📂 styles/              # Tailwind config or additional styles
+│   ├── 📂 utils/ 
+│   │   ├── 📂 apis/            # Axios API requests
 │   ├── App.js                  # Main React App component
 │   ├── index.js                # React entry point
 │   ├── main.css                # Tailwind styles
