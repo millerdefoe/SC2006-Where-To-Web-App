@@ -1,7 +1,7 @@
 import React from "react";
 import "../styles/inputEndLocation.css";
 import mapImage from "../assets/inputStartLocationMap.png";
-import settingsImage from "../assets/settingsIconImage.png";
+import SettingsButton from "../components/SettingsButton";
 
 function InputEndLocation(){
     return (
@@ -14,9 +14,7 @@ function InputEndLocation(){
                 <img src={mapImage} alt="Map" className="map-image"></img>
             </div>
 
-            <div className="settingsicon-container">
-                <img src={settingsImage} alt="Settings Icon" className="settings-icon" />
-            </div>
+            <SettingsButton /> 
 
             <div className="search-container">
                 <input type="text" placeholder="Search....." className="search-bar"></input>

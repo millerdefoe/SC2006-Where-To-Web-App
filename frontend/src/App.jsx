@@ -14,10 +14,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Navigate to="/view-driving-route" />} />
           <Route path="/view-driving-route" element={<ViewDrivingRoute />} />
-          <Route path="/start-location" element={<InputStartLocation />} />
+          <Route path="/end-location" element={<InputEndLocation />} />
           <Route path="/settings" element={<SettingsPageSaveSuccessful />} />
+          <Route path="/start-location" element={<InputStartLocation />} />
         </Routes>
-        <InputEndLocation /> 
       </div>
     </Router> 
   );
