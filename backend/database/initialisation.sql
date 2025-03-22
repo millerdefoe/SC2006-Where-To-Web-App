@@ -19,17 +19,19 @@ CREATE TABLE carparklots(
             REFERENCES carpark(carparkid, lottype)
 );
 
-CREATE TABLE MRTCongestionLevel(
+CREATE TABLE mrtstationnumber(
+    stationnumber VARCHAR(5) NOT NULL,
+    stationname TEXT NOT NULL,
+    line VARCHAR(4) NOT NULL,
+    CONSTRAINT pkey PRIMARY KEY (stationNumber)
+);
+
+CREATE TABLE mrtcongestionlevel(
     StartTime TIMESTAMP NOT NULL,
     EndTime TIMESTAMP NOT NULL,
     stationNumber TEXT NOT NULL,
     CrowdLevel TEXT NOT NULL,
-    CONSTRAINT pkey PRIMARY KEY (stationNumber)
-);
-
-CREATE TABLE MRTStationNumber(
-    stationNumber TEXT NOT NULL,
-    CONSTRAINT pkey PRIMARY KEY (stationNumber)
+    CONSTRAINT fk_stationnumber
         FOREIGN KEY(stationNumber)
-            REFERENCES MRTCongestionLevel(stationNumber)
+            REFERENCES MRTStationNumber(stationNumber)
 );
