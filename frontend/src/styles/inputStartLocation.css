@@ -33,24 +33,6 @@
     justify-content: center;
 }
 
-/* Settings Icon still need to dit */ 
-.settingsicon-container{
-    position: absolute;
-    top: 2vh; /* Keeps it near the top */
-    right: 2vw; /* Keeps it in the top-right */
-    width: min(4vw, 50px); /* Scales with screen size but never too big */
-    aspect-ratio: 1 / 1; /* Keeps it square */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.settings-icon {
-    width: 100%; /* Ensures it scales properly */
-    height: 100%;
-    object-fit: contain; 
-}
-
 /* Map Container */
 .map-container {
     width: 70%;
