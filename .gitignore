@@ -1,2 +1,3 @@
 backend/creds/priv
 **/__pycache__/
+backend/logs
