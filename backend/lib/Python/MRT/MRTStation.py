@@ -43,6 +43,6 @@ class MRT():
 
         return True
 
-    def setMRTCongestionLevel(MRTCongestionLevel):
+    def setMRTCongestionLevel(mrtCongestionLevel):
 
         return True

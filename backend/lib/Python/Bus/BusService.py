@@ -17,7 +17,7 @@ dbObj = Database(
     databaseCreds["port"]
 )
 
-class MRT():
+class Bus():
 
     def __init__():
 
