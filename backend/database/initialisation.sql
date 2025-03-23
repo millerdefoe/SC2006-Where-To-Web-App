@@ -27,14 +27,25 @@ CREATE TABLE mrtstationinfo(
     CONSTRAINT mrtpkey PRIMARY KEY (stationnumber)
 );
 
-
 CREATE TABLE mrtcongestionlevel(
     starttime TIMESTAMP NOT NULL,
     endtime TIMESTAMP NOT NULL,
     stationnumber TEXT NOT NULL,
     crowdlevel TEXT NOT NULL,
-    stationname TEXT NOT NULL,
     CONSTRAINT fk_stationnumber
         FOREIGN KEY(stationnumber)
             REFERENCES mrtstationinfo(stationnumber)
+);
+
+CREATE TABLE settings(
+    carparkpricinglimit VARCHAR(10) NOT NULL,
+    maximumwalkingdistance INTEGER NOT NULL,
+    gpsstatus VARCHAR(5) NOT NULL
+);
+
+CREATE TABLE feedbackrecords(
+    feedbackid INTEGER NOT NULL,
+    feedbackmessage TEXT NOT NULL,
+    createdAt TIMESTAMP NOT NULL,
+    CONSTRAINT feedbackkey PRIMARY KEY (feedbackid)
 );
