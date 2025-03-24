@@ -70,3 +70,9 @@ class PublicTransportRoute():
     
     def setLeastCongestedRoute(computeLeastCongestedRoute):
         return True
+    
+    def computeFastestRoute():
+        return True
+    
+    def setFastesRoute(computeFastestRoute):
+        return True
