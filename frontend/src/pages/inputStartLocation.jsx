@@ -31,8 +31,6 @@ function InputStartLocation(){
         <div className="main-container">
             <HomeButton/>
             <SettingsButton/>
-           
-
 
             <div className="leftContainer">
                 <div className="map-container">
@@ -56,7 +54,10 @@ function InputStartLocation(){
                     />
                 </div>
 
-                <div className="locationRetrievalLocation-container">XXX location</div>
+                <div className="locationRetrievalLocation-container">
+                    <EnterStartLocationButton/>
+                    XXX location
+                </div>
   
             </div>
 

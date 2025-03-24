@@ -7,6 +7,7 @@ import InputStartLocation from "./pages/InputStartLocation";
 import ViewDrivingRoute from "./pages/ViewDrivingRoute";
 import InputTPTMode from "./pages/InputTPTMode";
 import SettingsPageSaveSuccessful from "./pages/SettingsPageSaveSuccessful";
+import NearestCarparkAvail from "./pages/NearestCarparkAvail";
 
 function App() {
   return (
