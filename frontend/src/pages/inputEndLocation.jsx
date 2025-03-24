@@ -1,9 +1,28 @@
-import React from "react";
+import React, {useState} from "react";
+import { useNavigate } from "react-router-dom";
 import "../styles/inputEndLocation.css";
 import mapImage from "../assets/inputStartLocationMap.png";
 import SettingsButton from "../components/SettingsButton";
 
 function InputEndLocation(){
+    const [endLocation, setEndLocation] = useState("");
+    const navigate = useNavigate();
+
+    const handleSubmit = () => {
+        if (endLocation.trim()) {
+            localStorage.setItem("endLocation", endLocation);
+            navigate("/start-location");
+        } else {
+            alert("Invalid address!");
+        }
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+            handleSubmit();
+        }
+    };
+
     return (
         <div className="home-container">
             <div className="homeicon-container">
@@ -17,9 +36,15 @@ function InputEndLocation(){
             <SettingsButton /> 
 
             <div className="search-container">
-                <input type="text" placeholder="Search....." className="search-bar"></input>
+                <input 
+                    type="text" 
+                    placeholder="Search....." 
+                    className="search-bar"
+                    value={endLocation}
+                    onChange={(e) => setEndLocation(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                />
             </div>
-
         </div>
     );
 }

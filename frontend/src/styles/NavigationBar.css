@@ -1,0 +1,40 @@
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 46px;
+    left: 670px;
+    transform: translateX(-50%);
+}
+
+.nav-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nav-bar {
+    width: 371px;
+    height: 62px;
+}
+
+.nav-text {
+    margin-top: 5px;
+    font-family: "Poppins";
+    width: 309px;
+    height:27px;
+    color: #000;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+}
+  
+
+.arrow {
+    width: 100%;
+    height: auto;
+}

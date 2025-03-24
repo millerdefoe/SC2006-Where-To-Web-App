@@ -2,6 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
+import NavBar from "../components/NavigationBar";
 import {ReactComponent as Car} from "../assets/Car.svg"; 
 import "../styles/ViewDrivingRoute.css";  
 
@@ -11,6 +12,7 @@ const ViewDrivingRoute = () => {
       <div>
         <HomeButton />
         <SettingsButton />
+        <NavBar />
         <div className="transport-container">
           <span className="transport-label">Mode of Transport:</span>
           <div className="car-icon-container">
