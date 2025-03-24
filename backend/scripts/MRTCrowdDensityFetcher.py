@@ -12,8 +12,10 @@ from lib.Python.Logging.PythonLogger import PythonLogger
 
 logger = PythonLogger(os.path.basename(__file__))
 
-databaseCreds = loadDatabaseCredentials(r".\creds\priv\database.json")
-pcdKey = getPCDAPIKey(r".\creds\priv\PCDRealTime.json")
+databaseCredsPath = os.path.join(".", "creds", "priv", "database.json")
+pcdKeyPath = os.path.join(".", "creds", "priv", "lta.json")
+databaseCreds = loadDatabaseCredentials(databaseCredsPath)
+pcdKey = getPCDAPIKey(pcdKeyPath)
 
 dbObj = Database(
     databaseCreds["host"],

@@ -7,7 +7,8 @@ from lib.Python.Helper.HelperFunctions import loadDatabaseCredentials
 
 logger = PythonLogger(os.path.basename(__file__))
 
-databaseCreds = loadDatabaseCredentials(r".\creds\priv\database.json")
+databaseCredsPath = os.path.join(".", "creds", "priv", "database.json")
+databaseCreds = loadDatabaseCredentials(databaseCredsPath)
 
 dbObj = Database(
     databaseCreds["host"],
