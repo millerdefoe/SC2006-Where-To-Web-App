@@ -2,8 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import logo from './logo.svg';
 import './App.css';
-import InputEndLocation from "./pages/inputEndLocation";
-import InputStartLocation from "./pages/inputStartLocation";
+import InputEndLocation from "./pages/InputEndLocation";
+import InputStartLocation from "./pages/InputStartLocation";
 import ViewDrivingRoute from "./pages/ViewDrivingRoute";
 import SettingsPageSaveSuccessful from "./pages/SettingsPageSaveSuccessful";
 
