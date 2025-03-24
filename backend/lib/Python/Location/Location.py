@@ -27,8 +27,6 @@ class Location():
     def getLongitude():
         return True
     
-    def setLangitude(langitude):
-        return True
-    
-    def setLongitude(longitude):
-        return True
+    def setLocation(langitude, longitude):
+        self.langitude = langitude
+        self.longitude = longitude
