@@ -25,7 +25,7 @@ def heartbeat():
     return jsonify({"heartbeat" : "ok"}), 200
 
 # Placeholder function without proper class/module structure
-@app.route("/getBasicRoute", methods=["GET"])
+@app.route("/getBasicRoute", methods=["GET", "POST"])
 def getBasicRoute():
 
     logger.info("Getting route directly from google map API")
@@ -56,6 +56,7 @@ def getBasicRoute():
         "routingPreference": "TRAFFIC_AWARE",
     }
 
+
     headers = {
         "X-Goog-Api-Key" : googleApiKey,
         "X-Goog-FieldMask" : "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline",
@@ -75,6 +76,10 @@ def getBasicRoute():
     logger.debug("Response received. Decoding google map api response into dictionary for parsing")
 
     responseData = response.json()
+
+    if "routes" not in responseData or not responseData["routes"]:
+        logger.error("Google Maps API returned no routes. Full response: {}".format(responseData))
+        return {"error": "No routes found for this origin/destination"}, 400
 
     encodedPolyline = responseData["routes"][0]["polyline"]["encodedPolyline"]
     duration = responseData["routes"][0]["duration"]

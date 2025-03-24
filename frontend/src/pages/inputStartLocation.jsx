@@ -13,7 +13,7 @@ function InputStartLocation(){
     const handleSubmit = () => {
         if (startLocation.trim()) {
             localStorage.setItem("startLocation", startLocation);
-            navigate("/view-driving-route");
+            navigate("/input-TPT-mode");
         } else {
             alert("Invalid address!");
         }
