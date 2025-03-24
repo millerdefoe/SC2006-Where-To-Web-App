@@ -2,14 +2,29 @@
 
 .main-container {
     display: flex;
-    flex-direction: column; /* Stacks items vertically */
+    flex-direction: row;
+    align-items: center;
     height: 100vh;
-    width: 100wh;
     background-color: #FFF;
-    padding: 20px;
-    align-items: center; /* Centers content horizontally */
+    padding: 40px;
+    gap: 30px;
+  }
+
+.top-row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
+.content-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    max-width: 1200px;
+  }
 
 /* Home Icon: static home icon only for the first 3 pages*/
 .homeIcon-container {

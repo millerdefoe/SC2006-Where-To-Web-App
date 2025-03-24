@@ -1,13 +1,35 @@
-.locationRetrieval-container{
+.leftContainer{
+    display: flex; 
+    align-items: center;
+    flex-direction: column;
+    width: 50wh;
+    aspect-ratio: 1/1;
+    background-color: #000;
+}
+
+.rightContainer{
+    display: flex; 
+    align-items: center;
+    flex-direction: column;
+    width: 50wh;
+    aspect-ratio: 1/1;
+    background-color: #000;
+}
+
+.locationRetrieval-container {
+    position: absolute;
+    margin-top: 15%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     border-radius: 15px;
     background-color: #ECE9E9;
-    height: 30%; 
-    aspect-ratio: 3/1; 
-    flex-direction: row;
-}
-
+    width: 25%;
+    aspect-ratio: 2/1;
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
+  }
+  
 .locationRetrieval-header{
     color: #000;
     font-family: Poppins, sans-serif;
@@ -32,9 +54,9 @@
 }
 
 .separator{
-    background: #ECE9E9;
-    height: 5%;
-    aspect-ratio: 20/1;
+    background: #FFF;
+    width: 100%;
+    aspect-ratio: 100/1;
     flex-shrink: 0;
 }
 

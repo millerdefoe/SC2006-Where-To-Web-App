@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/inputEndLocation.css";
+import "../styles/InputEndLocation.css";
 import mapImage from "../assets/inputStartLocationMap.png";
 import SettingsButton from "../components/SettingsButton";
 
