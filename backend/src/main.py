@@ -16,7 +16,8 @@ logger = PythonLogger(os.path.basename(__file__))
 app = Flask(__name__)
 CORS(app)
 
-googleApiKey = getGoogleMapAPIKey(r"./creds/priv/googleMapApi.json")
+apiKeyPath = os.path.join(".", "creds", "priv", "googleMapApi.json")
+googleApiKey = getGoogleMapAPIKey(apiKeyPath)
 
 @app.route("/heartbeat", methods=["GET", "POST"])
 def heartbeat():

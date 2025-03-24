@@ -12,7 +12,7 @@ def loadDatabaseCredentials(filePath = None):
         logger.info("Retrieving database credentials using filepath")
         try:
             with open(filePath, "r") as f:
-                return f.load(filePath)
+                return json.load(f)
 
         except FileNotFoundError:
             logger.error("File {} does not exist".format(filePath))
@@ -62,6 +62,64 @@ def getGoogleMapAPIKey(filePath = None):
         logger.info("Retrieving google API key from environment variables")
         try:
             apiKey = os.getenv("google-api-key")
+
+            return apiKey
+        
+        except Exception as e:
+            logger.error(e)
+            logger.info(traceback.print_exc())
+            return False
+
+def getLtaAPIKey(filePath = None):
+
+    if filePath != None:
+        logger.info("Retrieving LTA API key using filepath")
+        try:
+            with open(filePath, "r") as f:
+                return json.load(f)["lta-api-key"]
+
+        except FileNotFoundError:
+            logger.error("File {} does not exist".format(filePath))
+            return False
+
+        except Exception as e:
+            logger.error(e)
+            logger.info(traceback.print_exc())
+            return False
+
+    else:
+        logger.info("Retrieving LTA API key from environment variables")
+        try:
+            apiKey = os.getenv("lta-api-key")
+
+            return apiKey
+        
+        except Exception as e:
+            logger.error(e)
+            logger.info(traceback.print_exc())
+            return False
+        
+def getPCDAPIKey(filePath = None):
+
+    if filePath != None:
+        logger.info("Retrieving PCD API key using filepath")
+        try:
+            with open(filePath, "r") as f:
+                return json.load(f)["pcd-api-key"]
+
+        except FileNotFoundError:
+            logger.error("File {} does not exist".format(filePath))
+            return False
+
+        except Exception as e:
+            logger.error(e)
+            logger.info(traceback.print_exc())
+            return False
+
+    else:
+        logger.info("Retrieving PCD API key from environment variables")
+        try:
+            apiKey = os.getenv("pcd-api-key")
 
             return apiKey
         
