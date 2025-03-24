@@ -4,6 +4,7 @@ import "../styles/InputStartLocation.css";
 import mapImage from "../assets/inputStartLocationMap.png";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
+import EnterStartLocationButton from "../components/EnterStartLocationButton";
 import "../styles/Common.css";
 
 function InputStartLocation(){
@@ -30,6 +31,8 @@ function InputStartLocation(){
         <div className="main-container">
             <HomeButton/>
             <SettingsButton/>
+           
+
 
             <div className="leftContainer">
                 <div className="map-container">
@@ -41,20 +44,22 @@ function InputStartLocation(){
                 <div className="locationRetrieval-container">
                     <div className="locationRetrieval-header">Input Start Location</div>
                     <div className="separator"></div>
-                    <div className="locatioRetrieval-button"></div>
+                    <div className="locationRetrieval-button">Retrieve from GPS</div>
                     <div className="separator"></div>
-                    <input type="text"
-                            placeholder="Search"
-                            className="locationRetrievalSearch-bar"
-                            value={startLocation}
-                            onChange={(e) => setStartLocation(e.target.value)}
-                            onKeyDown={handleKeyDown}/>
+                    <input
+                    type="text"
+                    placeholder="Search"
+                    className="locationRetrievalSearch-bar"
+                    value={startLocation}
+                    onChange={(e) => setStartLocation(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    />
                 </div>
 
-                <div className="greyRectangle-container">
-                    <div className="typography" style={{ color: "#000" }}> Start Location</div>
-                </div>
+                <div className="locationRetrievalLocation-container">XXX location</div>
+  
             </div>
+
         </div>
     
       );

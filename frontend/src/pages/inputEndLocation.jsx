@@ -29,8 +29,8 @@ function InputEndLocation(){
                 <div className="homeicon-typography">Where to!</div>
             </div>
 
-            <div className="map-container">
-                <img src={mapImage} alt="Map" className="map-image"></img>
+            <div className="map-container1">
+                <img src={mapImage} alt="Map" className="map-image1"></img>
             </div>
 
             <SettingsButton /> 

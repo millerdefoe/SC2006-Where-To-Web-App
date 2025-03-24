@@ -1,0 +1,13 @@
+.enterStartLocation-container{
+    width: 10%;
+    aspect-ratio: 1/1;
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+
+.enterStartLocation-icon{
+    width: 100%;
+    height:100%;
+    object-fit: contain;
+}
