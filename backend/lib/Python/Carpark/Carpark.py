@@ -7,7 +7,8 @@ from lib.Python.Helper.HelperFunctions import loadDatabaseCredentials
 
 logger = PythonLogger(os.path.basename(__file__))
 
-databaseCreds = loadDatabaseCredentials(r".\creds\priv\database.json")
+databaseCredsPath = os.path.join(".", "creds", "priv", "database.json")
+databaseCreds = loadDatabaseCredentials(databaseCredsPath)
 
 dbObj = Database(
     databaseCreds["host"],
@@ -23,26 +24,30 @@ class Carpark():
 
         return True
 
-    def getCarparkName():
+    def getCarparkName(carparkId):
 
         return True
 
-    def getAvailableLots():
+    def getCarparkID(carparkName):
 
         return True
 
-    def getCarparkRate():
+    def getAvailableLots(carparkId):
 
         return True
 
-    def setCarparkRate(rate):
+    def getCarparkRate(carparkId):
 
         return True
 
-    def setAvailableLots(lots):
+    def updateCarparkRate(carparkId, rate):
 
         return True
 
-    def setCarparkName(carparkName):
+    def updateAvailableLots(carparkId, lots):
+
+        return True
+
+    def updateCarparkName(carparkId, carparkName):
 
         return True

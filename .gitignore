@@ -1,2 +1,4 @@
 backend/creds/priv
 .vscode
+**/__pycache__/
+backend/logs
