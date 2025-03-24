@@ -17,17 +17,23 @@ dbObj = Database(
     databaseCreds["port"]
 )
 
+#One object per route
 class PublicTransportRoute():
 
-    def __init__():
+    def __init__(self, currentLocation: Location, destinationLocation, routeType, date, time, mode, maximumWalkingDistance):
 
+        self.currentLocation = currentLocation
+        self.destinationLocation = destinationLocation
+        self.routeType = routeType
+        self.date = date
+        self.time = time
+        self.mode = mode
+        self.maximumWalkingDistance = maximumWalkingDistance
         return True
-
-    def getPublicTransportRoute():
-
+    
+    def calculateDesiredRoute():
         return True
-
-    def setPublicTransportRoute(publicTransportRoute):
-
+    
+    def setDesiredRoute(calculateDesiredRoute):
         return True
 
