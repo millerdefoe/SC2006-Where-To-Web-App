@@ -1,9 +1,13 @@
 # SC2006
 SC2006 Group Project Work
 
----
+## Project Description
 
-### Project File Structure
+TODO
+
+## Project Architecture & Design
+
+\<Insert Screenshot of Design\>
 
 ```
 SC2006/
@@ -33,3 +37,18 @@ frontend/
 │── 📜 tailwind.config.js       # Tailwind CSS config
 │── 📜 postcss.config.js        # PostCSS config (for Tailwind)
 ```
+
+### Backend Framework
+
+### Frontend Framework
+
+### Database design
+
+## Deployment
+
+### Deployment Strategy
+
+### Deployment Guide
+---
+
+### Project File Structure
