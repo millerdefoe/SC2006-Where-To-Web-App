@@ -17,40 +17,18 @@ dbObj = Database(
     databaseCreds["port"]
 )
 
-class Bus():
-
+class Location(): 
     def __init__():
-
         return True
 
-    def getBusStopCode():
-
-        return True
-
-    def getBusServiceNumber(): 
-
+    def getLangitude():
         return True
     
-    def getBusArrivalTime():
-
-        return True
-
-    def getBusCongestionLevel():
-
-        return True
-
-    def setBusStopCode(busStopCode):
-
-        return True
-
-    def setBusServiceNumber(busServiceNumber):
-
+    def getLongitude():
         return True
     
-    def setBusArrivalTime(busArrivalTime):
-
+    def setLangitude(langitude):
         return True
     
-    def setBusCongestionLevel(busCongestionLevel):
-
+    def setLongitude(longitude):
         return True
