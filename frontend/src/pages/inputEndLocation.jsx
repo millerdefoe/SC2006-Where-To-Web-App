@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/inputEndLocation.css";
+import "../styles/InputEndLocation.css";
 import mapImage from "../assets/inputStartLocationMap.png";
 import SettingsButton from "../components/SettingsButton";
 
@@ -29,8 +29,8 @@ function InputEndLocation(){
                 <div className="homeicon-typography">Where to!</div>
             </div>
 
-            <div className="map-container">
-                <img src={mapImage} alt="Map" className="map-image"></img>
+            <div className="map-container1">
+                <img src={mapImage} alt="Map" className="map-image1"></img>
             </div>
 
             <SettingsButton /> 
