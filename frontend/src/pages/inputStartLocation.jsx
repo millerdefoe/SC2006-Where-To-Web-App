@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../styles/InputStartLocation.css";
 import mapImage from "../assets/inputStartLocationMap.png";
 import SettingsButton from "../components/SettingsButton";
-import HomeButton from "../components/HomeButton";
+import HomeButton1 from "../components/HomeButton1";
 import EnterStartLocationButton from "../components/EnterStartLocationButton";
 import "../styles/common.css";
 
@@ -29,7 +29,7 @@ function InputStartLocation(){
 
     return (
         <div className="main-container">
-            <HomeButton/>
+            <HomeButton1/>
             <SettingsButton/>
 
             <div className="leftContainer">
