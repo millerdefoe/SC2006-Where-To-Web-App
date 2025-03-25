@@ -6,7 +6,7 @@ import InputStartLocation from "./pages/InputStartLocation";
 import InputTPTMode from './pages/InputTPTMode';
 import FastestRoute from './pages/FastestRoute';
 import FastestRouteDirections from './pages/FastestRouteDirections'; 
-import LeastCongestedRoute from './pages/LeastCongestedRoute';
+import LeastCongestedRoute from './pages/LeastCongestedRoute
 import ViewLessCongestedRouteDirections from './pages/ViewLessCongestedRouteDirections';
 import ViewDrivingRoute from "./pages/ViewDrivingRoute";
 import DrivingRouteNav from './pages/DrivingRouteNav';
