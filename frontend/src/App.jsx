@@ -7,6 +7,7 @@ import InputStartLocation from "./pages/InputStartLocation";
 import ViewDrivingRoute from "./pages/ViewDrivingRoute";
 import InputTPTMode from "./pages/InputTPTMode";
 import SettingsPageSaveSuccessful from "./pages/SettingsPageSaveSuccessful";
+import InputTPTMode from "./pages/InputTPTMode";
 import NearestCarparkAvail from "./pages/NearestCarparkAvail";
 
 function App() {
@@ -19,7 +20,7 @@ function App() {
           <Route path="/end-location" element={<InputEndLocation />} />
           <Route path="/settings" element={<SettingsPageSaveSuccessful />} />
           <Route path="/start-location" element={<InputStartLocation />} />
-          <Route path="/transport-mode" element={<InputTPTMode />} />
+          <Route path="/input-TPT-mode" element={<InputTPTMode/>} />
         </Routes>
       </div>
     </Router> 
