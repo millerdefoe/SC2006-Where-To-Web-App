@@ -14,7 +14,7 @@ function App() {
     <Router>
       <div className="App"> 
         <Routes>
-          <Route path="/" element={<Navigate to="/view-driving-route" />} />
+          <Route path="/" element={<Navigate to="/end-location" />} />
           <Route path="/view-driving-route" element={<ViewDrivingRoute />} />
           <Route path="/end-location" element={<InputEndLocation />} />
           <Route path="/settings" element={<SettingsPageSaveSuccessful />} />
