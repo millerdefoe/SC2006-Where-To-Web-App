@@ -6,7 +6,7 @@ import "../styles/DrivingButton.css";
 const DrivingButton = () => {
     const navigate = useNavigate(); 
     return(
-        <button className="drivingButton-container" onClick={() => navigate("/nearest-avail-carpark")}>
+        <button className="drivingButton-container" onClick={() => navigate("/view-driving-route")}>
             <DrivingIcon className="drivingButton-icon"/>
         </button>
     );
