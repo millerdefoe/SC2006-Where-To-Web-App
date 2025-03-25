@@ -1,7 +1,7 @@
 from flask import Flask
 from flask import jsonify
 from flask import session
-from flask_session import Session
+# from flask_session import Session
 from flask_cors import CORS
 from flask import request
 
@@ -15,6 +15,7 @@ from lib.Python.Helper.HelperFunctions import getGoogleMapAPIKey
 from lib.Python.User.UserController import UserController
 from lib.Python.Helper.HelperFunctions import loadDatabaseCredentials
 from lib.Python.Database.Database import Database
+from lib.Python.Driving.DrivingRoute import DrivingRoute
 
 logger = PythonLogger(os.path.basename(__file__))
 
@@ -35,6 +36,7 @@ dbObj = Database(
 )
 
 userController = UserController()
+drivingRoute = DrivingRoute()
 
 @app.route("/heartbeat", methods=["GET", "POST"])
 def heartbeat():
@@ -218,6 +220,66 @@ def login():
 
     logger.info("Login for user {} was successful. Returning userid and token")
     return jsonify(returnData), 200
+
+@app.route("/carparksNearby", methods=["GET"])
+def carparksNearby():
+
+    logger.info("carparksNearby route accessed. Verifying information provided")
+
+    try:
+        data = request.get_json()
+        if "latitude" not in data.keys() or "longitude" not in data.keys():
+            raise Exception
+
+        latitude = float(data["latitude"])
+        longitude = float(data["longitude"])
+
+    except ValueError:
+
+        logger.error("Coordinate information provided was not a number. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Coordinate information was not a number"
+        }
+
+        return jsonify(returnData), 400
+
+    except Exception as e:
+
+        logger.error("Coordinate information was not provided. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Coordinate information was not provided"
+        }
+
+        return jsonify(returnData), 400
+
+    if "maxrange" in data.keys():
+
+        try:
+            maxrange = float(data["maxrange"])
+
+        except:
+            logger.error("Max Range provided was not a number. Defaulting to 5")
+            maxrange = 0.8
+    
+    else:
+
+        maxrange = 0.8
+
+    data = drivingRoute.getNearbyCarparks(latitude, longitude, maxrange, dbObj)
+
+    if data == False:
+
+        logger.debug("Error when retrieving carparks around area. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "backend error"
+        }
+
+        return jsonify(returnData), 400
+
+    return jsonify(data), 200
 
 if __name__ == "__main__":
     app.run()

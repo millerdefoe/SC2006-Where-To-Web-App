@@ -2,8 +2,9 @@
 
 ## Routes
 
-1. [createUser](#--/createUser)
-2. [login](#--/login)
+1. [/createUser](#--/createUser)
+2. [/login](#--/login)
+3. [/carparksNearby](#--/carparksNearby)
 
 ___
 
@@ -69,3 +70,34 @@ ___
     - "username does not exist" - provided username is invalid
     - "username and/or password was not provided" - invalid api request. Body does not contain required information
 
+### - /carparksNearby
+
+#### Methods
+`GET`
+
+#### Params
+    ~none~
+
+#### Headers
+    ~Authentication: $TOKEN~
+
+#### Body
+    ~{"longitude": "user1", "latitude": "pass1", "maxrange": 1}~
+- longitude (Required)
+    - Float format
+- latitude (Required)
+    - Float format
+- maxrange (Optional)
+    - INT format
+    - In KM
+
+#### Return data
+    ~[["20","Orchard","Far East Plaza","1.3071","103.83359","C"],...]~
+    ~{"status" : "failure", "reason": "Coordinate information was not provided"}~
+- success
+    - List of all carparks in range will be sent. Each list contains [Carpark ID, Location, Name/Development, Latitude, Longitude, LotType]
+    - LotType | C : Car
+- login failure
+    - "Coordinate information was not a number" - Invalid coordinate information was provided
+    - "Coordinate information was not provided" - Body did not contain required information
+    - "backend error" - contact backend team to view logs and troubleshoot
