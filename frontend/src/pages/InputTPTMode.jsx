@@ -1,17 +1,14 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/inputStartLocation.css";
+import "../styles/InputStartLocation.css";
 import mapImage from "../assets/inputStartLocationMap.png";
 import carIcon from "../assets/car-icon.jpeg";
 import trainIcon from "../assets/train-icon.jpeg";
 import SettingsButton from "../components/SettingsButton";
-import "../styles/common.css";
-import mapImage from "../assets/inputStartLocationMap.png";
-import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import DrivingButton from '../components/DrivingButton';
 import "../styles/InputTPTMode.css"; 
-import "../styles/Common.css";
+import "../styles/common.css";
 
 function InputTPTMode() {
   const navigate = useNavigate();

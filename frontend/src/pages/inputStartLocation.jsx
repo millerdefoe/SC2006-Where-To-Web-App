@@ -5,7 +5,7 @@ import mapImage from "../assets/inputStartLocationMap.png";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import EnterStartLocationButton from "../components/EnterStartLocationButton";
-import "../styles/Common.css";
+import "../styles/common.css";
 
 function InputStartLocation(){
 
