@@ -1,5 +1,7 @@
 from flask import Flask
 from flask import jsonify
+from flask import session
+from flask_session import Session
 from flask_cors import CORS
 from flask import request
 
@@ -10,6 +12,9 @@ import requests
 
 from lib.Python.Logging.PythonLogger import PythonLogger
 from lib.Python.Helper.HelperFunctions import getGoogleMapAPIKey
+from lib.Python.User.UserController import UserController
+from lib.Python.Helper.HelperFunctions import loadDatabaseCredentials
+from lib.Python.Database.Database import Database
 
 logger = PythonLogger(os.path.basename(__file__))
 
@@ -18,6 +23,18 @@ CORS(app)
 
 apiKeyPath = os.path.join(".", "creds", "priv", "googleMapApi.json")
 googleApiKey = getGoogleMapAPIKey(apiKeyPath)
+databaseCredsPath = os.path.join(".", "creds", "priv", "database.json")
+databaseCreds = loadDatabaseCredentials(databaseCredsPath)
+
+dbObj = Database(
+    databaseCreds["host"],
+    databaseCreds["database"],
+    databaseCreds["username"],
+    databaseCreds["password"],
+    databaseCreds["port"]
+)
+
+userController = UserController()
 
 @app.route("/heartbeat", methods=["GET", "POST"])
 def heartbeat():
@@ -95,6 +112,112 @@ def getBasicRoute():
     logger.info("Returning data {} with status code 200".format(returnData))
 
     return returnData, 200
+
+@app.route("/createUser", methods=["POST"])
+def createUser():
+
+    logger.info("Create user route accessed. Attempting to create new user")
+    logger.info("Checking for validity of information provided")
+
+    try:
+        data = request.get_json()
+        if "username" not in data.keys() or "password" not in data.keys():
+            raise Exception
+
+        username = data["username"]
+        password = data["password"]
+
+    except Exception as e:
+
+        logger.error("Required information to create user was not provided. Returning error 400")
+        returnData = {
+            "status" : "user not created",
+            "reason" : "username and/or password was not provided"
+        }
+
+        return jsonify(returnData), 400
+
+    if userController.checkUsernameTaken(username, dbObj) == 0:
+        logger.debug("Duplicate username detected. Username: {}".format(username))
+        returnData = {
+            "status": "user not created",
+            "reason" : "duplicate username"
+        }
+        return jsonify(returnData), 400
+
+    result = userController.createUser(username, password, dbObj)
+
+    if result == False:
+        logger.debug("Database error when creating user. Please check logs")
+        returnData = {
+            "status": "user not created",
+            "reason" : "backend error"
+        }
+        return jsonify(returnData), 400
+
+    logger.info("Returning json specifying user has been created alongside userid")
+    returnData = {
+        "status": "user created",
+        "userid" : result
+    }
+    return jsonify(returnData), 200
+
+@app.route("/login", methods=["POST"])
+def login():
+
+    logger.info("Create user route accessed. Attempting to create new user")
+    logger.info("Checking for validity of information provided")
+
+    try:
+        data = request.get_json()
+        if "username" not in data.keys() or "password" not in data.keys():
+            raise Exception
+
+        username = data["username"]
+        password = data["password"]
+
+    except Exception as e:
+
+        logger.error("Login information was not provided. Returning error 400")
+        returnData = {
+            "status" : "login failure",
+            "reason" : "username and/or password was not provided"
+        }
+
+        return jsonify(returnData), 400
+
+    result, userid = userController.loginUser(username, password, dbObj)
+
+    if result == -1:
+
+        logger.debug("Username does not exist when logging in")
+
+        returnData = {
+            "status" : "login failure",
+            "reason" : "username does not exist"
+        }
+
+        return jsonify(returnData), 400
+    
+    if result == 0:
+
+        loger.debug("Password mismatch when logging in")
+
+        returnData = {
+            "status" : "login failure",
+            "reason" : "password mismatch"
+        }
+
+        return jsonify(returnData), 400
+
+    returnData = {
+        "status" : "login success",
+        "userid" : userid,
+        "token" : "temporarytokenfortesting"
+    }
+
+    logger.info("Login for user {} was successful. Returning userid and token")
+    return jsonify(returnData), 200
 
 if __name__ == "__main__":
     app.run()

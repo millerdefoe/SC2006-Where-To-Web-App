@@ -49,3 +49,21 @@ CREATE TABLE feedbackrecords(
     createdAt TIMESTAMP NOT NULL,
     CONSTRAINT feedbackkey PRIMARY KEY (feedbackid)
 );
+
+CREATE TABLE users(
+    userid SERIAL PRIMARY KEY,
+    username varchar(20) NOT NULL,
+    password TEXT NOT NULL
+);
+
+CREATE TABLE addresses(
+    userid INTEGER NOT NULL,
+    locationtag VARCHAR(20) NOT NULL,
+    latitude NUMERIC NOT NULL,
+    longitude NUMERIC NOT NULL,
+    notes TEXT NOT NULL,
+    CONSTRAINT fk_userid
+        FOREIGN KEY(userid)
+            REFERENCES users(userid),
+    CONSTRAINT pkey PRIMARY KEY (userid, locationtag)
+);
