@@ -8,6 +8,9 @@ import ViewDrivingRoute from "./pages/ViewDrivingRoute";
 import InputTPTMode from "./pages/InputTPTMode";
 import SettingsPageSaveSuccessful from "./pages/SettingsPageSaveSuccessful";
 import NearestCarparkAvail from "./pages/NearestCarparkAvail";
+import FastestRoute from "./pages/FastestRoute";
+import LeastCongestedRoute from "./pages/LeastCongestedRoute";
+
 
 function App() {
   return (
@@ -20,6 +23,9 @@ function App() {
           <Route path="/settings" element={<SettingsPageSaveSuccessful />} />
           <Route path="/start-location" element={<InputStartLocation />} />
           <Route path="/input-TPT-mode" element={<InputTPTMode/>} />
+          <Route path="/nearest-avail-carpark" element={<NearestCarparkAvail/>} />
+          <Route path="/fastest-route" element={<FastestRoute/>} />
+          <Route path="/least-congested-route" element={<LeastCongestedRoute/>} />
         </Routes>
       </div>
     </Router> 

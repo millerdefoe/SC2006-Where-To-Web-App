@@ -6,7 +6,7 @@ import "../styles/EnterStartLocationButton.css";
 const EnterStartLocationButton = () => {
     const navigate = useNavigate(); 
     return(
-        <button className="enterStartLocation-container" onClick={() => navigate("/transport-mode")}>
+        <button className="enterStartLocation-container" onClick={() => navigate("/input-TPT-mode")}>
             <EnterStartLocationIcon className="enterStartLocation-icon" />
         </button>
     );
