@@ -7,6 +7,7 @@ import {ReactComponent as Car} from "../assets/Car.svg";
 import axios from "axios";
 import "../styles/ViewDrivingRoute.css";  
 import MapWithRoute from "../components/MapRoute";
+import ModeOfTransport from "../components/ModeOfTransport";
 
 const ViewDrivingRoute = () => {
   const [route, setRoute] = useState(null);
@@ -40,12 +41,9 @@ const ViewDrivingRoute = () => {
         <HomeButton />
         <SettingsButton />
         <NavBar />
-        <div className="transport-container">
-          <span className="transport-label">Mode of Transport:</span>
-          <div className="car-icon-container">
-            <Car className="car-icon" />
-          </div>
-        </div>
+        <ModeOfTransport Icon={Car} />
+
+
         <div className="route-info-container">
           {loading && <p>Loading route...</p>}
           {error && <p className="text-red-600">{error}</p>}
