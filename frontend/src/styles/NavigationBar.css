@@ -3,9 +3,12 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: 46px;
-    left: 670px;
+    top: min(5vh, 46px); 
+    left: min(43vw, 670px);
     transform: translateX(-50%);
+    width: 100%;
+    flex-direction: row;
+    gap: 0;
 }
 
 .nav-wrapper {
@@ -14,35 +17,41 @@
     align-items: center;
     justify-content: center;
     position: relative; 
+    margin: 0;
 }
 
 .nav-bar {
-    width: 371px;
-    height: 62px;
+    width: min(20vw,371px);
+    height: min(8vh, 62px);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
+    
 }
 
 .nav-text {
-    margin-top: 5px;
     font-family: "Poppins";
-    width: 309px;
-    height:27px;
+    width: min(22vw,309px);
+    height:min(3vh,27px);
     color: #000;
-    font-size: 18px;
+    font-size: min(1.8vw,18px);
     font-style: normal;
     font-weight: 500;
     line-height: 100%;
     letter-spacing: 0%;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
   
 
 .arrow {
-    width: 100%;
+    width: min(5vw, 50px);
     height: auto;
     align-self: center;
 }

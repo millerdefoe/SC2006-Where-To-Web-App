@@ -1,12 +1,12 @@
 .home-button {
   position: absolute;
-  top: 46px;
-  left: 37px;
-  width: 194px;
-  height: 54px;
+  top: 6vh;
+  left: 3vw;
+  width: min(12vw, 200px); 
+  height: min(6vh, 60px);
   color: #000;
   font-family: "Poppins", sans-serif;
-  font-size: 36px;
+  font-size: min(3vw, 36px);
   font-style: normal;
   font-weight: 600;
   line-height: 100%;
@@ -16,4 +16,7 @@
   cursor: pointer;
   text-align: left;
   padding: 0;
+  white-space: nowrap;
+  z-index: 9999;  
+  pointer-events: auto;
 }
