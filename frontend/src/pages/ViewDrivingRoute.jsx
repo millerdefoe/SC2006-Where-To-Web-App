@@ -3,13 +3,16 @@ import { useNavigate } from "react-router-dom";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
+import mapImage from "../assets/inputStartLocationMap.png";
 import {ReactComponent as Car} from "../assets/Car.svg"; 
+import {ReactComponent as ViewNearbyCarParks} from "../assets/ViewNearbyCarParks.svg";
 import axios from "axios";
 import "../styles/ViewDrivingRoute.css";  
 import MapWithRoute from "../components/MapRoute";
 import ModeOfTransport from "../components/ModeOfTransport";
 
 const ViewDrivingRoute = () => {
+  const navigate = useNavigate();
   const [route, setRoute] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -43,6 +46,16 @@ const ViewDrivingRoute = () => {
         <NavBar />
         <ModeOfTransport Icon={Car} />
 
+        <div className="map-container">
+          <img src={mapImage} alt="Map" className="map-image"></img>
+        </div>
+
+        <div className="fastest-route-car-park-container">
+          <div className="fastest-route-typography">Fastest Route</div>
+          <button className="view-car-parks-container" onClick={() => navigate("/view-car-parks")}>
+            <ViewNearbyCarParks className="view-car-parks-icon" />
+          </button> 
+        </div>
 
         <div className="route-info-container">
           {loading && <p>Loading route...</p>}
