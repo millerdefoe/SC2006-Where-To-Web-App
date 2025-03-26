@@ -6,7 +6,7 @@ import "../styles/TransportButton.css";
 const TransportButton = () => {
     const navigate = useNavigate(); 
     return(
-        <button className="transportButton-container" onClick={() => navigate("/fastest-route")}>
+        <button className="transportButton-container" onClick={() => navigate("/view-public-transport-route")}>
             <TransportIcon className="transportButton-icon"/>
         </button>
     );
