@@ -1,12 +1,13 @@
 import requests
 import json
 import os
+import logging
 
 from math import cos
 
 from lib.Python.Logging.PythonLogger import PythonLogger
 
-logger = PythonLogger(os.path.basename(__file__))
+logger = PythonLogger(os.path.basename(__file__), level=logging.DEBUG)
 
 class DrivingRoute():
 
