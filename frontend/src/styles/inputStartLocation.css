@@ -26,7 +26,7 @@
 
 .locationRetrieval-container {
     position: absolute;
-    margin-right: 11%;
+    margin-right: 3%;
     float: top;
     display: flex;
     flex-direction: column;
@@ -107,7 +107,7 @@
     font-weight: 600;
     aspect-ratio: 6 / 1;
     margin-top: 65%;
-    margin-right: 23%;
+    margin-right: 6%;
     display: flex;
     justify-content: flext-start;
     padding-left: 2%;
@@ -118,10 +118,10 @@
 
 /* Map Container */
 .map-container {
-    margin-left: 20%;
+    margin-left: 15%;
     height: 100%;
     max-width: 1000px;
-    aspect-ratio: 3/4; /* Keeps proper map aspect ratio */
+    aspect-ratio: 4/4; /* Keeps proper map aspect ratio */
     display: flex;
     align-items: center;
     

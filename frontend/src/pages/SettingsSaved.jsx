@@ -1,12 +1,10 @@
-import React from 'react';
+import React from "react";
+import FeedbackButton from "../components/Feedback.jsx";
 
-function SettingsSaved() {
-  return (
-    <div>
-      <h1>Settings Saved</h1>
-      <p>Your settings have been successfully saved.</p>
-    </div>
-  );
-}
+const SettingsSaved = () => {
+    return (
+        <FeedbackButton />
+    );
+};
 
 export default SettingsSaved;
