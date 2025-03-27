@@ -1,0 +1,129 @@
+.directionDescription-wrapper{
+    height:100%;
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+}
+
+.directionDescription-wrapper2{
+    height: 90%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: transparent;
+}
+
+.directionDescription-header{
+    height: 10%; 
+    width: 100%;
+    background: transparent;
+    border: none;
+    display: flex; 
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+    margin-top: 2%;
+}
+
+.directionDescription-title{
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: 1.8vw;
+    font-weight: 570;
+}
+
+.directionDescription-duration{
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: 1.8vw;
+    font-weight: 570;
+    padding-left: 1%;
+    
+}
+
+.directionDescription-timer{
+    padding-left: 22%;
+    object-fit: contain;
+}
+
+.directionsIcon-container{
+    height: 95%;
+    width: 40%;
+    background-color: transparent;
+    align-items: center;
+    justify-content: top;
+    display: flex;
+    flex-direction: column;
+}
+
+.directionDescription-container{
+    height: 95%; 
+    width: 60%;
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+}
+
+.directionDescription-mainDirection{
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: 1vw;
+    font-weight: 600;
+    text-align: center;
+}
+
+.directionDescription-subDirection{
+    color: #4D4A4A;
+    font-family: Poppins, sans-serif;
+    font-size: 1vw;
+    font-weight: 500;
+    text-align: center;
+}
+
+.badge-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent; /* remove black */
+    width: 3vw; /* let content define width */
+    height: auto; 
+    margin-top: -4%;
+    margin-bottom: 20%;
+}
+
+.walking-wrapper > * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent; /* remove black */
+    width: 10%; /* let content define width */
+    height: 10%; 
+    margin-left: -15%;
+}
+
+.walking-wrapper svg {
+    width: 2.4vw; /* increase this value to enlarge the icon */
+    height: auto;
+  }
+
+.directionTransportIcon-icon {
+    width: 3vw;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 32px; 
+    margin-top: 20%;
+}
+  
+.directionTransportIcon-icon svg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+
