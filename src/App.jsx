@@ -15,9 +15,7 @@ import ViewPublicTransportRoute from './pages/ViewPublicTransportRoute';
 import CarparkAvail from './pages/CarparkAvail';
 import NearestCarparkAvail from './pages/NearestCarparkAvail';
 import CarparkPrice from './pages/CarparkPrice';
-import SettingsSaved from './pages/SettingsSaved';
-import SettingsFailed from './pages/SettingsFailed';
-import SettingsReset from './pages/SettingsReset';
+import Settings from './pages/Settings';
 import Feedback from './pages/Feedback';
 import NotFoundPage from './pages/NotFoundPage';
 
@@ -41,9 +39,7 @@ function App() {
         <Route path="/carpark-availability" element={<CarparkAvail />} />
         <Route path="/nearest-carpark" element={<NearestCarparkAvail />} />
         <Route path="/carpark-prices" element={<CarparkPrice />} />
-        <Route path="/settings-saved" element={<SettingsSaved />} />
-        <Route path="/settings-failed" element={<SettingsFailed />} />
-        <Route path="/settings-reset" element={<SettingsReset />} />
+        <Route path="/settings" element={<Settings />} />
         <Route path="/feedback" element={<Feedback />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
