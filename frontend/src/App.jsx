@@ -21,7 +21,7 @@ import SettingsFailed from './pages/SettingsFailed';
 import SettingsReset from './pages/SettingsReset';
 import Feedback from './pages/Feedback';
 import NotFoundPage from './pages/NotFoundPage';
-import DisplayCongestionLevels from './pages/DisplayCongestionLevels'
+import DisplayCongestionLevels from './pages/DisplayCongestionLevels';
 
 function App() {
   return (
