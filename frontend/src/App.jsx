@@ -9,6 +9,7 @@ import FastestRouteDirections from './pages/FastestRouteDirections';
 import LeastCongestedRoute from "./pages/LeastCongestedRoute";
 import ViewLessCongestedRouteDirections from './pages/ViewLessCongestedRouteDirections';
 import ViewDrivingRoute from "./pages/ViewDrivingRoute";
+import ViewDrivingDirections from "./pages/ViewDrivingDirections";
 import DrivingRouteNav from './pages/DrivingRouteNav';
 import TPTRouteNav from './pages/TPTRouteNav';
 import ViewPublicTransportRoute from './pages/ViewPublicTransportRoute';
@@ -41,6 +42,7 @@ function App() {
           <Route path="/booking-fail" element={<BookingFail/>} />
           <Route path="/booking-success" element={<BookingSuccess/>} />
           <Route path="/view-driving-route" element={<ViewDrivingRoute />} />
+          <Route path="/view-driving-directions" element={<ViewDrivingDirections />} />
           <Route path="/driving-route-nav" element={<DrivingRouteNav />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/settings-saved" element={<SettingsSaved />} />

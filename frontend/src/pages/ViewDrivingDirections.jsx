@@ -8,11 +8,11 @@ import {ReactComponent as Car} from "../assets/Car.svg";
 import {ReactComponent as ViewNearbyCarParks} from "../assets/ViewNearbyCarParks.svg";
 import {ReactComponent as View} from "../assets/View.svg";
 import axios from "axios";
-import "../styles/ViewDrivingRoute.css";  
+/* import "../styles/ViewDrivingDirections.css"; */
 import MapWithRoute from "../components/MapRoute";
 import ModeOfTransport from "../components/ModeOfTransport";
 
-const ViewDrivingRoute = () => {
+const ViewDrivingDirections = () => {
   const navigate = useNavigate();
   const [route, setRoute] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -46,26 +46,25 @@ const ViewDrivingRoute = () => {
         <SettingsButton />
         <NavBar />
         <ModeOfTransport Icon={Car} />
-        <div class="map-wrapper">
-          <div className="map-container5">
-            <img src={mapImage} alt="Map" className="map-image5"></img>
-          </div>
-          <div class="route-info-container">
-            <div className="fastest-route-car-park-container">
-              <div className="fastest-route-typography">Fastest Route</div>
-              <button className="view-car-parks-container" onClick={() => navigate("/view-car-parks")}>
-                <ViewNearbyCarParks className="view-car-parks-icon" />
-              </button> 
-            </div>
 
-            <div className="greyRectangle-container">
-              <div className="greyRectangle-typography">Via... Time (Duration)</div>
-              <button className="view-icon-container" onClick={() => navigate("/view-driving-directions")}>
-                <View className="view-icon" />
-              </button>
-            </div>
-          </div>
+        <div className="map-container5">
+          <img src={mapImage} alt="Map" className="map-image5"></img>
         </div>
+
+        <div className="fastest-route-car-park-container">
+          <div className="fastest-route-typography">Fastest Route</div>
+          <button className="view-car-parks-container" onClick={() => navigate("/view-car-parks")}>
+            <ViewNearbyCarParks className="view-car-parks-icon" />
+          </button> 
+        </div>
+
+        <div className="greyRectangle-container">
+          <div className="greyRectangle-typography">Via... Time (Duration)</div>
+          <button className="view-icon-container" onClick={() => navigate("/settings")}>
+            <View className="view-icon" />
+          </button>
+        </div>
+
         <div className="route-info-container">
           {loading && <p>Loading route...</p>}
           {error && <p className="text-red-600">{error}</p>}
@@ -92,4 +91,4 @@ const ViewDrivingRoute = () => {
     );
 };
 
-export default ViewDrivingRoute;
+export default ViewDrivingDirections;
