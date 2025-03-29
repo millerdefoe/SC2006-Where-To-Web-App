@@ -6,7 +6,7 @@ import NavBar from "../components/NavigationBar";
 import {ReactComponent as Car} from "../assets/Car.svg"; 
 import axios from "axios";
 import "../styles/ViewDrivingRoute.css";  
-import MapWithRoute from "../components/MapRoute";
+import MapWithRoute from "../components/MapDrivingRoute";
 import ModeOfTransport from "../components/ModeOfTransport";
 
 const ViewDrivingRoute = () => {
@@ -60,7 +60,6 @@ const ViewDrivingRoute = () => {
               <div>
                 <MapWithRoute
                   encodedPolyline={route.polyline}
-                  apiKey="AIzaSyCzadzqXtS0hgKAHG-Mo5DHAf1yS2f1_2c"
                 />
               </div>
             </>
