@@ -5,15 +5,16 @@ import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
 import ViewNearbyCarParks from "../components/ViewCarParksButton";
 import mapImage from "../assets/inputStartLocationMap.png";
+import MyBookingsButton from "../components/MyBookingsButton"
 import {ReactComponent as Car} from "../assets/Car.svg"; 
 import {ReactComponent as View} from "../assets/View.svg";
+import { ReactComponent as Start } from "../assets/Start.svg";
 import axios from "axios";
-import "../styles/ViewDrivingRoute.css";  
+import "../styles/ViewDrivingDirections.css"; 
 import MapWithRoute from "../components/MapRoute";
 import ModeOfTransport from "../components/ModeOfTransport";
-import MyBookingsButton from "../components/MyBookingsButton";
 
-const ViewDrivingRoute = () => {
+const ViewDrivingDirections = () => {
   const navigate = useNavigate();
   const [route, setRoute] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -43,28 +44,39 @@ const ViewDrivingRoute = () => {
 
     return (
       <div>
-        <HomeButton />
-        <SettingsButton />
-        <NavBar />
-        <ModeOfTransport Icon={Car} />
-        <MyBookingsButton />
-
-        <div className="map-wrapper">
-          <div className="map-container5">
-            <img src={mapImage} alt="Map" className="map-image5"></img>
-          </div>
-          <div className="route-information-container">
-            <ViewNearbyCarParks />
-            <div className="greyRectangle-container1">
-              <div className="greyRectangle-typography1">
-                <span>Via...</span>
-                <br />
-                <br />
-                <span>Time (Duration)</span>
+        <div className="main-container">
+          <HomeButton />
+          <SettingsButton />
+          <NavBar />
+          <ModeOfTransport Icon={Car} />
+          <MyBookingsButton />
+          <div className="container5">
+            <div className="leftContainer5">
+              <div className="map-container6">
+                <img src={mapImage} alt="Map" className="map-image6"/>
               </div>
-              <button className="view-icon-container1" onClick={() => navigate("/view-driving-directions")}>
-                <View className="view-icon1" />
+              <div className="rowContainer5">
+              <ViewNearbyCarParks/>
+              <div className="greyRectangle-container4">
+                <div className="greyRectangle-typography4">
+                  <span>Via...</span>
+                  <br />
+                  <br />
+                  <span>Time (Duration)</span>
+                </div>
+                <button className="view-icon-container2" onClick={() => navigate("/view-driving-directions")}>
+                  <View className="view-icon2" />
+                </button>
+              </div>
+              </div>
+            </div>
+
+            <div className="rightContainer5">
+              <div className="directions-container3">
+              <button className="start-container" onClick={() => navigate("/driving-route-nav")}>
+                <Start className="start-icon" />
               </button>
+              </div>
             </div>
           </div>
         </div>
@@ -94,4 +106,4 @@ const ViewDrivingRoute = () => {
     );
 };
 
-export default ViewDrivingRoute;
+export default ViewDrivingDirections;
