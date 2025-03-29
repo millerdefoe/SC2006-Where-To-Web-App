@@ -1,0 +1,20 @@
+.badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    height: 25px;                    /* fixed height for consistency */
+    min-width: 25px;
+    padding: 0 0.6em;                /* horizontal padding only */
+    border-radius: 12px;
+  
+    font-family: Poppins, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: white;
+    background-color: #aaa;
+  
+    white-space: nowrap;
+    margin: 0 0.2em;
+  }
+  

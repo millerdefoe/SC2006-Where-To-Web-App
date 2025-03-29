@@ -21,6 +21,7 @@ import SettingsFailed from './pages/SettingsFailed';
 import SettingsReset from './pages/SettingsReset';
 import Feedback from './pages/Feedback';
 import NotFoundPage from './pages/NotFoundPage';
+import DisplayCongestionLevels from './pages/DisplayCongestionLevels';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
           <Route path="/start-location" element={<InputStartLocation />} />
           <Route path="/input-TPT-mode" element={<InputTPTMode />} />
           <Route path="/fastest-route" element={<FastestRoute />} />
+          <Route path="/display-congestion-levels" element={<DisplayCongestionLevels />}/>
           <Route path="/fastest-route-directions" element={<FastestRouteDirections />} />
           <Route path="/least-congested-route" element={<LeastCongestedRoute />} />
           <Route path="/view-less-congested-directions" element={<ViewLessCongestedRouteDirections />} />
