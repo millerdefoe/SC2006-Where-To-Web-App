@@ -1,0 +1,199 @@
+.page-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: 100vh;
+    width: 100wh;
+    background-color: #FFF;
+    padding: 1em;
+    gap: 5%;
+}
+
+.page-typography {
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: min(3vw, 36px); /* Scales based on viewport */
+    font-weight: 600;
+    margin-top: 8%;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10%; /* Adjust spacing between left and right containers */
+    width: 100%; /* Ensure proper width */
+    margin-top: 20px; /* Adds space below heading */
+}
+
+.leftContainer1{
+    float: left;
+    width: min(40vw, 443px); /* Ensures responsiveness */
+    height: min(60vh, 616px);
+    background: #ECE9E9;
+    border-radius: 20px;
+    padding: 1em;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Center both texts */
+    text-align: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.rightContainer1{
+    float: right;
+    width: min(40vw, 443px); /* Ensures responsiveness */
+    height: min(60vh, 616px);
+    background: #ECE9E9;
+    border-radius: 20px;
+    padding: 1em;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start; /* Center both texts */
+    text-align: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.container-text-top {
+    width: min(407px, 90%);
+    font-family: Poppins, sans-serif;
+    font-size: min(3vw, 28px);
+    font-weight: 700;
+    line-height: normal;
+    color: #000;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.container-text-bottom {
+    width: min(407px, 90%);
+    max-height:90%;
+    font-family: Inter, sans-serif;
+    font-size: min(2vw, 20px);
+    font-weight: 400;
+    line-height: normal;
+    color: #000;
+    text-align: center;
+    flex-grow: 0; /* Expands when text increases */
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers text vertically */
+    justify-content: center;
+    margin-top: 5%;
+    overflow-y: auto;
+}
+.book-button {
+    position: absolute;
+    bottom: 0;
+    width: clamp(50px, 10vw, 100px); /* Ensures it scales but remains reasonable */
+    height: clamp(50px, 10vw, 100px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background-color: transparent;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.book-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.sticky-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+}
+
+.sticky-bar {
+    width: 90%;
+    max-width: 600px;
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.2);
+    font-family: Poppins, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #4F723D;
+    border-radius: 20px;
+}
+
+.close-icon {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: min(3vw, 30px);
+    height: min(3vw, 30px);
+    cursor: pointer;
+}
+
+.computeRoute-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.computeRoute-icon {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+}
+
+.errorSticky-bar {
+    width: 90%;
+    max-width: 600px;
+    background-color: white;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.2);
+    font-family: Poppins, sans-serif;
+    font-size: 18px;
+    font-weight: 500;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #FF2D2D;
+    border-radius: 20px;
+    line-height: 50px; 
+}
