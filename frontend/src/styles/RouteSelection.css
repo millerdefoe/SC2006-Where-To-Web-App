@@ -34,18 +34,22 @@
     background-color: transparent;
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: flex-start;
-    padding-left: 2%;
-    gap: 4px;
+    overflow: hidden;
+    gap: 0px;
+
   }
   
   .transportIcon-icon {
-    width: 9%;
+    flex: 1 1 auto;
+    width: auto;
     aspect-ratio: 1/1;
     display: flex;
     align-items: center;
     justify-content: center;
+    max-width: 32px;
   }
   
   .transportIcon-icon svg {

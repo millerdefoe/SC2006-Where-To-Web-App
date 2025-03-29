@@ -20,14 +20,15 @@ import SettingsFailed from './pages/SettingsFailed';
 import SettingsReset from './pages/SettingsReset';
 import Feedback from './pages/Feedback';
 import NotFoundPage from './pages/NotFoundPage';
-import DisplayCongestionLevels from './pages/DisplayCongestionLevels'
+import DisplayCongestionLevels from './pages/DisplayCongestionLevels';
 
 function App() {
   return (
     <Router>
       <div className="App"> 
         <Routes>
-          <Route path="/" element={<Navigate to="/end-location" />} />
+          <Route path="/" element={<Navigate to="/view-driving-route" />} />
+          <Route path="/view-driving-route" element={<ViewDrivingRoute />} />
           <Route path="/end-location" element={<InputEndLocation />} />
           <Route path="/start-location" element={<InputStartLocation />} />
           <Route path="/input-TPT-mode" element={<InputTPTMode />} />

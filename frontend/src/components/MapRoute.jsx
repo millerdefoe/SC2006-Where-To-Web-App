@@ -2,12 +2,15 @@ import React, { useMemo, useRef, useEffect } from "react";
  import {
    GoogleMap,
    Polyline,
-   useJsApiLoader,
    Marker
 } from "@react-google-maps/api";
 
+import { useGoogleMapsLoader } from "../hooks/useGoogleMapsLoader";
+
+
+
 // Dark theme style JSON (Google's Night Mode)
-const darkMapStyle = [
+/*const darkMapStyle = [
   {
     elementType: "geometry",
     stylers: [{ color: "#212121" }]
@@ -69,7 +72,7 @@ const darkMapStyle = [
     elementType: "labels.text.fill",
     stylers: [{ color: "#3d3d3d" }]
   }
-];
+]; */
 
 const containerStyle = {
   width: "80%",
@@ -82,10 +85,7 @@ const defaultCenter = {
 };
 
 function MapWithRoute({ encodedPolyline, apiKey }) {
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: apiKey,
-    libraries: ["geometry"]
-  });
+  const { isLoaded } = useGoogleMapsLoader();
 
   const mapRef = useRef(null);
 
