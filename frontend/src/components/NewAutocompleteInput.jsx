@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 
-function NewAutocompleteInput({ onPlaceSelect }) {
+function NewAutocompleteInput({
+  onPlaceSelect,
+  containerClass = "",
+  inputClass = "",
+  overrideDefaultStyles = false
+}) {
   const inputRef = useRef(null);
   const [suggestions, setSuggestions] = useState([]);
   const tokenRef = useRef(null);
@@ -47,12 +52,12 @@ function NewAutocompleteInput({ onPlaceSelect }) {
   };
 
   return (
-    <div className="search-container">
+    <div className={overrideDefaultStyles ? containerClass : `search-container ${containerClass}`}>
       <input
         ref={inputRef}
         type="text"
         placeholder="Search..."
-        className="search-bar"
+        className={overrideDefaultStyles ? inputClass : `search-bar ${inputClass}`}
       />
       <ul className="suggestions-list">
         {suggestions.map((suggestion, index) => (

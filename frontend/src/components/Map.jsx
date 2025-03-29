@@ -1,6 +1,6 @@
 // src/components/Map.jsx
 import React, { useRef } from "react";
-import { GoogleMap } from "@react-google-maps/api";
+import { GoogleMap, Marker } from "@react-google-maps/api";
 import { useGoogleMapsLoader } from "../hooks/useGoogleMapsLoader";
 
 
@@ -11,6 +11,7 @@ const defaultCenter = {
 
 function Map({
   mapCenter = defaultCenter,
+  markerPosition = null,
   onMapClick,
   onDragEnd,
   onCenterChanged,
@@ -48,7 +49,7 @@ function Map({
         }
       }}
     >
-      {/* You can drop markers here later */}
+      {markerPosition && <Marker position={markerPosition} />}
     </GoogleMap>
   );
 }

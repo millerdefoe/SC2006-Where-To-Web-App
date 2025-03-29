@@ -1,15 +1,15 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import mapImage from "../assets/inputStartLocationMap.png";
 import SettingsButton from "../components/SettingsButton";
-import HomeButton from "../components/HomeButton";
 import HomeButton1 from "../components/HomeButton1";
 import DrivingButton from '../components/DrivingButton';
 import "../styles/InputTPTMode.css"; 
 import "../styles/common.css";
+import Map from "../components/Map";
 import TransportButton from "../components/TransportButton";
 
 function InputTPTMode() {
+  const [mapCenter, setMapCenter] = useState({ lat: 1.3521, lng: 103.8198 });
   const navigate = useNavigate();
 
   const handleSelectMode = (mode) => {
@@ -20,6 +20,15 @@ function InputTPTMode() {
       navigate("/view-public-route");
     }
   };
+  useEffect(() => {
+      const lat = parseFloat(localStorage.getItem("endLat"));
+      const lng = parseFloat(localStorage.getItem("endLng"));
+      console.log("Loaded from localStorage:", { lat, lng });
+
+      if (!isNaN(lat) && !isNaN(lng)) {
+          setMapCenter({ lat, lng });
+      }
+  }, []);
 
   return (
     <div className="main-container">
@@ -27,9 +36,14 @@ function InputTPTMode() {
         <HomeButton1/>
 
         <div className="leftContainer">
-          <div className="map-container2">
-             <img src={mapImage} alt="Map" className="map-image2"/>
-          </div>
+          <Map
+            markerPosition={mapCenter}
+            mapCenter={mapCenter}
+            mapContainerClassName="map-container2"
+            onMapClick={(coords) => console.log("Clicked at:", coords)}
+            onDragEnd={(newCenter) => console.log("Map dragged to:", newCenter)}
+            onCenterChanged={(center) => console.log("Center changed:", center)}
+          />
         </div>
 
         <div className="rightContainer">

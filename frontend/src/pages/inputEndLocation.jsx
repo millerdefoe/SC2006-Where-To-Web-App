@@ -7,17 +7,11 @@ import NewAutocompleteInput from "../components/NewAutocompleteInput";
 import "../styles/InputEndLocation.css";
 
 function InputEndLocation() {
-  const [endLocation, setEndLocation] = useState("");
+  const [endLocation, setEndLocation]= useState("");
+
   const navigate = useNavigate();
 
-  const handleSubmit = () => {
-    if (endLocation.trim()) {
-      localStorage.setItem("endLocation", endLocation);
-      navigate("/start-location");
-    } else {
-      alert("Invalid address!");
-    }
-  };
+
 
   return (
     <div className="home-container">
@@ -38,8 +32,11 @@ function InputEndLocation() {
         onPlaceSelect={(place) => {
           setEndLocation(place.formattedAddress);
           localStorage.setItem("endLocation", place.formattedAddress);
+          localStorage.setItem("endLat", place.location.lat());
+          localStorage.setItem("endLng", place.location.lng());
           console.log("Selected place:", place);
-          navigate("/start-location");
+          
+          setTimeout(() => navigate("/start-location"), 100);
         }}
       />
     </div>
