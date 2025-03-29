@@ -1,0 +1,24 @@
+.my-bookings-button {
+    position: absolute;
+    top: 12%;
+    right: 0;
+    padding: 0;
+    width: min(6vw, 80px);  
+    height: min(15vh, 200px); 
+    border-radius: 10px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: width 0.3s ease-in-out, height 0.3s ease-in-out;
+    transform: translateX(30%);
+    z-index: 9999;
+}
+
+.my-bookings-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}

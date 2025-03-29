@@ -5,8 +5,10 @@ import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
 import ViewNearbyCarParks from "../components/ViewCarParksButton";
 import mapImage from "../assets/inputStartLocationMap.png";
+import MyBookingsButton from "../components/MyBookingsButton"
 import {ReactComponent as Car} from "../assets/Car.svg"; 
 import {ReactComponent as View} from "../assets/View.svg";
+import { ReactComponent as Start } from "../assets/Start.svg";
 import axios from "axios";
 import "../styles/ViewDrivingDirections.css"; 
 import MapWithRoute from "../components/MapRoute";
@@ -47,32 +49,37 @@ const ViewDrivingDirections = () => {
           <SettingsButton />
           <NavBar />
           <ModeOfTransport Icon={Car} />
-
-          <div className="leftContainer3">
-            <div className="map-container4">
-              <img src={mapImage} alt="Map" className="map-image4"/>
-            </div>
-            <div className="rowContainer3">
-            <ViewNearbyCarParks/>
-            <div className="greyRectangle-container2">
-              <div className="greyRectangle-typography2">
-                <span>Via...</span>
-                <br />
-                <br />
-                <span>Time (Duration)</span>
+          <MyBookingsButton />
+          <div className="container5">
+            <div className="leftContainer5">
+              <div className="map-container6">
+                <img src={mapImage} alt="Map" className="map-image6"/>
               </div>
-              <button className="view-icon-container2" onClick={() => navigate("/view-driving-directions")}>
-                <View className="view-icon2" />
-              </button>
+              <div className="rowContainer5">
+              <ViewNearbyCarParks/>
+              <div className="greyRectangle-container4">
+                <div className="greyRectangle-typography4">
+                  <span>Via...</span>
+                  <br />
+                  <br />
+                  <span>Time (Duration)</span>
+                </div>
+                <button className="view-icon-container2" onClick={() => navigate("/view-driving-directions")}>
+                  <View className="view-icon2" />
+                </button>
+              </div>
+              </div>
             </div>
-            </div>
-          </div>
 
-          <div className="rightContainer3">
-            <div className="directions-container1"></div>
+            <div className="rightContainer5">
+              <div className="directions-container3">
+              <button className="start-container" onClick={() => navigate("/driving-route-nav")}>
+                <Start className="start-icon" />
+              </button>
+              </div>
+            </div>
           </div>
         </div>
-
         <div className="route-info-container">
           {loading && <p>Loading route...</p>}
           {error && <p className="text-red-600">{error}</p>}

@@ -16,7 +16,7 @@
 .fastest-route-typography {
     color: #000;
     font-family: Poppins, sans-serif;
-    font-size: min(3vw, 36px); /* Scales based on viewport */
+    font-size: min(3vw, 36px); 
     font-weight: 600;
     white-space: nowrap;
     display: flex;
@@ -48,7 +48,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: calc(100% + 40px); /* Wider than the text */
+    min-width: calc(100% + 40px); 
     width: max-content;
     background: transparent;
     border: none;
@@ -63,8 +63,8 @@
 }
 
 .view-car-parks-icon {
-    width: 100%; /* Allow SVG to maintain its aspect ratio */
+    width: 100%; 
     height: min(4vh, 36px);
-    object-fit: contain; /* Ensures the image is fully visible */
+    object-fit: contain; 
     cursor: pointer;
 }

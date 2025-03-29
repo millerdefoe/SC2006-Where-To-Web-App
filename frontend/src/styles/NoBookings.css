@@ -1,0 +1,48 @@
+.noBookingsPage-container {
+    display: flex;
+    flex-direction: column; 
+    height: 100vh;
+    width: 100wh;
+    background-color: #FFF;
+    padding: 20px;
+    align-items: center; 
+    gap: 5%;
+}
+
+.noBookingsPage-typography {
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: min(3vw, 36px);
+    font-weight: 600;
+    margin-top: 8%;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ghost-container {
+    width: min(40vw, 233px); 
+    height: min(40vw, 233px); 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ghost-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.ghost-typography {
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: min(2vw, 24px); 
+    font-weight: 600;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 0%;
+}

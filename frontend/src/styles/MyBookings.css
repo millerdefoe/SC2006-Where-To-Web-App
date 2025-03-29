@@ -1,0 +1,131 @@
+.bookingsPage-container {
+    display: flex;
+    flex-direction: column; 
+    height: 100vh;
+    width: 100wh;
+    background-color: #FFF;
+    padding: 20px;
+    align-items: center; 
+    gap: 5%;
+}
+
+.bookingsPage-typography {
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: min(3vw, 36px); 
+    font-weight: 600;
+    margin-top: 8%;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.greyCarPark-container {
+    width: min(80vw, 640px); 
+    height: min(50vh, 440px); 
+    background: #ECE9E9; 
+    border-radius: 20px; 
+    padding: 1em;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+    
+}
+
+/* Map Image */
+.greyCarParkContainer-topText {
+    width: min(407px, 90%);
+    font-family: Poppins, sans-serif;
+    font-size: min(3vw, 28px);
+    font-weight: 700;
+    line-height: normal;
+    color: #000;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+    margin-bottom: 10%;
+    padding: 0 10px;
+}
+
+.greyCarParkContainer-bottomText {
+    width: min(407px, 90%);
+    max-height:80%;
+    font-family: Inter, sans-serif;
+    font-size: min(2vw, 20px);
+    font-weight: 400;
+    line-height: normal;
+    color: #000;
+    text-align: center;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    margin-top: 5%;
+    position: relative;
+    flex-grow: 1;
+    bottom: 15%;
+}
+
+.bottomRowButtons-container {
+    width: 100%; 
+    aspect-ratio: 10/1;
+    background-color: #FFF;
+    margin-bottom: 2%;
+    justify-content: center;
+    align-items: flex-start;
+    display: flex;
+    flex-direction: row;
+    object-fit: contain;
+}
+
+.computeRoute-button1 {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.computeRoute-icon1 {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+}
+
+.changeBooking-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.changeBooking-icon {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+}
+
+.deleteBooking-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.deleteBooking-icon {
+    width: 90%;
+    height: 90%;
+    object-fit: contain;
+}
+
+  
+  

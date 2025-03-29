@@ -8,6 +8,7 @@ import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
 import ModeOfTransport from "../components/ModeOfTransport";
+import MyBookingsButton from "../components/MyBookingsButton";
 import "../styles/ViewCarParks.css";
 
 function ViewCarParks() {
@@ -28,6 +29,7 @@ function ViewCarParks() {
       <HomeButton />
       <NavBar />
       <ModeOfTransport Icon={Car} />
+      <MyBookingsButton />
 
       <div className="page-typography">Nearby Available Car Parks</div>
 

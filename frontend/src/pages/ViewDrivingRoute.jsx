@@ -11,6 +11,7 @@ import axios from "axios";
 import "../styles/ViewDrivingRoute.css";  
 import MapWithRoute from "../components/MapRoute";
 import ModeOfTransport from "../components/ModeOfTransport";
+import MyBookingsButton from "../components/MyBookingsButton";
 
 const ViewDrivingRoute = () => {
   const navigate = useNavigate();
@@ -46,6 +47,8 @@ const ViewDrivingRoute = () => {
         <SettingsButton />
         <NavBar />
         <ModeOfTransport Icon={Car} />
+        <MyBookingsButton />
+
         <div className="map-wrapper">
           <div className="map-container5">
             <img src={mapImage} alt="Map" className="map-image5"></img>

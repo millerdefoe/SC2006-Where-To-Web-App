@@ -14,6 +14,8 @@ import DrivingRouteNav from './pages/DrivingRouteNav';
 import TPTRouteNav from './pages/TPTRouteNav';
 import ViewPublicTransportRoute from './pages/ViewPublicTransportRoute';
 import ViewCarParks from "./pages/ViewCarParks";
+import MyBookings from "./pages/MyBookings";
+import NoBookings from "./pages/NoBookings";
 import SettingsPage from "./pages/Settings";
 import SettingsSaved from "./pages/SettingsSaved";
 import SettingsFailed from './pages/SettingsFailed';
@@ -27,7 +29,7 @@ function App() {
     <Router>
       <div className="App"> 
         <Routes>
-          <Route path="/" element={<Navigate to="/view-driving-route" />} />
+          <Route path="/" element={<Navigate to="/end-location" />} />
           <Route path="/view-driving-route" element={<ViewDrivingRoute />} />
           <Route path="/end-location" element={<InputEndLocation />} />
           <Route path="/start-location" element={<InputStartLocation />} />
@@ -40,6 +42,8 @@ function App() {
           <Route path="/public-transport-nav" element={<TPTRouteNav />} />
           <Route path="/view-public-transport-route" element={<ViewPublicTransportRoute />} />
           <Route path="/view-car-parks" element={<ViewCarParks />}/>
+          <Route path="/my-bookings" element={<MyBookings />}/>
+          <Route path="/no-bookings" element={<NoBookings />}/>
           <Route path="/view-driving-route" element={<ViewDrivingRoute />} />
           <Route path="/view-driving-directions" element={<ViewDrivingDirections />} />
           <Route path="/driving-route-nav" element={<DrivingRouteNav />} />
