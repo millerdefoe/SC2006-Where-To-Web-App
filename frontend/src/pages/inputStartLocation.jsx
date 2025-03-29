@@ -45,20 +45,16 @@ function InputStartLocation(){
                     <div className="separator"></div>
                     <div className="locationRetrieval-button">Retrieve from GPS</div>
                     <div className="separator"></div>
-                    <input
-                    type="text"
-                    placeholder="Search"
-                    className="locationRetrievalSearch-bar"
-                    value={startLocation}
-                    onChange={(e) => setStartLocation(e.target.value)}
-                    onKeyDown={handleKeyDown}
+                    <NewAutocompleteInput
+                        onPlaceSelect={(place) => {
+                        setStartLocation(place.formattedAddress);
+                        localStorage.setItem("startLocation", place.formattedAddress);
+                        console.log("Selected place:", place);
+                        navigate("/input-TPT-mode");
+                        }}
                     />
                 </div>
 
-                <div className="locationRetrievalLocation-container">
-                    <EnterStartLocationButton/>
-                    XXX location
-                </div>
   
             </div>
 
