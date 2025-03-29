@@ -1,13 +1,15 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
-import "../styles/inputStartLocation.css";
-import mapImage from "../assets/inputStartLocationMap.png";
-import carIcon from "../assets/car-icon.jpeg";
-import trainIcon from "../assets/train-icon.jpeg";
 import SettingsButton from "../components/SettingsButton";
+import HomeButton1 from "../components/HomeButton1";
+import DrivingButton from '../components/DrivingButton';
+import "../styles/InputTPTMode.css"; 
 import "../styles/common.css";
+import Map from "../components/Map";
+import TransportButton from "../components/TransportButton";
 
 function InputTPTMode() {
+  const [mapCenter, setMapCenter] = useState({ lat: 1.3521, lng: 103.8198 });
   const navigate = useNavigate();
 
   const handleSelectMode = (mode) => {
@@ -18,48 +20,47 @@ function InputTPTMode() {
       navigate("/view-public-route");
     }
   };
+  useEffect(() => {
+      const lat = parseFloat(localStorage.getItem("endLat"));
+      const lng = parseFloat(localStorage.getItem("endLng"));
+      console.log("Loaded from localStorage:", { lat, lng });
+
+      if (!isNaN(lat) && !isNaN(lng)) {
+          setMapCenter({ lat, lng });
+      }
+  }, []);
 
   return (
-    <div className="main-container" style={{ display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center", padding: "2rem" }}>
-      
-      {/* Left side: Map */}
-      <div style={{ flex: 1, display: "flex", justifyContent: "center" }}>
-        <img
-          src={mapImage}
-          alt="Map"
-          style={{
-            width: "300px",
-            height: "auto",
-            borderRadius: "12px",
-            objectFit: "cover"
-          }}
-        />
-      </div>
+    <div className="main-container">
+        <SettingsButton/> 
+        <HomeButton1/>
 
-      {/* Right side: Icons side-by-side */}
-      <div style={{ flex: 1, display: "flex", flexDirection: "column", alignItems: "center", gap: "1.5rem" }}>
-        <div className="typography" style={{ fontSize: "1.5rem", fontWeight: "bold", color: "#000" }}>
-          Choose a travel mode
-        </div>
-
-        <div style={{ display: "flex", gap: "2rem" }}>
-          <img
-            src={carIcon}
-            alt="Drive"
-            onClick={() => handleSelectMode("DRIVE")}
-            style={{ width: "80px", height: "80px", cursor: "pointer" }}
-          />
-
-          <img
-            src={trainIcon}
-            alt="Public Transport"
-            onClick={() => handleSelectMode("TRANSIT")}
-            style={{ width: "80px", height: "80px", cursor: "pointer" }}
+        <div className="leftContainer">
+          <Map
+            markerPosition={mapCenter}
+            mapCenter={mapCenter}
+            mapContainerClassName="map-container2"
+            onMapClick={(coords) => console.log("Clicked at:", coords)}
+            onDragEnd={(newCenter) => console.log("Map dragged to:", newCenter)}
+            onCenterChanged={(center) => console.log("Center changed:", center)}
           />
         </div>
 
-        <SettingsButton />
-      </div>
+        <div className="rightContainer">
+          <div className="greyRectangle-container">My Location</div>
+          <div className="rowContainer">
+            <div className="greySquare-container">
+              By Car
+              <DrivingButton/>
+            </div>
+            <div className="greySquare-container">
+              By MRT
+              <TransportButton/>
+            </div>
+          </div>
+          <div className="greyRectangle-container">XXX Location</div>
+
+        </div>
     </div>
   );
 }

@@ -1,0 +1,55 @@
+.leftContainer3{
+    float: left;
+    width: 70%;
+    aspect-ratio: 5 / 3; 
+    background-color: #FFF;
+    padding: 1em;
+    margin-top: 4%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rightContainer3{
+    float: right;
+    width: 30%;
+    aspect-ratio: 5/ 7; 
+    background-color: #FFF;
+    margin-top: 5%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.routeNav-container{
+    height: 95%; 
+    aspect-ratio: 2/3;
+    background-color: transparent;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #000;
+    border-radius: 30px;
+    margin-top: 2%;
+    margin-right: 0%;
+    display: flex;
+    flex-direction: column;
+    object-fit: contain;
+    align-items: center;
+}
+
+.map-container4 {
+    height: 100%;
+    max-width: 1000px;
+    aspect-ratio: 8/3; /* Keeps proper map aspect ratio */
+    display: flex;
+    align-items: center;
+}
+
+.map-image4 {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensures the map scales correctly */
+    border-radius: 20px;
+}

@@ -1,0 +1,15 @@
+{
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "globals": {
+    "google": "readonly"
+  },
+  "extends": [
+    "react-app"
+  ],
+  "rules": {
+    // You can add other rules here if needed
+  }
+}
