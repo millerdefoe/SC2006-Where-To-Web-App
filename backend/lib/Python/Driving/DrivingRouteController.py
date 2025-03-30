@@ -25,7 +25,7 @@ class DrivingRouteController():
 
         headers = {
             "X-Goog-Api-Key" : googleApiKey,
-            "X-Goog-FieldMask": "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline"
+            "X-Goog-FieldMask": "routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline,routes.legs"
         }
 
         body = {
@@ -70,6 +70,23 @@ class DrivingRouteController():
                 route["duration"] = i["duration"]
                 route["distance"] = i["distanceMeters"]
                 route["polyline"] = i["polyline"]["encodedPolyline"]
+                route["legs"] = i["legs"][0]["steps"]
+
+        route["steps"] = []
+
+        for i in route["legs"]:
+
+            stepsDict = {
+                "duration" : i["localizedValues"]["staticDuration"]["text"],
+                "distance" : i["localizedValues"]["distance"]["text"],
+                "polyline" : i["polyline"]["encodedPolyline"],
+                "maneuver" : i["navigationInstruction"]["maneuver"],
+                "instructions" : i["navigationInstruction"]["instructions"]
+            }
+
+            route["steps"].append(stepsDict)
+
+        del route["legs"]
 
         logger.info("Route returned by googlemap api was {}".format(route))
         return route
