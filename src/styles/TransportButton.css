@@ -1,0 +1,16 @@
+.transportButton-container{
+    width: 70%;
+    aspect-ratio: 1/1;
+    background: #ECE9E9; 
+    border: none; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    cursor: pointer;
+}
+
+.transportButton-icon{
+    width: 100%;
+    height:100%;
+    object-fit: contain;
+}

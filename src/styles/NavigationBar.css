@@ -1,0 +1,80 @@
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: min(5vh, 46px); 
+    left: min(43vw, 670px);
+    transform: translateX(-50%);
+    width: 100%;
+    flex-direction: row;
+    gap: 0;
+}
+
+.nav-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative; 
+    margin: 0;
+}
+
+.nav-bar {
+    width: min(20vw,371px);
+    height: min(8vh, 62px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    
+}
+
+.nav-text {
+    font-family: "Poppins";
+    width: min(22vw,309px);
+    height:min(3vh,27px);
+    color: #000;
+    font-size: min(1.8vw,18px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%;
+    letter-spacing: 0%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+  
+
+.arrow {
+    width: min(5vw, 50px);
+    height: auto;
+    align-self: center;
+}
+
+.navigation-bar {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .feedback-nav-button {
+    background-color: transparent;
+    color: #007bff;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    margin-left: auto; /* Aligns button to right */
+  }
+  
+  .feedback-nav-button:hover {
+    text-decoration: underline;
+  }
+  
+  
