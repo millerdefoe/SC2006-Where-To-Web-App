@@ -17,6 +17,7 @@ from lib.Python.Helper.HelperFunctions import loadDatabaseCredentials
 from lib.Python.Database.Database import Database
 from lib.Python.Driving.DrivingRouteController import DrivingRouteController
 from lib.Python.Location.Location import Location
+from lib.Python.PublicTransportRoute.PublicTransportRouteController import PublicTransportRouteController
 
 logger = PythonLogger(os.path.basename(__file__))
 
@@ -315,5 +316,95 @@ def carparksNearby():
 
     return jsonify(data), 200
 
+@app.route("/PublicTransportRoute", methods=["GET"])
+def PublicTransportRoute():
+    logger.info("Public Transport Route accessed. Verifying information provided")
+    try:
+        data = request.get_json()
+        print(data.keys())
+        if "currentLocation" not in data.keys() or "destinationLocation" not in data.keys():
+            logger.error("Rasing Exception")
+            raise Exception
+
+        # latitude = float(data["latitude"])
+        # longitude = float(data["longitude"])
+
+        currentLocation = Location(data["currentLocation"]["latitude"],data["currentLocation"]["longitude"])
+        destinationLocation = Location(data["destinationLocation"]["latitude"],data["destinationLocation"]["longitude"])
+        
+        # {
+        #     "currentLocation": {
+        #         "latitude" : ,
+        #         "longitude" : 
+        #     }
+        # },
+
+        # destinationLocation = {
+        #     "destinationLocation": {
+        #         "latitude" : data["destinationLocation"]["latitude"],
+        #         "longitude" : data["destinationLocation"]["longitude"],
+        #     }
+        # },
+
+        maxWalkingDistance = data["maxWalkingDistance"]
+
+    except ValueError:
+
+        logger.error("Coordinate information provided was not a number. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Coordinate information was not a number"
+        }
+
+        return jsonify(returnData), 400
+
+    except Exception as e:
+
+        logger.error(f"Coordinate information was not provided. {e} Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Coordinate information was not provided"
+        }
+
+        return jsonify(returnData), 400
+
+    publicTransportRouteData = PublicTransportRouteController.getPublicTransportRoute(currentLocation, destinationLocation)
+    print(publicTransportRouteData)
+    if publicTransportRouteData == False or publicTransportRouteData == None:
+
+        logger.debug("Error when retrieving public transport route. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "backend error"
+        }
+
+        return jsonify(returnData), 400
+    
+    limitWalkingDistanceData = PublicTransportRouteController.limitWalkingDistance(publicTransportRouteData, maxWalkingDistance)
+
+    if limitWalkingDistanceData == False or limitWalkingDistanceData == None:
+
+        logger.debug("Error when retrieving public transport route with maximum walking distance considered. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "backend error"
+        }
+
+        return jsonify(returnData), 400
+    
+    chosenRouteData = PublicTransportRouteController.computeLeastCongestedRoute(limitWalkingDistanceData)
+
+    if chosenRouteData == False:
+
+        logger.debug("Error when retrieving the chosen route. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "backend error"
+        }
+
+        return jsonify(returnData), 400
+
+    return jsonify(data), 200
+         
 if __name__ == "__main__":
     app.run()

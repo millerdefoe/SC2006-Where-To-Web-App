@@ -63,9 +63,9 @@ if args.getMRTCongestionLevel:
                 starttime = parse(starttime).strftime("%Y-%m-%d %H:%M:%S") #Converts into a form for databases
                 endtime = parse(endtime).strftime("%Y-%m-%d %H:%M:%S")
 
-                values = [x["StartTime"], x["EndTime"], x["Station"], x["CrowdLevel"] ]
+                values = [x["StartTime"], x["EndTime"], x["CrowdLevel"], x["Station"] ]
 
-                insertStatement = "INSERT INTO mrtcongestionlevel(starttime, endtime, stationnumber, crowdlevel) values (%s, %s, %s, %s)"
+                insertStatement = "UPDATE mrtcongestionlevel SET starttime = %s, endtime = %s, mrtcongestionlevel = %s WHERE stationnumber = %s"
 
                 if dbObj.writeData(insertStatement, values) == False:
                     logger.error("Error inserting data with statement {} and values {}".format(insertStatement, values))

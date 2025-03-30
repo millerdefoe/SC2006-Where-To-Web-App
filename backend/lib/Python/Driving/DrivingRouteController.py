@@ -80,7 +80,6 @@ class DrivingRouteController():
                 "duration" : i["localizedValues"]["staticDuration"]["text"],
                 "distance" : i["localizedValues"]["distance"]["text"],
                 "polyline" : i["polyline"]["encodedPolyline"],
-                "maneuver" : i["navigationInstruction"]["maneuver"],
                 "instructions" : i["navigationInstruction"]["instructions"]
             }
 

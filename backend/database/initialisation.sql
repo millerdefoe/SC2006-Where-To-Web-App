@@ -37,6 +37,15 @@ CREATE TABLE mrtcongestionlevel(
             REFERENCES mrtstationinfo(stationnumber)
 );
 
+CREATE TABLE busstops(
+    busstopcode INT NOT NULL,
+    longitude DOUBLE PRECISION NOT NULL,
+    latitude DOUBLE PRECISION NOT NULL,
+    landmarkdescription TEXT NOT NULL, 
+    roadname TEXT NOT NULL,
+    CONSTRAINT busstop PRIMARY KEY (busstopcode)
+);
+
 CREATE TABLE settings(
     carparkpricinglimit VARCHAR(10) NOT NULL,
     maximumwalkingdistance INTEGER NOT NULL,
