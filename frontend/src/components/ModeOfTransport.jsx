@@ -6,7 +6,7 @@ const ModeOfTransport = ({ Icon }) => {
         <div className="modeOfTransport-container">
             <div className="transport-label">Mode Of Transport:</div>
             <div className="icon-container">
-                <Icon className="icon-container" />
+                <Icon className="icon" />
             </div>
         </div>
     );

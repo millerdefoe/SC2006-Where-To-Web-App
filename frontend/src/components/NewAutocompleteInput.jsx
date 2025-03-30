@@ -1,3 +1,5 @@
+/* global google */
+
 import React, { useEffect, useRef, useState } from "react";
 
 function NewAutocompleteInput({

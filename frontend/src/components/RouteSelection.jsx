@@ -2,7 +2,7 @@ import React from "react";
 import Badge from "./Badge";
 import "../styles/RouteSelection.css";
 
-const RouteSelection = ({ title, duration, icons = [], onSelect, isSelected }) => {
+const RouteSelection = ({ title, duration, icons = [], onSelect, isSelected, iconMap }) => {
   return (
     <div className="routeSelection-container">
       <div className="routeSelection-title">{title}</div>
@@ -10,10 +10,10 @@ const RouteSelection = ({ title, duration, icons = [], onSelect, isSelected }) =
         <div className="transportIcon-container">
           {icons.map((icon, index) => {
             if (icon.type === "svg") {
-              const Icon = icon.component;
+              const Icon = iconMap[icon.name]; // ✅ use name → component map
               return (
                 <div className="transportIcon-icon" key={index}>
-                  <Icon />
+                  {Icon && <Icon />}
                 </div>
               );
             } else if (icon.type === "badge") {
