@@ -84,7 +84,7 @@ const defaultCenter = {
   lng: 103.8198
 };
 
-function MapWithRoute({ encodedPolyline, apiKey }) {
+function MapWithRoute({ encodedPolyline, mapContainerClassName }) {
   const { isLoaded } = useGoogleMapsLoader();
 
   const mapRef = useRef(null);
@@ -124,7 +124,7 @@ function MapWithRoute({ encodedPolyline, apiKey }) {
 
   return (
     <GoogleMap
-      mapContainerStyle={containerStyle}
+      mapContainerClassName={mapContainerClassName || "map-container"}
       center={defaultCenter}
       zoom={12}
       onLoad={(map) => (mapRef.current = map)}

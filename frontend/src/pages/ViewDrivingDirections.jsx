@@ -12,10 +12,10 @@ import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
 import ViewNearbyCarParks from "../components/ViewCarParksButton";
-import mapImage from "../assets/inputStartLocationMap.png";
 import MyBookingsButton from "../components/MyBookingsButton"
 import axios from "axios";
-import MapWithRoute from "../components/MapRoute";
+import "../styles/ViewDrivingDirections.css"; 
+import MapWithRoute from "../components/MapDrivingRoute";
 import ModeOfTransport from "../components/ModeOfTransport";
 import "../styles/ViewDrivingDirections.css"; 
 
@@ -66,9 +66,20 @@ const ViewDrivingDirections = () => {
           <MyBookingsButton />
           <div className="container5">
             <div className="leftContainer5">
-              <div className="map-container6">
-                <img src={mapImage} alt="Map" className="map-image6"/>
-              </div>
+              {loading ? (
+                <p>Loading route...</p>
+              ) : error ? (
+                <p className="text-red-600">{error}</p>
+              ) : (
+                route && (
+                  <div>
+                    <MapWithRoute
+                      encodedPolyline={route.polyline}
+                      mapContainerClassName="map-container6"
+                    />
+                  </div>
+                )
+              )}
               <div className="rowContainer5">
               <ViewNearbyCarParks/>
               <div className="greyRectangle-container4">
@@ -109,13 +120,6 @@ const ViewDrivingDirections = () => {
                 <p><strong>To:</strong> {destination}</p>
                 <p><strong>Duration:</strong> {route.duration}</p>
                 <p><strong>Distance:</strong> {route.distance} meters</p>
-              </div>
-
-              <div>
-                <MapWithRoute
-                  encodedPolyline={route.polyline}
-                  apiKey="AIzaSyCzadzqXtS0hgKAHG-Mo5DHAf1yS2f1_2c"
-                />
               </div>
             </>
           )}

@@ -9,7 +9,7 @@ import {ReactComponent as Car} from "../assets/Car.svg";
 import {ReactComponent as View} from "../assets/View.svg";
 import axios from "axios";
 import "../styles/ViewDrivingRoute.css";  
-import MapWithRoute from "../components/MapRoute";
+import MapWithRoute from "../components/MapDrivingRoute";
 import ModeOfTransport from "../components/ModeOfTransport";
 import MyBookingsButton from "../components/MyBookingsButton";
 
@@ -51,7 +51,20 @@ const ViewDrivingRoute = () => {
 
         <div className="map-wrapper">
           <div className="map-container5">
-            <img src={mapImage} alt="Map" className="map-image5"></img>
+            {loading ? (
+              <p>Loading route...</p>
+            ) : error ? (
+              <p className="text-red-600">{error}</p>
+            ) : (
+              route && (
+                <div>
+                  <MapWithRoute
+                    encodedPolyline={route.polyline}
+                    mapContainerClassName="map-container5"
+                  />
+                </div>
+              )
+            )}
           </div>
           <div className="route-information-container">
             <ViewNearbyCarParks />
@@ -62,33 +75,11 @@ const ViewDrivingRoute = () => {
                 <br />
                 <span>Time (Duration)</span>
               </div>
-              <button className="view-icon-container1" onClick={() => navigate("/view-driving-directions")}>
+              <button className="view-icon-container1" onClick={() => navigate("/view-driving-directions", { state: { polyline: route?.polyline } })}>
                 <View className="view-icon1" />
               </button>
             </div>
           </div>
-        </div>
-        <div className="route-info-container">
-          {loading && <p>Loading route...</p>}
-          {error && <p className="text-red-600">{error}</p>}
-
-          {route && (
-            <>
-              <div className="route-details">
-                <p><strong>From:</strong> {source}</p>
-                <p><strong>To:</strong> {destination}</p>
-                <p><strong>Duration:</strong> {route.duration}</p>
-                <p><strong>Distance:</strong> {route.distance} meters</p>
-              </div>
-
-              <div>
-                <MapWithRoute
-                  encodedPolyline={route.polyline}
-                  apiKey="AIzaSyCzadzqXtS0hgKAHG-Mo5DHAf1yS2f1_2c"
-                />
-              </div>
-            </>
-          )}
         </div>
       </div>
     );
