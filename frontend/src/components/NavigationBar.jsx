@@ -1,40 +1,22 @@
-import React, {useEffect, useState} from "react";
-import {ReactComponent as NavigationBar} from "../assets/NavigationBar.svg";
-import {ReactComponent as Arrow} from "../assets/Arrow.svg";
-import "../styles/NavigationBar.css";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import '../styles/NavigationBar.css';
 
-const NavBar = () => {
-    const [startLocation, setStartLocation] = useState("Start Location");
-    const [endLocation, setEndLocation] = useState("End Location");
+function NavigationBar() {
+  const navigate = useNavigate();
 
-    // Load stored locations from localStorage
-    useEffect(() => {
-        const storedStart = localStorage.getItem("startLocation");
-        const storedEnd = localStorage.getItem("endLocation");
+  return (
+    <div className="navigation-bar">
+      {/* Existing navigation buttons/icons here */}
+      <button
+        className="feedback-nav-button"
+        onClick={() => navigate('/feedback')}
+      >
+        Feedback
+      </button>
+      {/* Rest of your nav items like profile icon */}
+    </div>
+  );
+}
 
-        if (storedStart) {
-            // If it's just a lat,lng string → fallback to "Your Location"
-            const isLatLng = /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(storedStart.trim());
-            setStartLocation(isLatLng ? "Your Location" : storedStart);
-        }
-        if (storedEnd) setEndLocation(storedEnd);
-    }, []);
-
-    return (
-        <div className="nav-container">
-            <div className="nav-wrapper">
-                <NavigationBar className="nav-bar" />
-                <span className="nav-text">{startLocation}</span>
-            </div>
-
-            <Arrow className="arrow" alt="Arrow" />
-
-            <div className="nav-wrapper">
-                <NavigationBar className="nav-bar" />
-                <span className="nav-text">{endLocation}</span>
-            </div>
-        </div>
-    );
-};
-
-export default NavBar;
+export default NavigationBar;
