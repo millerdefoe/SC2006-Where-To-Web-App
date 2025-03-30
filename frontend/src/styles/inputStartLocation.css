@@ -1,61 +1,127 @@
-/* Main Layout */
-.home-container {
-    display: flex;
-    flex-direction: column; /* Stacks items vertically */
-    height: 100vh;
-    width: 100wh;
+.leftContainer{
+    float: left;
+    width: 50%;
+    aspect-ratio: 4 / 3; 
     background-color: #FFF;
-    padding: 20px;
-    align-items: center; /* Centers content horizontally */
+    padding: 1em;
+    margin-top: 3%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* Home Icon */
-.homeicon-container {
+.rightContainer{
+    float: right;
+    width: 50%;
+    aspect-ratio: 4 / 3; 
+    background-color: #FFF;
+    padding: 1em;
+    margin-top: 3%;
+    box-sizing: border-box;
     display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.locationRetrieval-container {
+    position: absolute;
+    margin-right: 3%;
+    float: top;
+    display: flex;
+    flex-direction: column;
     justify-content: center;
     border-radius: 15px;
     background-color: #ECE9E9;
-    height: 8%;
-    aspect-ratio: 4 / 1; 
-    margin: 25px 0;
-    flex-shrink: 0;
-}
-
-/* Typography inside Home Icon */
-.homeicon-typography {
+    width: 25%;
+    aspect-ratio: 7/4;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.05);
+  }
+  
+.locationRetrieval-header{
+    float: top;
     color: #000;
     font-family: Poppins, sans-serif;
-    font-size: 4vh; /* Scales based on viewport */
+    font-size: 3vh; 
     font-weight: 600;
     white-space: nowrap;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
-/* Settings Icon still need to dit */ 
-.settingsicon-container{
-    position: absolute;
-    top: 2vh; /* Keeps it near the top */
-    right: 2vw; /* Keeps it in the top-right */
-    width: min(4vw, 50px); /* Scales with screen size but never too big */
-    aspect-ratio: 1 / 1; /* Keeps it square */
+.locationRetrieval-button{
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: 2vh; 
+    font-weight: 600;
+    font-style: normal;
+    text-align: left;
+    padding-left: 20px;
+    opacity: 0.4;
+    white-space: nowrap;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
 }
 
-.settings-icon {
-    width: 100%; /* Ensures it scales properly */
-    height: 100%;
-    object-fit: contain; 
+.separator{
+    background: #FFF;
+    width: 100%;
+    aspect-ratio: 100/2;
+    flex-shrink: 0;
+}
+
+.locationRetrievalSearch-bar{
+    width: 80%;
+    aspect-ratio: 100/4;
+    border-radius: 15px;
+    background-color: #ECE9E9;
+    border: 0;
+    font-size: 2vh;
+    text-align: left;
+    padding-left: 20px;
+    outline: none;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.locationRetrievalSearch-bar::placeholder {
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: 2vh; 
+    font-weight: 600;
+    opacity: 0.4; 
+  }
+
+.locationRetrievalLocation-container {
+    width: 100%;
+    max-width: 320px;
+    border-radius: 15px;
+    background-color: #ECE9E9;
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: 2vh; 
+    font-weight: 600;
+    aspect-ratio: 6 / 1;
+    margin-top: 65%;
+    margin-right: 6%;
+    display: flex;
+    justify-content: flext-start;
+    padding-left: 2%;
+    gap: 20%;
+    align-items: center;    /* vertical centering */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 /* Map Container */
 .map-container {
-    width: 70%;
+    margin-left: 15%;
+    height: 100%;
     max-width: 1000px;
-    aspect-ratio: 16 / 6; /* Keeps proper map aspect ratio */
+    aspect-ratio: 4/4; /* Keeps proper map aspect ratio */
     display: flex;
     align-items: center;
     
@@ -69,25 +135,3 @@
     border-radius: 20px;
 }
 
-/* Search Bar Container */
-.search-container {
-    width: 60%;
-    max-width: 320px;
-    aspect-ratio: 7 / 1;
-    display: flex;
-    justify-content: center;
-    margin-top: 25px;
-}
-
-/* Search Bar */
-.search-bar {
-    width: 100%;
-    border-radius: 15px;
-    background-color: #ECE9E9;
-    border: 1px solid #ECE9E9;
-    font-size: 80%;
-    text-align: left;
-    padding-left: 20px;
-    outline: none;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-}
