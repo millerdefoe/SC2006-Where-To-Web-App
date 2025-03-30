@@ -1,6 +1,7 @@
 import requests
 import json
 import os
+import traceback
 
 from math import cos
 
@@ -74,23 +75,31 @@ class DrivingRouteController():
 
         route["steps"] = []
 
-        for i in route["legs"]:
+        try:
 
-            stepsDict = {
-                "duration" : i["localizedValues"]["staticDuration"]["text"],
-                "distance" : i["localizedValues"]["distance"]["text"],
-                "polyline" : i["polyline"]["encodedPolyline"],
-            }
+            for i in route["legs"]:
 
-            try:
-                stepsDict["maneuver"] = i["navigationInstruction"]["maneuver"]
-                stepsDict["instructions"] = i["navigationInstruction"]["instructions"]
-            
-            except:
-                stepsDict["maneuver"] = "NIL"
-                stepsDict["instructions"] = "NIL"
+                stepsDict = {
+                    "duration" : i["localizedValues"]["staticDuration"]["text"],
+                    "distance" : i["localizedValues"]["distance"]["text"],
+                    "polyline" : i["polyline"]["encodedPolyline"],
+                }
 
-            route["steps"].append(stepsDict)
+                try:
+                    stepsDict["maneuver"] = i["navigationInstruction"]["maneuver"]
+                    stepsDict["instructions"] = i["navigationInstruction"]["instructions"]
+                
+                except:
+                    stepsDict["maneuver"] = "NIL"
+                    stepsDict["instructions"] = "NIL"
+
+                route["steps"].append(stepsDict)
+        
+        except Exception as e:
+            logger.error(e)
+            logger.info("Error with finding route from google")
+            logger.info(traceback.print_exc())
+            return False
 
         del route["legs"]
 
