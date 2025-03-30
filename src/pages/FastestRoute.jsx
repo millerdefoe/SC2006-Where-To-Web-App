@@ -1,14 +1,20 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import {ReactComponent as Bus} from "../assets/Bus.svg";
+import SettingsButton from "../components/SettingsButton";
+import HomeButton from "../components/HomeButton";
+import NavBar from "../components/NavigationBar";
+import ModeOfTransport from "../components/ModeOfTransport";
 
 function FastestRoute() {
   const navigate = useNavigate();
 
   return (
     <div>
-      <h1>Fastest Route</h1>
-      <p>Displaying the fastest route...</p>
-      <button onClick={() => navigate('/fastest-route-directions')}>View Directions</button>
+      <HomeButton />
+      <SettingsButton />
+      <NavBar />
+      <ModeOfTransport Icon={Bus} />
     </div>
   );
 }
