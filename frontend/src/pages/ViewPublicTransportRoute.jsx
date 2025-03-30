@@ -3,6 +3,7 @@ import { ReactComponent as Bus } from "../assets/Bus.svg";
 import { ReactComponent as Train } from "../assets/Train.svg";
 import { ReactComponent as Walking } from "../assets/Walking.svg";
 import { ReactComponent as TransportArrow } from "../assets/TransportArrow.svg";
+import { routeData } from "../context/routeData.js";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
@@ -19,53 +20,12 @@ import "../styles/common.css";
 function ViewPublicTransportRoute() {
   const [selectedRoute, setSelectedRoute] = useState("fastest");
 
-  const routeData = {
-    fastest: {
-      title: "Fastest Route",
-      duration: "25 mins",
-      icons: [
-        { type: "svg", component: Walking },
-        { type: "svg", component: TransportArrow },
-        { type: "svg", component: Bus },
-        { type: "badge", label: "48", isBus: true },
-        { type: "svg", component: TransportArrow },
-        { type: "svg", component: Walking },
-        { type: "svg", component: TransportArrow },
-        { type: "svg", component: Train },
-        { type: "badge", label: "TEL" },
-        { type: "svg", component: TransportArrow },
-        { type: "svg", component: Walking }
-      ],
-      directions: (
-        <div>
-          <p>Input Directions for Fastest Route</p>
-        </div>
-      ),
-      
-    },
-    leastCongested: {
-      title: "Less Congested Route",
-      duration: "30 mins",
-      icons: [
-        { type: "svg", component: Walking },
-        { type: "svg", component: TransportArrow },
-        { type: "svg", component: Bus },
-        { type: "badge", label: "14", isBus: true },
-        { type: "svg", component: TransportArrow },
-        { type: "svg", component: Train },
-        { type: "badge", label: "DTL" },
-        { type: "svg", component: TransportArrow },
-        { type: "svg", component: Walking },
-        { type: "svg", component: TransportArrow },
-        { type: "svg", component: Train },
-        { type: "badge", label: "NEL" },
-      ],
-      directions: (
-        <div>
-          <p>Input Directions for Less Congested Route</p>
-        </div>
-      ),
-    },
+  // Icon name → SVG component mapping (for rendering)
+  const iconMap = {
+    bus: Bus,
+    train: Train,
+    walking: Walking,
+    arrow: TransportArrow
   };
 
   return (
@@ -89,6 +49,7 @@ function ViewPublicTransportRoute() {
             icons={routeData.fastest.icons}
             onSelect={() => setSelectedRoute("fastest")}
             isSelected={selectedRoute === "fastest"}
+            iconMap={iconMap}
           />
 
           <RouteSelection
@@ -97,6 +58,7 @@ function ViewPublicTransportRoute() {
             icons={routeData.leastCongested.icons}
             onSelect={() => setSelectedRoute("leastCongested")}
             isSelected={selectedRoute === "leastCongested"}
+            iconMap={iconMap}
           />
         </div>
       </div>
@@ -107,10 +69,15 @@ function ViewPublicTransportRoute() {
             duration={routeData[selectedRoute].duration}
             icons={routeData[selectedRoute].icons}
             directions={routeData[selectedRoute].directions}
+            iconMap={iconMap}
           />
 
           <div className="startButton-container">
-            <StartButton/>
+            <StartButton
+              duration={routeData[selectedRoute].duration}
+              route={routeData[selectedRoute].icons}
+              directions={routeData[selectedRoute].directions}
+            />
           </div>
         </div>
       </div>

@@ -2,13 +2,23 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/StartButton.css"; 
 
-const Start= () => {
+const StartButton = ({duration, route, directions}) => {
     const navigate = useNavigate(); 
+
+    const handleClick = () => {
+        navigate("/public-transport-nav", {
+            state: {
+                duration,
+                route,
+                directions
+            }
+        });
+    };
     return(
-        <button className="startButton-button" onClick={() => navigate("/public-transport-nav")}>
+        <button className="startButton-button" onClick={handleClick}>
             Start!
         </button>
     );
 }
 
-export default Start;
+export default StartButton;
