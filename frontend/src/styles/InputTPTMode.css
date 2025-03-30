@@ -94,6 +94,7 @@
     aspect-ratio: 4/4; /* Keeps proper map aspect ratio */
     display: flex;
     align-items: center;
+    border-radius: 20px;
 }
 
 /* Map Image */
