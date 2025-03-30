@@ -127,3 +127,13 @@ def getPCDAPIKey(filePath = None):
             logger.error(e)
             logger.info(traceback.print_exc())
             return False
+
+def compareGoogleAPITimings(timeOne, timeTwo):
+
+    timeOneInt = int(timeOne[:-1])
+    timeTwoInt = int(timeTwo[:-1])
+
+    if timeOneInt < timeTwoInt:
+        return True
+
+    return False

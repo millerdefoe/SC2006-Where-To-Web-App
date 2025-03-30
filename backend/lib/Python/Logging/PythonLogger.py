@@ -10,12 +10,12 @@ class PythonLogger(logging.Logger):
         self.streamHandle = logging.StreamHandler()
         self.formatter = logging.Formatter('[%(asctime)s][%(name)s - %(funcName)s - %(lineno)d]%(levelname)s: %(message)s ')
         self.streamHandle.setFormatter(self.formatter)
-        self.streamHandle.setLevel(logging.INFO)
+        self.streamHandle.setLevel(level)
 
         if fileName:
             self.f_handler = logging.FileHandler(fileName)
             self.f_handler.setFormatter(self.formatter)
-            self.f_handler.setLevel(logging.INFO)
+            self.f_handler.setLevel(level)
             self.addHandler(self.f_handler)
 
         self.addHandler(self.streamHandle)
