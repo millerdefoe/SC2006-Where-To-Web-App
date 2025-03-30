@@ -77,8 +77,8 @@ function InputStartLocation(){
                         onPlaceSelect={(place) => {
                             setStartLocation(place.formattedAddress);
                             localStorage.setItem("startLocation", place.formattedAddress);
-                            localStorage.setItem("startLat", place.location.lat);
-                            localStorage.setItem("startLng", place.location.lng);
+                            localStorage.setItem("startLat", place.location.lat());
+                            localStorage.setItem("startLng", place.location.lng());
                             console.log("Selected place:", place);
                             navigate("/input-TPT-mode");
                         }}

@@ -18,20 +18,22 @@ const ViewDrivingRoute = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const source = localStorage.getItem("startLocation");
-  const destination = localStorage.getItem("endLocation");
+  const source = {
+    latitude: parseFloat(localStorage.getItem("startLat")),
+    longitude: parseFloat(localStorage.getItem("startLng"))
+  };
+  
+  const destination = {
+    latitude: parseFloat(localStorage.getItem("endLat")),
+    longitude: parseFloat(localStorage.getItem("endLng"))
+  };
+  
   useEffect(() => {
     const fetchRoute = async () => {
       try {
         const response = await axios.post("http://127.0.0.1:5000/getRoute", {
-          source: {
-            latitude: parseFloat(localStorage.getItem("startLat")),
-            longitude: parseFloat(localStorage.getItem("startLng"))
-          },
-          destination: {
-            latitude: parseFloat(localStorage.getItem("endLat")),
-            longitude: parseFloat(localStorage.getItem("endLng"))
-          }
+          source,
+          destination
         });
 
         setRoute(response.data);
