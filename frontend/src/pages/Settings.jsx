@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import FeedbackButton from "../components/Feedback";
+import FeedbackButton from "../components/FeedbackButton";
 import '../styles/Settings.css';
 
 const SettingsPage = () => {

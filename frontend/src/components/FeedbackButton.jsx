@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import {ReactComponent as FeedbackIcon} from "../assets/Feedback.svg";
-import "../styles/Feedback.css";
+import "../styles/FeedbackButton.css";
 
 const FeedbackButton = () => {
     const navigate = useNavigate();

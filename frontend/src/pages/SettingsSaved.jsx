@@ -1,5 +1,5 @@
 import React from "react";
-import FeedbackButton from "../components/Feedback.jsx";
+import FeedbackButton from "../components/FeedbackButton.jsx";
 
 const SettingsSaved = () => {
     return (
