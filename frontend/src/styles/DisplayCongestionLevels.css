@@ -1,0 +1,60 @@
+.congestionLevel-container{
+    width: 100%; 
+    height: 90%;
+    background: transparent;
+    border: none; 
+    display: flex; 
+    flex-direction: column;
+    margin-top: 3%;
+}
+
+.congestionLevel-header{
+    width: 50%;
+    height: 3%;
+    display: flex;
+    align-items: center;
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: 2vw;
+    font-weight: 600;
+    white-space: nowrap;
+    text-align:left;
+    margin-top: 3%;
+    margin-bottom: 1%;
+    padding-left: 20%;
+}
+
+.congestionLevel-container2{
+    width: 100%;
+    height: 85%;
+    background: transparent;
+    border: none; 
+    display: flex; 
+    flex-direction: row;
+}
+
+.mrt-container{
+    float: left;
+    width: 24%;
+    height: 100%;
+    background-color: transparent;
+    padding: 2vh 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 20%;
+}
+
+.bus-container{
+    float: left;
+    width: 24%;
+    height: 100%;
+    background-color: transparent;
+    padding: 2vh 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 14%;
+}
