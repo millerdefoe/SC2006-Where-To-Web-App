@@ -1,5 +1,6 @@
 import requests
 import json
+import os
 
 from lib.Python.Logging.PythonLogger import PythonLogger
 from lib.Python.Database.Database import Database
@@ -18,15 +19,19 @@ dbObj = Database(
 )
 
 class Location(): 
-    def __init__():
-        return True
+    def __init__(self, latitude, longitude):
 
-    def getLangitude():
-        return True
+        self.latitude = latitude
+        self.longitude = longitude
+        
+        return
+
+    def getLantitude(self):
+        return self.latitude
     
-    def getLongitude():
-        return True
+    def getLongitude(self):
+        return self.longitude
     
-    def setLocation(langitude, longitude):
-        self.langitude = langitude
+    def setLocation(self, latitude, longitude):
+        self.latitude = latitude
         self.longitude = longitude

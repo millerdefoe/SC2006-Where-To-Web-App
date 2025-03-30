@@ -15,7 +15,8 @@ from lib.Python.Helper.HelperFunctions import getGoogleMapAPIKey
 from lib.Python.User.UserController import UserController
 from lib.Python.Helper.HelperFunctions import loadDatabaseCredentials
 from lib.Python.Database.Database import Database
-from lib.Python.Driving.DrivingRoute import DrivingRoute
+from lib.Python.Driving.DrivingRouteController import DrivingRouteController
+from lib.Python.Location.Location import Location
 
 logger = PythonLogger(os.path.basename(__file__))
 
@@ -36,7 +37,7 @@ dbObj = Database(
 )
 
 userController = UserController()
-drivingRoute = DrivingRoute()
+drivingRouteController = DrivingRouteController()
 
 @app.route("/heartbeat", methods=["GET", "POST"])
 def heartbeat():
@@ -114,6 +115,39 @@ def getBasicRoute():
     logger.info("Returning data {} with status code 200".format(returnData))
 
     return returnData, 200
+
+@app.route("/getRoute", methods=["GET", "POST"])
+def getRoute():
+
+    logger.info("Getting route from google map API")
+
+    try:
+        source = request.get_json()["source"]
+        startPoint = Location(source["latitude"], source["longitude"])
+
+    except:
+        return {"error": "No source was specified"}, 400
+
+    try:
+        destination = request.get_json()["destination"]
+        endPoint = Location(destination["latitude"], destination["longitude"])
+
+    except:
+        return {"error": "No destination was specified"}, 400
+
+    logger.info("Source of route: {}. Destination of route: {}. Travel mode: Drive. Routing preference: Traffice_Aware".format(source, destination))
+
+    data = drivingRouteController.getRoute(startPoint, endPoint)
+
+    if data == None:
+        logger.error("No route was specified")
+        returnData = {
+            "status": "Route not found",
+            "reason" : "Contact admin"
+        }
+        return jsonify(returnData), 400
+
+    return jsonify(data), 200
 
 @app.route("/createUser", methods=["POST"])
 def createUser():
@@ -267,7 +301,7 @@ def carparksNearby():
 
         maxrange = 0.8
 
-    data = drivingRoute.getNearbyCarparks(latitude, longitude, maxrange, dbObj)
+    data = drivingRouteController.getNearbyCarparks(latitude, longitude, maxrange, dbObj)
 
     if data == False:
 
