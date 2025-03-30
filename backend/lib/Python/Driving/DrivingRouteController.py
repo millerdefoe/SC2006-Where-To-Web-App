@@ -80,9 +80,15 @@ class DrivingRouteController():
                 "duration" : i["localizedValues"]["staticDuration"]["text"],
                 "distance" : i["localizedValues"]["distance"]["text"],
                 "polyline" : i["polyline"]["encodedPolyline"],
-                "maneuver" : i["navigationInstruction"]["maneuver"],
-                "instructions" : i["navigationInstruction"]["instructions"]
             }
+
+            try:
+                stepsDict["maneuver"] = i["navigationInstruction"]["maneuver"]
+                stepsDict["instructions"] = i["navigationInstruction"]["instructions"]
+            
+            except:
+                stepsDict["maneuver"] = "NIL"
+                stepsDict["instructions"] = "NIL"
 
             route["steps"].append(stepsDict)
 
