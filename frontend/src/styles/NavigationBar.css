@@ -3,15 +3,18 @@
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: min(5vh, 46px); 
-    left: min(43vw, 670px);
+    top: min(4vh, 46px); 
+    left: min(46vw, 670px);
     transform: translateX(-50%);
     width: 100%;
+    height: 8%;
     flex-direction: row;
     gap: 0;
 }
 
 .nav-wrapper {
+    width: 22%;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -21,8 +24,8 @@
 }
 
 .nav-bar {
-    width: min(20vw,371px);
-    height: min(8vh, 62px);
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -32,12 +35,11 @@
 
 .nav-text {
     font-family: "Poppins";
-    width: min(22vw,309px);
-    height:min(3vh,27px);
     color: #000;
-    font-size: min(1.8vw,18px);
+    font-size: min(1vw,18px);
     font-style: normal;
     font-weight: 500;
+    opacity: 0.6;
     line-height: 100%;
     letter-spacing: 0%;
     text-align: center;
