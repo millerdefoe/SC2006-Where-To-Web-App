@@ -4,7 +4,7 @@
     aspect-ratio: 5 / 3; 
     background-color: #FFF;
     padding: 1em;
-    margin-top: 4%;
+    margin-top: 3%;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -16,7 +16,7 @@
     width: 30%;
     aspect-ratio: 5/ 7; 
     background-color: #FFF;
-    margin-top: 5%;
+    margin-top: 4%;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -24,7 +24,7 @@
 }
 
 .routeNav-container{
-    height: 92%; 
+    height: 93%; 
     aspect-ratio: 2/3;
     background-color: transparent;
     border-width: 2px;
@@ -42,7 +42,7 @@
 .map-container4 {
     margin-top: 1%;
     margin-left: 4%;
-    height: 97%;
+    height: 98%;
     max-width: 1000px;
     aspect-ratio: 8/3; /* Keeps proper map aspect ratio */
     display: flex;

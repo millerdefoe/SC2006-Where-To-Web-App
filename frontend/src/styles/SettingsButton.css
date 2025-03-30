@@ -12,6 +12,8 @@
     border: none;
     cursor: pointer; /* Makes it clear it's clickable */
     padding: 0;
+    margin-right: -1%;
+    margin-top: -0.3%;
 }
 
 .settings-icon {
