@@ -4,8 +4,6 @@ import json
 import os
 
 from lib.Python.Logging.PythonLogger import PythonLogger
-from lib.Python.Helper.HelperFunctions import loadDatabaseCredentials
-from lib.Python.Database.Database import Database
 
 logger = PythonLogger(os.path.basename(__file__))
 
@@ -88,19 +86,3 @@ class UserController():
             userId = data[0][0]
             logger.info("Returning userid for user {}".format(username))
             return userId
-
-
-# databaseCredsPath = os.path.join(".", "creds", "priv", "database.json")
-# databaseCreds = loadDatabaseCredentials(databaseCredsPath)
-
-# dbObj = Database(
-#     databaseCreds["host"],
-#     databaseCreds["database"],
-#     databaseCreds["username"],
-#     databaseCreds["password"],
-#     databaseCreds["port"]
-# )
-
-# obj = UserController()
-
-# obj.loginUser("user1", "password", dbObj)
