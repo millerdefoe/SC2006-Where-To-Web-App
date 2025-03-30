@@ -12,7 +12,11 @@ const NavBar = () => {
         const storedStart = localStorage.getItem("startLocation");
         const storedEnd = localStorage.getItem("endLocation");
 
-        if (storedStart) setStartLocation(storedStart);
+        if (storedStart) {
+            // If it's just a lat,lng string → fallback to "Your Location"
+            const isLatLng = /^-?\d+(\.\d+)?,-?\d+(\.\d+)?$/.test(storedStart.trim());
+            setStartLocation(isLatLng ? "Your Location" : storedStart);
+        }
         if (storedEnd) setEndLocation(storedEnd);
     }, []);
 

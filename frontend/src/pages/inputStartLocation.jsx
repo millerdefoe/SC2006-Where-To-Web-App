@@ -22,6 +22,33 @@ function InputStartLocation(){
         }
     }, []);
 
+    const handleRetrieveFromGPS = () => {
+        if (!navigator.geolocation) {
+          alert("Geolocation is not supported by your browser.");
+          return;
+        }
+      
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            console.log("GPS location:", latitude, longitude);
+      
+            const gpsCoords = `${latitude},${longitude}`;
+            localStorage.setItem("startLocation", gpsCoords);
+            localStorage.setItem("startLat", latitude);
+            localStorage.setItem("startLng", longitude);
+      
+            // Navigate to next screen
+            navigate("/input-TPT-mode");
+          },
+          (error) => {
+            console.error("Error retrieving GPS location:", error);
+            alert("Failed to get location. Please enable GPS permissions.");
+          }
+        );
+      };
+      
+
     return (
         <div className="main-container">
             <HomeButton1/>
@@ -42,7 +69,7 @@ function InputStartLocation(){
                 <div className="locationRetrieval-container">
                     <div className="locationRetrieval-header">Input Start Location</div>
                     <div className="separator"></div>
-                    <div className="locationRetrieval-button">Retrieve from GPS</div>
+                    <div className="locationRetrieval-button" onClick={handleRetrieveFromGPS}>Retrieve from GPS</div>
                     <div className="separator"></div>
                     <NewAutocompleteInput
                         inputClass="locationRetrievalSearch-bar"

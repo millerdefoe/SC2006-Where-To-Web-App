@@ -25,7 +25,9 @@ CORS(app)
 
 apiKeyPath = os.path.join(".", "creds", "priv", "googleMapApi.json")
 googleApiKey = getGoogleMapAPIKey(apiKeyPath)
+
 databaseCredsPath = os.path.join(".", "creds", "priv", "database.json")
+
 databaseCreds = loadDatabaseCredentials(databaseCredsPath)
 
 dbObj = Database(

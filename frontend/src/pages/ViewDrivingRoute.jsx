@@ -4,7 +4,6 @@ import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
 import ViewNearbyCarParks from "../components/ViewCarParksButton";
-import mapImage from "../assets/inputStartLocationMap.png";
 import {ReactComponent as Car} from "../assets/Car.svg"; 
 import {ReactComponent as View} from "../assets/View.svg";
 import axios from "axios";
@@ -24,9 +23,15 @@ const ViewDrivingRoute = () => {
   useEffect(() => {
     const fetchRoute = async () => {
       try {
-        const response = await axios.post("http://127.0.0.1:5000/getBasicRoute", {
-          source,
-          destination,
+        const response = await axios.post("http://127.0.0.1:5000/getRoute", {
+          source: {
+            latitude: parseFloat(localStorage.getItem("startLat")),
+            longitude: parseFloat(localStorage.getItem("startLng"))
+          },
+          destination: {
+            latitude: parseFloat(localStorage.getItem("endLat")),
+            longitude: parseFloat(localStorage.getItem("endLng"))
+          }
         });
 
         setRoute(response.data);
