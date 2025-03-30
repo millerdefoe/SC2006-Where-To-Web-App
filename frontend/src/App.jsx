@@ -23,6 +23,8 @@ import SettingsReset from './pages/SettingsReset';
 import Feedback from './pages/Feedback';
 import NotFoundPage from './pages/NotFoundPage';
 import DisplayCongestionLevels from './pages/DisplayCongestionLevels';
+import Profile from './pages/Profile';
+
 
 function App() {
   return (
@@ -48,9 +50,7 @@ function App() {
           <Route path="/view-driving-directions" element={<ViewDrivingDirections />} />
           <Route path="/driving-route-nav" element={<DrivingRouteNav />} />
           <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/settings-saved" element={<SettingsSaved />} />
-          <Route path="/settings-failed" element={<SettingsFailed />} />
-          <Route path="/settings-reset" element={<SettingsReset />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
