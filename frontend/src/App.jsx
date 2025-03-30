@@ -23,6 +23,7 @@ import SettingsReset from './pages/SettingsReset';
 import Feedback from './pages/Feedback';
 import NotFoundPage from './pages/NotFoundPage';
 import DisplayCongestionLevels from './pages/DisplayCongestionLevels';
+import Profile from './pages/Profile';
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
           <Route path="/settings-reset" element={<SettingsReset />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
     </Router> 
