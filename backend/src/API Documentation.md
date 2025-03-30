@@ -5,6 +5,7 @@
 1. [/createUser](#--/createUser)
 2. [/login](#--/login)
 3. [/carparksNearby](#--/carparksNearby)
+3. [/getRoute](#--/getRoute)
 
 ___
 
@@ -82,7 +83,7 @@ ___
     ~Authentication: $TOKEN~
 
 #### Body
-    ~{"longitude": "user1", "latitude": "pass1", "maxrange": 1}~
+    ~{"latitude": "1.31262", "longitude": "103.123712", "maxrange": 1}~
 - longitude (Required)
     - Float format
 - latitude (Required)
@@ -101,3 +102,32 @@ ___
     - "Coordinate information was not a number" - Invalid coordinate information was provided
     - "Coordinate information was not provided" - Body did not contain required information
     - "backend error" - contact backend team to view logs and troubleshoot
+
+### - /getRoute
+
+#### Methods
+`GET`
+
+#### Params
+    ~none~
+
+#### Headers
+    ~Authentication: $TOKEN~
+
+#### Body
+    ~{"source" : {"latitude": "1.31262", "longitude": "103.123712"}, "destination" : {"latitude": "1.341232", "longitude": "103.41231"}}~
+- source (Required)
+    - Dict format
+    - Include latitude and longitude keys
+- destination (Required)
+    - Dict format
+    - Include latitude and longitude keys
+
+#### Return data
+    ~{"distance" : 3017, "duration", "614s", "polyline": "asdbUI@GB1823A", "steps": [{"distance": "39 m", "duration": "1 min", "instructions": "Head South", "maneuver": "Depart", "polyline": "as*4@Basd"}, {}]}~
+    ~{"error": "No source was specified"}~
+- success
+    - Route with all steps will be sent
+- failure
+    - Either source or destination was not provided
+    - "Route not found" - No route is available from source to destination
