@@ -23,7 +23,6 @@ const DirectionDescription = ({ duration, icons = [], directions, iconMap }) => 
                 const Icon = iconMap[icon.name];
                 if (!Icon) return null;
 
-                // ✅ Special case for walking
                 if (icon.name === "walking") {
                   return (
                     <div className="walking-wrapper" key={index}>
@@ -32,7 +31,6 @@ const DirectionDescription = ({ duration, icons = [], directions, iconMap }) => 
                   );
                 }
 
-                // ✅ Default case for other SVGs
                 return (
                   <div className="directionTransportIcon-icon" key={index}>
                     <Icon />

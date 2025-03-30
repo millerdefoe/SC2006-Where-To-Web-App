@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {ReactComponent as Car} from "../assets/Car.svg"; 
+import { ReactComponent as Start } from "../assets/Start.svg";
+import { ReactComponent as MapPin} from "../assets/MapPin.svg";
+import { ReactComponent as Parking} from "../assets/Parking.svg";
+import { ReactComponent as Road} from "../assets/Road.svg";
+import { ReactComponent as Merge} from "../assets/Merge.svg";
+import { drivingRouteData } from "../context/drivingRouteData";
+import DirectionDescription from "../components/DirectionDescription";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
 import ViewNearbyCarParks from "../components/ViewCarParksButton";
 import mapImage from "../assets/inputStartLocationMap.png";
 import MyBookingsButton from "../components/MyBookingsButton"
-import {ReactComponent as Car} from "../assets/Car.svg"; 
-import {ReactComponent as View} from "../assets/View.svg";
-import { ReactComponent as Start } from "../assets/Start.svg";
 import axios from "axios";
-import "../styles/ViewDrivingDirections.css"; 
 import MapWithRoute from "../components/MapRoute";
 import ModeOfTransport from "../components/ModeOfTransport";
+import "../styles/ViewDrivingDirections.css"; 
 
 const ViewDrivingDirections = () => {
   const navigate = useNavigate();
@@ -42,6 +47,15 @@ const ViewDrivingDirections = () => {
     fetchRoute();
   }, [source, destination]);
 
+    // dummy routing 
+    const iconMap = {
+      pin: MapPin,
+      parking: Parking,
+      road: Road,
+      merge: Merge
+    };
+    
+
     return (
       <div>
         <div className="main-container">
@@ -64,9 +78,6 @@ const ViewDrivingDirections = () => {
                   <br />
                   <span>Time (Duration)</span>
                 </div>
-                <button className="view-icon-container2" onClick={() => navigate("/view-driving-directions")}>
-                  <View className="view-icon2" />
-                </button>
               </div>
               </div>
             </div>
@@ -81,6 +92,13 @@ const ViewDrivingDirections = () => {
           </div>
         </div>
         <div className="route-info-container">
+              <DirectionDescription
+              duration={drivingRouteData.route1.duration}
+              icons={drivingRouteData.route1.icons}
+              directions={drivingRouteData.route1.directions}
+              iconMap={iconMap}
+              />
+
           {loading && <p>Loading route...</p>}
           {error && <p className="text-red-600">{error}</p>}
 
