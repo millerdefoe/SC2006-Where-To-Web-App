@@ -1,0 +1,201 @@
+/* Base styles for the entire page */
+  .profileLogin-page {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+  }
+  
+  /* Sidebar styling (taking 30% of the left hand side) */
+  .sidebar {
+    width: 30%;
+    background-color: #f4f4f4; /* You can change this to your desired color */
+    height: 100vh;
+  }
+  
+  /* Main container styling (70% of the screen) */
+  .rhs-container {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin-left: 2%;
+    margin-top: 2%;
+  }
+  
+  /* Top row container */
+  .top-row10 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+  }
+  
+  /* Top text styling */
+  .top-text {
+    color: #000;
+    font-family: Inter, sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    margin-bottom: 10px; /* Adjusts spacing between texts */
+  }
+  
+  /* Bottom text styling */
+  .bottom-text {
+    color: #000;
+    font-family: Inter, sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 30px;
+    margin-bottom: 10px; /* Adjusts spacing between texts */
+  }
+  
+  /* Line (imported SVG below the two texts) */
+  .line-container {
+    width: 928px;
+    height: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .line-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+
+  /* Middle row container */
+  .middle-row10 {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  /* Top text in middle row */
+  .middle-top-text {
+    color: #000;
+    font-family: Inter, sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    width: 256px;
+    height: 29px;
+    flex-shrink: 0;
+    margin-bottom: 10px;
+  }
+  
+  /* Rectangle under middle top text */
+  .inputRectangle-container {
+    stroke-width: 0.5px;
+    stroke: #000;
+    width: 928px;
+    height: 60px;
+    flex-shrink: 0;
+    margin-bottom: 20px;
+  }
+
+  .inputRectangle-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  /* Middle text */
+  .middle-text {
+    color: #000;
+    font-family: Inter, sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    flex-shrink: 0;
+    margin-bottom: 10px;
+    margin-right: 75%;
+  }
+  
+  /* Row below middle rectangle */
+  .belowRow-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+  }
+  
+  /* Text containers inside row below middle rectangle */
+  .leftText-container {
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    flex: 1;
+  }
+
+  .middleText-container {
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    flex: 1;
+  }
+  
+  .rightText-container {
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    flex: 1;
+  }
+  
+  .bottom-row10 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    width: 100%;
+  }
+  
+  /* Bottom text */
+  .bottom-text-large {
+    color: #000;
+    font-family: Inter, sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    width: 256px;
+    height: 29px;
+    flex-shrink: 0;
+    margin-bottom: 10px;
+  }
+
+  
+  /* Sign-in container below bottom rectangle */
+  .signIn-container {
+    width: 928px;
+    height: 60px;
+    flex-shrink: 0;
+    margin-top: 20px;
+    background: transparent;
+    border: none;
+  }
+  
+  .signIn-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+

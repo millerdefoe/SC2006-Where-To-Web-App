@@ -21,11 +21,14 @@ import Feedback from './pages/Feedback';
 import NotFoundPage from './pages/NotFoundPage';
 import DisplayCongestionLevels from './pages/DisplayCongestionLevels';
 import Profile from './pages/Profile';
+import ProfileLogIn from "./pages/ProfileLogIn";
+import PageTracker from "./components/PageTracker";
 
 
 function App() {
   return (
     <Router>
+      <PageTracker />
       <div className="App"> 
         <Routes>
           <Route path="/" element={<Navigate to="/end-location" />} />
@@ -48,6 +51,7 @@ function App() {
           <Route path="/driving-route-nav" element={<DrivingRouteNav />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile-log-in" element={<ProfileLogIn />} />
           <Route path="/feedback" element={<Feedback />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SettingsButton from "../components/SettingsButton";
+import ProfileButton from "../components/ProfileButton";
 import Map from "../components/Map";
 import NewAutocompleteInput from "../components/NewAutocompleteInput";
 
@@ -27,6 +28,7 @@ function InputEndLocation() {
       />
 
       <SettingsButton />
+      <ProfileButton />
 
       <NewAutocompleteInput
         onPlaceSelect={(place) => {
