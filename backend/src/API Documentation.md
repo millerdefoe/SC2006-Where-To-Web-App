@@ -5,7 +5,9 @@
 1. [/createUser](#--/createUser)
 2. [/login](#--/login)
 3. [/carparksNearby](#--/carparksNearby)
-3. [/getRoute](#--/getRoute)
+4. [/carparksPricing](#--/carparksPricing)
+5. [/carparksLots](#--/carparksLots)
+6. [/getRoute](#--/getRoute)
 
 ___
 
@@ -102,6 +104,93 @@ ___
     - "Coordinate information was not a number" - Invalid coordinate information was provided
     - "Coordinate information was not provided" - Body did not contain required information
     - "backend error" - contact backend team to view logs and troubleshoot
+
+### - /carparkPricing
+
+#### Methods
+`GET`
+
+#### Params
+    ~none~
+
+#### Headers
+    ~Authentication: $TOKEN~
+
+#### Body
+    ~{"carparkId": "A001"}~
+- carparkId (Required)
+    - String format
+
+#### Return data
+    ~["rate" : "$0.60/half hour"]~
+    ~{"status" : "failure", "reason": "Invalid carparkid"}~
+- success
+    - Retrieves rate of carpark for cars
+- failure
+    - Invalid carparkId - carparkid does not exist (might be formatting error)
+
+### - /carparkLots
+
+#### Methods
+`GET`
+
+#### Params
+    ~none~
+
+#### Headers
+    ~Authentication: $TOKEN~
+
+#### Body
+    ~{"carparkId": "A001"}~
+- carparkId (Required)
+    - String format
+
+#### Return data
+    ~["rate" : "$0.60/half hour"]~
+    ~{"status" : "failure", "reason": "Lots were not found for carparkID"}~
+- success
+    - Retrieves available lots for carpark
+- failure
+    - Lots were not found for carparkID - carparkid does not exist (might be formatting error)
+
+### - /bookCarpark
+
+#### Methods
+`GET`
+
+#### Params
+    ~none~
+
+#### Headers
+    ~Authentication: $TOKEN~
+
+#### Body
+    ~{"carparkId": "A001", "lotType": "C", "userId": 40, "startTime" : "20-03-2025 10:40:00", "duration": 3600}~
+- carparkId (Required)
+    - String format
+- lotType (Required)
+    - String format
+    - Must be within ["C", "M", "Y", "S", "H", "L"]
+- userId (Required)
+    - String format
+- startTime (Required)
+    - String format
+    - DD-MM-YYYY HH:MM:SS
+- duration (Required)
+    - Integer format
+    - Duration of parking booking in seconds
+
+#### Return data
+    ~["status" : "success", "reason": "Booking for A10/C : 1 | 20-03-2025 10:40:00-3600 was successful"]~
+    ~{"status" : "failure", "reason": "Error creating booking. Please check logs"}~
+- success
+    - Booking given parameters have been made
+- failure
+    - Error creating booking. Please check logs - Contact backend team
+    - Duration provided was not an integer: asd - formatting error for duration
+    - Start time provided was not valid - formatting error for start time
+    - Lot type provided was not valid - lotType was from within the defined list
+    - Error with duration/starttime/etc. provided - Contact backend team
 
 ### - /getRoute
 

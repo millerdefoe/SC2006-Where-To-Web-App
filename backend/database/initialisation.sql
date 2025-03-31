@@ -67,3 +67,17 @@ CREATE TABLE addresses(
             REFERENCES users(userid),
     CONSTRAINT pkey PRIMARY KEY (userid, locationtag)
 );
+
+CREATE TABLE bookings(
+    carparkid VARCHAR(8) NOT NULL,
+    lottype VARCHAR(2) NOT NULL,
+    userid INTEGER NOT NULL,
+    startTime TIMESTAMP NOT NULL,
+    duration INTEGER NOT NULL,
+    CONSTRAINT fk_carparkid
+        FOREIGN KEY(carparkid, lottype)
+            REFERENCES carpark(carparkid, lottype),
+    CONSTRAINT fk_userid
+        FOREIGN KEY(userid)
+            REFERENCES users(userid)
+);
