@@ -16,7 +16,9 @@ import ViewPublicTransportRoute from './pages/ViewPublicTransportRoute';
 import ViewCarParks from "./pages/ViewCarParks";
 import MyBookings from "./pages/MyBookings";
 import NoBookings from "./pages/NoBookings";
-import SettingsPage from "./pages/Settings";
+import Settings from "./pages/Settings";
+import SettingsPage from "./pages/SettingsPage";
+import FeedbackPage from "./pages/FeedbackPage";
 import Feedback from './pages/Feedback';
 import NotFoundPage from './pages/NotFoundPage';
 import DisplayCongestionLevels from './pages/DisplayCongestionLevels';
@@ -49,7 +51,9 @@ function App() {
           <Route path="/view-driving-route" element={<ViewDrivingRoute />} />
           <Route path="/view-driving-directions" element={<ViewDrivingDirections />} />
           <Route path="/driving-route-nav" element={<DrivingRouteNav />} />
-          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/settings-page" element={<SettingsPage />} />
+          <Route path="/feedback-page" element={<FeedbackPage />} />
+          <Route path="/settings" element={<Settings />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/profile-log-in" element={<ProfileLogIn />} />
           <Route path="/feedback" element={<Feedback />} />

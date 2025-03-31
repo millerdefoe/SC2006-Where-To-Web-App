@@ -49,8 +49,8 @@
     aspect-ratio: 6 / 1;
     margin-right: 10%;
     display: flex;
-    justify-content: center;
-    gap: 20%;
+    justify-content: left;
+    gap: 3%;
     align-items: center;    /* vertical centering */
 }
 
@@ -103,4 +103,11 @@
     height: 100%;
     object-fit: cover; /* Ensures the map scales correctly */
     border-radius: 20px;
+}
+
+.destination-icon{
+    margin-left: 3%;
+    width: 10%;
+    aspect-ratio: 1/1;
+    object-fit: contain;
 }

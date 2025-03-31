@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
+import { ReactComponent as MapPin } from "../assets/MapPin.svg";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton1 from "../components/HomeButton1";
 import DrivingButton from '../components/DrivingButton';
@@ -30,6 +31,8 @@ function InputTPTMode() {
       }
   }, []);
 
+  const endLocation = localStorage.getItem("endLocation");
+
   return (
     <div className="main-container">
         <SettingsButton/> 
@@ -47,7 +50,7 @@ function InputTPTMode() {
         </div>
 
         <div className="rightContainer">
-          <div className="greyRectangle-container">My Location</div>
+          <div className="greyRectangle-container" style={{justifyContent: "center"}}>My Location</div>
           <div className="rowContainer">
             <div className="greySquare-container">
               By Car
@@ -58,7 +61,10 @@ function InputTPTMode() {
               <TransportButton/>
             </div>
           </div>
-          <div className="greyRectangle-container">XXX Location</div>
+          <div className="greyRectangle-container" style={{fontSize: "14px", fontWeight:"500"}}>
+            <MapPin className="destination-icon" />
+            {endLocation}
+          </div>
 
         </div>
     </div>
