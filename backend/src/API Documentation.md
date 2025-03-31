@@ -5,8 +5,8 @@
 1. [/createUser](#--/createUser)
 2. [/login](#--/login)
 3. [/carparksNearby](#--/carparksNearby)
-4. [/carparksPricing](#--/carparksPricing)
-5. [/carparksLots](#--/carparksLots)
+4. [/carparkPricing](#--/carparkPricing)
+5. [/carparkLots](#--/carparkLots)
 6. [/getRoute](#--/getRoute)
 
 ___
