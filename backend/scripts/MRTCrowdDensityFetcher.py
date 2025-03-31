@@ -35,40 +35,31 @@ headers = {
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-d', '--getMRTCongestionLevel', help='Updates MRT Congestion Levels into database depending on value of "refresh"', default=False, action='store_true')
-parser.add_argument('-r', '--refresh', help='Set time to refresh MRT Congestion Levels', default=5)
 args = parser.parse_args()
 
 #Real time update of 600s interval for congestion levels
 if args.getMRTCongestionLevel:
+    timeNow = datetime.now()
 
-    while True:
+    for i in trainLine:
+        param = "TrainLine={}".format(i)
+        requestUrl = url + "?" + param
+        #print(requestUrl)
+        logger.debug("Querying LTA api for MRT Congestion Levels with skip of {}".format(i))
+        response = requests.get(requestUrl, headers=headers)
+        print(response.json())
+        for x in response.json()["value"]:
 
-        timeNow = datetime.now()
-        refresh = args.refresh
+            starttime = x["StartTime"]
+            endtime = x["EndTime"]  
 
-        for i in trainLine:
-            param = "TrainLine={}".format(i)
-            requestUrl = url + "?" + param
-            print(requestUrl)
+            #StartTime & EndTime for debugging purposes 
+            starttime = parse(starttime).strftime("%Y-%m-%d %H:%M:%S") #Converts into a form for databases
+            endtime = parse(endtime).strftime("%Y-%m-%d %H:%M:%S")
 
-            logger.debug("Querying LTA api for MRT Congestion Levels with skip of {}".format(i))
-            response = requests.get(requestUrl, headers=headers)
-            print(response.json())
-            for x in response.json()["value"]:
+            values = [x["StartTime"], x["EndTime"], x["CrowdLevel"], x["Station"] ]
 
-                starttime = x["StartTime"]
-                endtime = x["EndTime"]  
+            insertStatement = "UPDATE mrtcongestionlevel SET starttime = %s, endtime = %s, mrtcongestionlevel = %s WHERE stationnumber = %s"
 
-                #StartTime & EndTime for debugging purposes for now
-                starttime = parse(starttime).strftime("%Y-%m-%d %H:%M:%S") #Converts into a form for databases
-                endtime = parse(endtime).strftime("%Y-%m-%d %H:%M:%S")
-
-                values = [x["StartTime"], x["EndTime"], x["Station"], x["CrowdLevel"] ]
-
-                insertStatement = "INSERT INTO mrtcongestionlevel(starttime, endtime, stationnumber, crowdlevel) values (%s, %s, %s, %s)"
-
-                if dbObj.writeData(insertStatement, values) == False:
-                    logger.error("Error inserting data with statement {} and values {}".format(insertStatement, values))
-
-        logger.info("Sleeping for {} seconds before querying MRT Congestion Levels again".format(refresh*120))
-        time.sleep(refresh*120)
+            if dbObj.writeData(insertStatement, values) == False:
+                logger.error("Error inserting data with statement {} and values {}".format(insertStatement, values))
