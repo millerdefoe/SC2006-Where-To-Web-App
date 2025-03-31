@@ -1,16 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import {ReactComponent as SettingsIcon} from "../assets/SettingsIcon.svg";
-import "../styles/SettingsButton.css";
+import {ReactComponent as ProfileIcon} from "../assets/Profile.svg";
+import "../styles/ProfileButton.css";
 
-const SettingsButton = () => {
+const ProfileButton = () => {
     const navigate = useNavigate();
 
     return (
-        <button className="settingsicon-container" onClick={() => navigate("/settings")}>
-            <SettingsIcon className="settings-icon" />
+        <button className="profileIcon-container" onClick={() => navigate("/profile-log-in")}>
+            <ProfileIcon className="profile-icon" />
         </button>
     );
 };
 
-export default SettingsButton;
+export default ProfileButton;
