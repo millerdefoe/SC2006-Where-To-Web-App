@@ -321,7 +321,6 @@ def PublicTransportRoute():
     logger.info("Public Transport Route accessed. Verifying information provided")
     try:
         data = request.get_json()
-        print(data.keys())
         if "currentLocation" not in data.keys() or "destinationLocation" not in data.keys():
             logger.error("Rasing Exception")
             raise Exception
@@ -331,21 +330,6 @@ def PublicTransportRoute():
 
         currentLocation = Location(data["currentLocation"]["latitude"],data["currentLocation"]["longitude"])
         destinationLocation = Location(data["destinationLocation"]["latitude"],data["destinationLocation"]["longitude"])
-        
-        # {
-        #     "currentLocation": {
-        #         "latitude" : ,
-        #         "longitude" : 
-        #     }
-        # },
-
-        # destinationLocation = {
-        #     "destinationLocation": {
-        #         "latitude" : data["destinationLocation"]["latitude"],
-        #         "longitude" : data["destinationLocation"]["longitude"],
-        #     }
-        # },
-
         maxWalkingDistance = data["maxWalkingDistance"]
 
     except ValueError:
@@ -369,7 +353,6 @@ def PublicTransportRoute():
         return jsonify(returnData), 400
 
     publicTransportRouteData = PublicTransportRouteController.getPublicTransportRoute(currentLocation, destinationLocation)
-    print(publicTransportRouteData)
     if publicTransportRouteData == False or publicTransportRouteData == None:
 
         logger.debug("Error when retrieving public transport route. Returning error 400")
@@ -403,8 +386,19 @@ def PublicTransportRoute():
         }
 
         return jsonify(returnData), 400
+    
+    chosenRoutePolylineData = PublicTransportRouteController.getPolylineFromRoute(chosenRouteData)
+    if chosenRoutePolylineData == False or chosenRoutePolylineData == None:
 
-    return jsonify(data), 200
+        logger.debug("Error when retrieving the polyline of the chosen route. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "backend error"
+        }
+
+        return jsonify(returnData), 400
+
+    return jsonify(chosenRoutePolylineData), 200
          
 if __name__ == "__main__":
     app.run()

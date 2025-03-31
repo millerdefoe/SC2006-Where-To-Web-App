@@ -31,7 +31,7 @@ class MRTController():
             WHERE stationname = '{stationname}';
         """
         logger.debug("Running query string to get station number from station name")
-        data = dbObj.readData(queryStatement)
+        data = dbObj.readData(queryStatement)[0][0]
         return data
 
     def getMRTCongestionLevel(stationnumber):

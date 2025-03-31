@@ -70,5 +70,5 @@ if args.getMRTCongestionLevel:
                 if dbObj.writeData(insertStatement, values) == False:
                     logger.error("Error inserting data with statement {} and values {}".format(insertStatement, values))
 
-        logger.info("Sleeping for {} seconds before querying MRT Congestion Levels again".format(refresh*120))
-        time.sleep(refresh*120)
+        logger.info("Sleeping for {} seconds before querying MRT Congestion Levels again".format(refresh*60))
+        time.sleep(refresh*60)
