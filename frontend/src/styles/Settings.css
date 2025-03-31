@@ -1,4 +1,4 @@
-.settings-container {
+.settings-container1 {
     max-width: 500px;
     margin: 40px auto;
     padding: 20px;
@@ -8,21 +8,21 @@
     font-family: sans-serif;
   }
   
-  .settings-header {
+  .settings-header1 {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 10px;
   }
   
-  .header-left,
-  .header-right {
+  .header-left1,
+  .header-right1{
     display: flex;
     align-items: center;
   }
   
-  .back-button,
-  .profile-button {
+  .back-button1,
+  .profile-button1 {
     background: none;
     border: none;
     font-size: 24px;
@@ -36,19 +36,19 @@
     color: #303f9f;
   }
   
-  .settings-title {
+  .settings-title1 {
     font-size: 28px;
     font-weight: bold;
     margin-bottom: 10px;
   }
   
-  .settings-subtitle {
+  .settings-subtitle1 {
     font-size: 14px;
     margin-bottom: 30px;
     color: #555;
   }
   
-  .settings-message {
+  .settings-message1 {
     background-color: #e3f2fd;
     border: 1px solid #90caf9;
     padding: 10px;
@@ -59,45 +59,45 @@
     font-weight: bold;
   }
   
-  .settings-group {
+  .settings-group1 {
     margin-bottom: 25px;
     display: flex;
     flex-direction: column;
   }
   
-  .settings-group label {
+  .settings-group1 label {
     margin-bottom: 8px;
     font-weight: 600;
   }
   
-  .settings-group select {
+  .settings-group1 select {
     padding: 8px;
     border-radius: 4px;
     border: 1px solid #ccc;
     font-size: 14px;
   }
   
-  .switch-group {
+  .switch-group1 {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
   }
   
   /* Switch styling */
-  .switch {
+  .switch1 {
     position: relative;
     display: inline-block;
     width: 50px;
     height: 26px;
   }
   
-  .switch input {
+  .switch1 input {
     opacity: 0;
     width: 0;
     height: 0;
   }
   
-  .slider {
+  .slider1 {
     position: absolute;
     cursor: pointer;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -132,8 +132,8 @@
     margin-top: 30px;
   }
   
-  .save-button,
-  .reset-button {
+  .save-button1,
+  .reset-button1 {
     padding: 10px 20px;
     border: none;
     border-radius: 6px;
@@ -142,12 +142,12 @@
     font-weight: 600;
   }
   
-  .save-button {
+  .save-button1 {
     background-color: #3f51b5;
     color: white;
   }
   
-  .reset-button {
+  .reset-button1 {
     background-color: #e0e0e0;
     color: #333;
   }
