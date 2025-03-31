@@ -50,7 +50,7 @@ class BusController:
         responseData = response.json()
         print(url)
         print(responseData)
-        if 'Services' in response.keys():
+        if 'Services' in responseData.keys():
             services = responseData['Services']
 
             if services != []: 
