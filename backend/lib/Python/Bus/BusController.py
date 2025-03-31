@@ -28,11 +28,11 @@ class BusController:
         return None
 
     def getBusStopCode(arrivalBusStopName):
-        queryStatement = f"""
+        queryStatement = """
             SELECT busstopcode 
             FROM busstops 
-            WHERE landmarkdescription = '{arrivalBusStopName.replace('\'', "\'\'") }'; 
-        """
+            WHERE landmarkdescription = '{}'; 
+        """ .format(arrivalBusStopName.replace('\'', "\'\'") )
         #Replaces one singluar quote with double singuar quotes ''.
         logger.debug("Running query string to get bus stop code")
         data = dbObj.readData(queryStatement)[0][0] #Queries into a list of tuples
