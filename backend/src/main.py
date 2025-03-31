@@ -399,6 +399,6 @@ def PublicTransportRoute():
         return jsonify(returnData), 400
 
     return jsonify(chosenRoutePolylineData), 200
-         
+
 if __name__ == "__main__":
     app.run()

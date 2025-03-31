@@ -1,7 +1,8 @@
 import requests
 import json
 import os
-
+import subprocess
+import time
 from lib.Python.Logging.PythonLogger import PythonLogger
 from lib.Python.Helper.HelperFunctions import getGoogleMapAPIKey
 from lib.Python.Helper.HelperFunctions import compareGoogleAPITimings
@@ -70,7 +71,7 @@ class PublicTransportRouteController():
                 if step["travelMode"] == 'WALK':
                     sumofWalking += step["distanceMeters"]
                 else:
-                    break
+                    break #Once it hits transit, it breaks from the loop and distance is no longer counted
             
             if sumofWalking < maxWalkingDistance: #If total walking is less than what the user has set the max to be
                 result["routes"].append(route) # Resulted route that will be saved into the list
@@ -78,6 +79,7 @@ class PublicTransportRouteController():
         return result #Converts dictionary object to JSON
 
     def getCongestionLevel(route):
+        MRTController.updateCongestionDatabase() #Updates congestion database for MRT 
         sumofCongestion = 0 #Total congestion levels from mrt and bus
         count = 0 #Increments every time you add a congestion level
         for step in route["steps"]:
