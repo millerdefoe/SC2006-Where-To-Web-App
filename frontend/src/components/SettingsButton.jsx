@@ -7,7 +7,7 @@ const SettingsButton = () => {
     const navigate = useNavigate();
 
     return (
-        <button className="settingsicon-container" onClick={() => navigate("/settings")}>
+        <button className="settingsicon-container" onClick={() => navigate("/settings-page")}>
             <SettingsIcon className="settings-icon" />
         </button>
     );
