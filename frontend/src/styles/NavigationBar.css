@@ -9,6 +9,7 @@
     width: 100%;
     flex-direction: row;
     gap: 0;
+    margin-left: 1%;
 }
 
 .nav-wrapper {
@@ -22,7 +23,7 @@
 }
 
 .nav-bar {
-    width: min(20vw,371px);
+    width: min(24vw, 420px);
     height: min(8vh, 62px);
     display: flex;
     align-items: center;
@@ -49,7 +50,7 @@
     position: absolute;
     text-overflow: ellipsis;
     white-space: nowrap;
-    margin-left: 35%;
+    margin-left: 15%;
 }
   
 

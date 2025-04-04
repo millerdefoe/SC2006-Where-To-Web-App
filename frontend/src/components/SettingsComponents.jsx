@@ -14,7 +14,7 @@ const SettingsComponents = () => {
   
         <div className="nav-links">
           <div
-            className={`nav-item ${location.pathname === "/settings" ? "active" : ""}`}
+            className={`nav-item ${location.pathname === "/settings-page" ? "active" : ""}`}
             onClick={() => navigate("/settings-page")}
           >
             Settings
@@ -26,7 +26,7 @@ const SettingsComponents = () => {
             Profile
           </div>
           <div
-            className={`nav-item ${location.pathname === "/feedback" ? "active" : ""}`}
+            className={`nav-item ${location.pathname === "/feedback-page" ? "active" : ""}`}
             onClick={() => navigate("/feedback-page")}
           >
             Feedback
