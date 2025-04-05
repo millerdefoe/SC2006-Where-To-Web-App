@@ -49,10 +49,14 @@ const ViewDrivingDirections = () => {
 
     // dummy routing 
     const iconMap = {
-      pin: MapPin,
-      parking: Parking,
-      road: Road,
-      merge: Merge
+      TURN_LEFT: Road,
+      TURN_RIGHT: Road,
+      STRAIGHT: Merge,
+      MERGE: Merge,
+      RAMP_LEFT: Road,
+      RAMP_RIGHT: Road,
+      PARKING: Parking,
+      DEFAULT: MapPin
     };
     
 
