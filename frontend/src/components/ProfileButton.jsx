@@ -9,10 +9,13 @@ const ProfileButton = () => {
     const user = getUserFromCookie();
 
     const handleClick = () => {
-        if (user && user.password) {
+        const user = getUserFromCookie();  
+        const sessionUser = localStorage.getItem("user");
+
+        if (user && sessionUser) {
             navigate("/profile-details");
         } else {
-            navigate("/profile-sign-in");
+            navigate("/profile-sign-up");
         }
     };
 

@@ -19,8 +19,21 @@ export const isValidIdentifier = (identifier) => {
   };
   
   export const getUserFromCookie = () => {
-    const cookie = document.cookie.split('; ').find((row) => row.startsWith('user='));
-    return cookie ? JSON.parse(decodeURIComponent(cookie.split('=')[1])) : null;
+    const cookieString = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("user="));
+  
+    if (!cookieString) return null;
+  
+    try {
+      const encodedValue = cookieString.split("=")[1];
+      const decodedValue = decodeURIComponent(encodedValue); 
+      const user = JSON.parse(decodedValue); 
+      return user;
+    } catch (err) {
+      console.error("Error parsing user cookie:", err);
+      return null;
+    }
   };
 
   export const saveUserToCookie = (user) => {
