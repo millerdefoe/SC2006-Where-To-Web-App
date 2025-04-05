@@ -97,7 +97,7 @@ const ProfileDetails = () => {
                 {showPassword ? password : "•".repeat(password.length)}
               </div>
             )}
-            <button className="eye-container" onClick={() => setShowPassword(!showPassword)}>
+            <button className="eye1-container" onClick={() => setShowPassword(!showPassword)}>
               {showPassword ? <ClosedEye className="eye-icon" /> : <OpenEye className="eye-icon" />}
             </button>
           </div>
