@@ -13,7 +13,7 @@
     flex-direction: column;
     background-color: transparent;
     margin-top: 5%;
-    margin-left: 4%;
+    margin-left: 6%;
   }
   
   .emailPhone3-container{
@@ -25,14 +25,13 @@
     background-color: transparent;
     border-radius: 10px;
     border: none;
-    margin-top: 1.5%;
-    margin-bottom: 0.5%;
+    margin-top: -2%;
   }
 
   .emailPhone3-typography{
     color: #000;
     font-family: Inter;
-    font-size: 24px;
+    font-size: clamp(16px, 2vw, 24px);
     font-style: normal;
     font-weight: 700;
     line-height: normal;
@@ -41,7 +40,7 @@
   .profileHeader3-typography{
     color: #000;
     font-family: Inter;
-    font-size: 18px; 
+    font-size: clamp(14px, 1.5vw, 18px);
     font-style: normal;
     font-weight: 800;
     line-height: normal;
@@ -66,7 +65,7 @@
   .profileContent3-typography{
     color: #000;
     font-family: Inter;
-    font-size: 16px;
+    font-size: clamp(12px, 1.4vw, 16px);
     font-style: normal;
     font-weight: 400;
     line-height: normal;
@@ -82,6 +81,7 @@
     align-items: center;
     justify-content: center;
     margin: 2% auto;
+    margin-top:5%;
   }
 
   .user-profile-icon{
@@ -165,3 +165,74 @@
     object-fit: contain;
   }
   
+  .password-rfid-typography{
+    color: #000;
+    font-family: Inter;
+    font-size: 24px; 
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .saveProfile-button {
+    background: transparent;
+    border: none;
+    width: clamp(100px, 15vw, 180px);   
+    height: clamp(28px, 3.5vw, 40px);
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-left: -1%;
+  }
+
+  .saveProfile-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .deleteAccount-button{
+    background: transparent;
+    border: none;
+    width: clamp(100px, 15vw, 180px);   
+    height: clamp(28px, 3.5vw, 40px);
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+
+  .deleteAccount-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .shift-left{
+    transform: translateX(-5%);
+  }
+
+  .logOut-button{
+    background: transparent;
+    border: none;
+    width: clamp(100px, 15vw, 180px);   
+    height: clamp(28px, 3.5vw, 40px);
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-right: -1%;
+  }
+
+  .logOut-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+

@@ -23,7 +23,7 @@ import Feedback from './pages/Feedback';
 import NotFoundPage from './pages/NotFoundPage';
 import DisplayCongestionLevels from './pages/DisplayCongestionLevels';
 import Profile from './pages/Profile';
-import ProfileSignIn from "./pages/ProfileSignIn";
+import ProfileSignUp from "./pages/ProfileSignUp";
 import ProfileLogIn from "./pages/ProfileLogIn";
 import ProfileDetails from "./pages/ProfileDetails";
 import PageTracker from "./components/PageTracker";
@@ -56,7 +56,7 @@ function App() {
           <Route path="/feedback-page" element={<FeedbackPage />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="/profile-sign-in" element={<ProfileSignIn />} />
+          <Route path="/profile-sign-up" element={<ProfileSignUp />} />
           <Route path="/profile-details" element={<ProfileDetails />} />
           <Route path="/profile-log-in" element={<ProfileLogIn />} />
           <Route path="/feedback" element={<Feedback />} />
