@@ -1,71 +1,91 @@
-import React from 'react';
+import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import SettingsComponents from "../components/SettingsComponents.jsx";
 import ExitSettings from "../components/ExitSettings.jsx";
-import { ReactComponent as Line } from "../assets/Line.svg";
 import { ReactComponent as SignInButton } from "../assets/SignInButton.svg";
 import { ReactComponent as InputRectangle } from "../assets/InputRectangle.svg";
+import { getUserFromCookie } from "../components/ProfileUtils.jsx";
 import "../styles/ProfileLogIn.css";
 
-function ProfileLogIn() {
-
+const ProfileLogIn = () => {
     const navigate = useNavigate();
+    const [password, setPassword] = useState("");
+    const [email_phone, setEmailOrPhone] = useState("");
+
+    const handleLogin = () => {
+        const savedUser = getUserFromCookie();
+
+        if (!savedUser) {
+          alert("No account found. Please create one first.");
+          return;
+        }
+      
+        if (email_phone !== savedUser.identifier) {
+          alert("This email or phone number does not match any existing account.");
+          return;
+        }
+      
+        if (password !== savedUser.password) {
+          alert("Incorrect password. Please try again.");
+          return;
+        }
+      
+        localStorage.setItem("user", JSON.stringify(savedUser));
+        navigate("/profile-details");
+      };     
 
   return (
-    <div className="profileLogin-page">
-      <SettingsComponents/>
-      <ExitSettings />
-      <div className="rhs-container">
-        <div className="top-row10">
-            <div className="top-text">
-                <span>PROFILE</span>
+    <div className="profile2-page">
+        <ExitSettings/>
+        <SettingsComponents/>
+
+            <div className="profile2-container">
+                <div className="profileHeader2-typography" style={{ fontSize: "24px", paddingLeft: "0px" }}>PROFILE</div>
+                <div className="profileContent2-typography" style={{ paddingLeft: "0px" }}>Create an account or log in!</div>
+                <div className="line-thick"></div>
+
+                <div className="welcome-back-container">
+                    <div className="welcome-back-typography">
+                        Welcome Back!
+                    </div>
+                </div>
+
+                <div className="emailPhone2-container">
+                    <div className="profileHeader2-typography">Email / Phone Number</div>
+                    <div className="inputRectangle-container">
+                        <div className="inputRectangle-wrapper">
+                            <InputRectangle className="inputRectangle-icon" />
+                            <input 
+                                className="custom-input-inside-rectangle" 
+                                placeholder="Input here!" 
+                                value={email_phone} 
+                                onChange={(e) => setEmailOrPhone(e.target.value)} 
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <div className="password2-container">
+                    <div className="profileHeader2-typography">Password</div>
+                    <div className="inputRectangle-container">
+                        <div className="inputRectangle-wrapper">
+                            <InputRectangle className="inputRectangle-icon" />
+                            <input 
+                                className="custom-input-inside-rectangle" 
+                                placeholder="Input here!" 
+                                value={password} 
+                                onChange={(e) => setPassword(e.target.value)} 
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <button className="signIn2-container" onClick={handleLogin}>
+                    <SignInButton className="signIn-icon" />
+                </button>
             </div>
-            <div className="bottom-text">
-                <span>Create an account or log in!</span>
-            </ div>
-            <div className="line-container">
-                <Line className="line-icon" />
-            </div>
-        </div>
-        <div className ="middle-row10">
-            <div className="middle-top-text">
-                <span>Email / Phone Number</span>
-            </div>
-            <div className="inputRectangle-container">
-                <InputRectangle className="inputRectangle-icon" />
-            </div>
-            <div className="middle-text">
-                <span>Password</span>
-            </ div>
-            <div className="inputRectangle-container">
-                <InputRectangle className="inputRectangle-icon" />
-            </div>
-            <div className="belowRow-container">    
-                <div className="leftText-container">
-                    <span>Use 8 or more characters</span>
-                </ div>
-                <div className="middleText-container">
-                    <span>Use upper and lower case letters (e.g. Aa)</span>
-                </ div>
-                <div className="rightText-container">
-                    <span>Use a number (e.g. 1234)</span>
-                </ div>
-            </ div>
-        </div>
-        <div className="bottom-row10">
-            <div className="bottom-text-large">
-                <span>RFID Tag (Optional)</span>
-            </div>
-            <div className="inputRectangle-container">
-                <InputRectangle className="inputRectangle-icon" />
-            </div>
-            <button className="signIn-container" onClick={() => navigate("/profile-signed-in")}>
-                <SignInButton className="signIn-icon" />
-            </button>
-        </div>
-      </ div>
-    </ div>
+    </div>
   );
-}
+};
 
 export default ProfileLogIn;

@@ -9,6 +9,7 @@
     width: 100%;
     flex-direction: row;
     gap: 0;
+    margin-left: 1%;
 }
 
 .nav-wrapper {
@@ -18,10 +19,11 @@
     justify-content: center;
     position: relative; 
     margin: 0;
+    overflow: hidden;
 }
 
 .nav-bar {
-    width: min(20vw,371px);
+    width: min(24vw, 420px);
     height: min(8vh, 62px);
     display: flex;
     align-items: center;
@@ -43,10 +45,12 @@
     text-align: center;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
+    overflow: hidden;
     position: absolute;
     text-overflow: ellipsis;
     white-space: nowrap;
+    margin-left: 15%;
 }
   
 

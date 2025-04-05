@@ -5,7 +5,7 @@ const PageTracker = () => {
     const location = useLocation();
 
     useEffect(() => {
-        const excludedPages = ["/settings-page", "/profile", "/profile-log-in", "/feedback-page"];
+        const excludedPages = ["/settings-page", "/profile", "/profile-log-in","/profile-sign-in", "/profile-details", "/feedback-page"];
         const lastPage = sessionStorage.getItem("lastValidPage");
 
         if (!excludedPages.includes(location.pathname)) {
