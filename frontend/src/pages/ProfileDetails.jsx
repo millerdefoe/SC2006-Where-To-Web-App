@@ -23,7 +23,7 @@ const ProfileDetails = () => {
     useEffect(() => {
         const savedUser = getUserFromCookie();
         if (!savedUser || !savedUser.password) {
-          navigate("/profile-log-in");
+          navigate("/profile-sign-up");
           return;
         }
         setUser(savedUser);
