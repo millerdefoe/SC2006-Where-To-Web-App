@@ -14,11 +14,11 @@
   background-color: transparent;
   margin-top: 5%;
   margin-left: 4%;
+  justify-content: flex-start;  
 }
 
 .emailPhone-container{
   width: 100%;
-  height:15%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -31,14 +31,12 @@
 
 .password-container{
   width: 100%;
-  height:23%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   background-color: transparent;
   border-radius: 10px;
   border: none;
-  margin-top: 3%;
   margin-bottom: 1%;
 }
 
@@ -55,7 +53,7 @@
 .profileHeader1-typography{
   color: #000;
   font-family: Inter;
-  font-size: 18px; 
+  font-size: clamp(1rem, 2vw, 1.5rem); 
   font-style: normal;
   font-weight: 800;
   line-height: normal;
@@ -66,36 +64,25 @@
 }
 
 .profileContent1-typography{
-  color: #000;
-  font-family: Inter;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  text-align: left;
-  margin-bottom: 1%;
-  padding-left: 1%;
+    color: #000;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+    margin-bottom: 1%;
+    padding-left: 1%;
 }
 
 .inputRectangle-container {
-  stroke-width: 0.5px;
-  stroke: #000;
-  width: 928px;
+  width: 100%;
   height: 60px;
-  flex-shrink: 0;
   margin-bottom: 20px;
-}
-
-.inputRectangle-wrapper {
   position: relative;
-  width: 100%;
-  height: 100%;
-}
-
-.inputRectangle-icon{
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  border: 1px solid #000;
+  border-radius: 15px;
+  box-sizing: border-box;
 }
 
 .custom-input-inside-rectangle {
@@ -104,7 +91,7 @@
   left: 15px; 
   transform: translateY(-50%);
   height: 70%; 
-  width: 90%; 
+  width: calc(100% - 30px); 
   border: none;
   outline: none;
   background-color: transparent;
@@ -125,7 +112,7 @@
 .passwordRequirements-typography {
   color: #000;
   font-family: Inter;
-  font-size: 16px;
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -134,42 +121,36 @@
 
 .rfidTagcontainer{
   width: 100%;
-  height: 15%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   background-color: transparent;
   border-radius: 10px;
   border: 0.5px solid #000;
-  margin-top: 3%;
-  margin-bottom: 1%;
 }
 
 .signUp-container {
-  width: 945px;
-  height: 60px;
-  flex-shrink: 0;
-  margin-top: 20px;
-  background: transparent;
-  border: none;
-  margin-top: 3%;
-  margin-left: -1%;
-  cursor: pointer;
-}
-
-.signUp-icon {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
+    width: 100%;
+    height: 7vh;
+    background-color: #000;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    font-weight: 600;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 5vh;
+    margin-bottom: 4vh;
+  }
 
 .login-redirect-text {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
+  bottom: 40px;
+  right: 40px;
   color: #000;
   font-family: Inter;
-  font-size: 20px;
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
   font-style: normal;
   font-weight: 600;
   line-height: normal;
@@ -178,10 +159,29 @@
 .login-link {
   color: #000;
   font-family: Inter;
-  font-size: 20px;
+  font-size: clamp(0.8rem, 2vw, 1.2rem);
   font-style: normal;
   font-weight: 600;
   line-height: normal;
   cursor: pointer;
   text-decoration: underline;
+}
+
+.eye-container {
+  width: 10%;  
+  max-width: 40px; 
+  height: 100%;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  background: transparent;
+  border: none;
+}
+
+.eye-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
