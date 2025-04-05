@@ -37,6 +37,15 @@ CREATE TABLE mrtcongestionlevel(
             REFERENCES mrtstationinfo(stationnumber)
 );
 
+CREATE TABLE busstops(
+    busstopcode INT NOT NULL,
+    longitude DOUBLE PRECISION NOT NULL,
+    latitude DOUBLE PRECISION NOT NULL,
+    landmarkdescription TEXT NOT NULL, 
+    roadname TEXT NOT NULL,
+    CONSTRAINT busstop PRIMARY KEY (busstopcode)
+);
+
 CREATE TABLE settings(
     carparkpricinglimit VARCHAR(10) NOT NULL,
     maximumwalkingdistance INTEGER NOT NULL,
@@ -66,4 +75,18 @@ CREATE TABLE addresses(
         FOREIGN KEY(userid)
             REFERENCES users(userid),
     CONSTRAINT pkey PRIMARY KEY (userid, locationtag)
+);
+
+CREATE TABLE bookings(
+    carparkid VARCHAR(8) NOT NULL,
+    lottype VARCHAR(2) NOT NULL,
+    userid INTEGER NOT NULL,
+    startTime TIMESTAMP NOT NULL,
+    duration INTEGER NOT NULL,
+    CONSTRAINT fk_carparkid
+        FOREIGN KEY(carparkid, lottype)
+            REFERENCES carpark(carparkid, lottype),
+    CONSTRAINT fk_userid
+        FOREIGN KEY(userid)
+            REFERENCES users(userid)
 );

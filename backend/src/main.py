@@ -15,8 +15,10 @@ from lib.Python.Helper.HelperFunctions import getGoogleMapAPIKey
 from lib.Python.User.UserController import UserController
 from lib.Python.Helper.HelperFunctions import loadDatabaseCredentials
 from lib.Python.Database.Database import Database
+from lib.Python.Carpark.CarparkController import CarparkController
 from lib.Python.Driving.DrivingRouteController import DrivingRouteController
 from lib.Python.Location.Location import Location
+from lib.Python.PublicTransportRoute.PublicTransportRouteController import PublicTransportRouteController
 
 logger = PythonLogger(os.path.basename(__file__))
 
@@ -40,6 +42,7 @@ dbObj = Database(
 
 userController = UserController()
 drivingRouteController = DrivingRouteController()
+carparkController = CarparkController()
 
 @app.route("/heartbeat", methods=["GET", "POST"])
 def heartbeat():
@@ -146,6 +149,14 @@ def getRoute():
         returnData = {
             "status": "Route not found",
             "reason" : "Contact admin"
+        }
+        return jsonify(returnData), 400
+
+    if data == False:
+        logger.error("No route was specified")
+        returnData = {
+            "status": "Route nto found",
+            "reason" : "Error in route found by google API. Contact admin"
         }
         return jsonify(returnData), 400
 
@@ -316,6 +327,212 @@ def carparksNearby():
         return jsonify(returnData), 400
 
     return jsonify(data), 200
+
+@app.route("/carparkPricing", methods=["GET"])
+def carparkPricing():
+
+    logger.info("carparkPricing route accessed. Verifying information provided")
+
+    try:
+        data = request.get_json()
+
+        carparkId = data["carparkId"]
+
+    except Exception as e:
+
+        logger.error("carparkId was not provided. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "carparkId was not provided"
+        }
+        return jsonify(returnData), 400
+    
+    rate = carparkController.getCarparkRate(carparkId, dbObj)
+
+    if rate == False:
+        logger.error("Rate not found for carpark {}".format(carparkId))
+        returnData = {
+            "status" : "failure",
+            "reason" : "Rate was not found for carparkID"
+        }
+        return jsonify(returnData), 400
+    
+    returnData = {
+        "rate" : rate
+    }
+
+    return jsonify(returnData), 200
+
+@app.route("/carparkLots", methods=["GET"])
+def carparkLots():
+
+    logger.info("carparkLots route accessed. Verifying information provided")
+
+    try:
+        data = request.get_json()
+
+        carparkId = data["carparkId"]
+
+    except Exception as e:
+
+        logger.error("carparkId was not provided. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "carparkId was not provided"
+        }
+
+        return jsonify(returnData), 400
+
+    lots = carparkController.getAvailableLots(carparkId, dbObj)
+
+    if lots == False:
+        logger.error("Available lots not found for carpark {}".format(carparkId))
+        returnData = {
+            "status" : "failure",
+            "reason" : "Lots were not found for carparkID"
+        }
+
+        return jsonify(returnData), 400
+
+    returnData = {}
+
+    for i in lots:
+
+        returnData[i[1]] = i[2]
+
+    return jsonify(returnData), 200
+
+@app.route("/bookCarpark", methods=["GET"])
+def bookCarpark():
+
+    logger.info("bookCarpark route accessed. Verifying information provided")
+
+    try:
+        data = request.get_json()
+
+        if "carparkId" not in data.keys():
+            raise Exception("CarparkID was not provided")
+        if "lotType" not in data.keys():
+            raise Exception("LotType was not provided")
+        if "userId" not in data.keys():
+            raise Exception("Userid was not provided")
+        if "startTime" not in data.keys():
+            raise Exception("StartTime was not provided")
+        if "duration" not in data.keys():
+            raise Exception("Duration was not provided")
+
+        carparkId = data["carparkId"]
+        lotType = data["lotType"]
+        userId = data["userId"]
+        startTime = data["startTime"]
+        duration = data["duration"]
+
+    except Exception as e:
+
+        logger.error("{}. Returning error 400".format(e))
+        returnData = {
+            "status" : "failure",
+            "reason" : str(e)
+        }
+
+        return jsonify(returnData), 400
+
+    logger.info("Data has been verified, attempting to make new booking")
+    result, reason = carparkController.bookCarpark(carparkId, lotType, userId, startTime, duration, dbObj)
+
+    if result == False:
+        returnData = {
+            "status" : "failure",
+            "reason" : reason
+        }
+
+        return jsonify(returnData), 400
+    
+    returnData = {
+        "status" : "success",
+        "reason" : "Booking for {}/{} : {} | {}-{} was successful".format(carparkId, lotType, userId, startTime, duration)
+    }
+
+    return jsonify(returnData), 200
+
+
+@app.route("/PublicTransportRoute", methods=["GET"])
+def PublicTransportRoute():
+    logger.info("Public Transport Route accessed. Verifying information provided")
+    try:
+        data = request.get_json()
+        if "currentLocation" not in data.keys() or "destinationLocation" not in data.keys():
+            logger.error("Rasing Exception")
+            raise Exception
+
+        # latitude = float(data["latitude"])
+        # longitude = float(data["longitude"])
+
+        currentLocation = Location(data["currentLocation"]["latitude"],data["currentLocation"]["longitude"])
+        destinationLocation = Location(data["destinationLocation"]["latitude"],data["destinationLocation"]["longitude"])
+        maxWalkingDistance = data["maxWalkingDistance"]
+
+    except ValueError:
+
+        logger.error("Coordinate information provided was not a number. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Coordinate information was not a number"
+        }
+
+    except Exception as e:
+
+        logger.error(f"Coordinate information was not provided. {e} Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Coordinate information was not provided"
+        }
+
+    publicTransportRouteData = PublicTransportRouteController.getPublicTransportRoute(currentLocation, destinationLocation)
+    if publicTransportRouteData == False or publicTransportRouteData == None:
+
+        logger.debug("Error when retrieving public transport route. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "backend error"
+        }
+
+        return jsonify(returnData), 400
+    
+    limitWalkingDistanceData = PublicTransportRouteController.limitWalkingDistance(publicTransportRouteData, maxWalkingDistance)
+
+    if limitWalkingDistanceData == False or limitWalkingDistanceData == None:
+
+        logger.debug("Error when retrieving public transport route with maximum walking distance considered. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "backend error"
+        }
+
+        return jsonify(returnData), 400
+    
+    chosenRouteData = PublicTransportRouteController.computeLeastCongestedRoute(limitWalkingDistanceData)
+
+    if chosenRouteData == False:
+
+        logger.debug("Error when retrieving the chosen route. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "backend error"
+        }
+
+        return jsonify(returnData), 400
+    
+    chosenRoutePolylineData = PublicTransportRouteController.getPolylineFromRoute(chosenRouteData)
+    if chosenRoutePolylineData == False or chosenRoutePolylineData == None:
+
+        logger.debug("Error when retrieving the polyline of the chosen route. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "backend error"
+        }
+        
+    return jsonify(chosenRoutePolylineData), 200
 
 if __name__ == "__main__":
     app.run()
