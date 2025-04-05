@@ -18,24 +18,24 @@ const ViewDrivingRoute = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const source = {
-    latitude: parseFloat(localStorage.getItem("startLat")),
-    longitude: parseFloat(localStorage.getItem("startLng"))
-  };
-  
-  const destination = {
-    latitude: parseFloat(localStorage.getItem("endLat")),
-    longitude: parseFloat(localStorage.getItem("endLng"))
-  };
   
   useEffect(() => {
     const fetchRoute = async () => {
+      const source = {
+        latitude: parseFloat(localStorage.getItem("startLat")),
+        longitude: parseFloat(localStorage.getItem("startLng"))
+      };
+  
+      const destination = {
+        latitude: parseFloat(localStorage.getItem("endLat")),
+        longitude: parseFloat(localStorage.getItem("endLng"))
+      };
+  
       try {
         const response = await axios.post("http://127.0.0.1:5000/getRoute", {
           source,
           destination
         });
-
         setRoute(response.data);
       } catch (err) {
         console.error("Error fetching route:", err);
@@ -44,10 +44,9 @@ const ViewDrivingRoute = () => {
         setLoading(false);
       }
     };
-
+  
     fetchRoute();
-  }, [source, destination]);
-
+  }, []); // ✅ fetch route ONCE after mount
     return (
       <div>
         <HomeButton />
@@ -64,15 +63,14 @@ const ViewDrivingRoute = () => {
               <p className="text-red-600">{error}</p>
             ) : (
               route && (
-                <div>
-                  <MapWithRoute
-                    encodedPolyline={route.polyline}
-                    mapContainerClassName="map-container5"
-                  />
-                </div>
+                <MapWithRoute
+                  encodedPolyline={route.polyline}
+                  mapContainerClassName="map-image5"
+                />
               )
             )}
           </div>
+
           <div className="route-information-container">
             <ViewNearbyCarParks />
             <div className="greyRectangle-container1">

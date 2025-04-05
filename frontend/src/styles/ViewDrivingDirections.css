@@ -37,20 +37,49 @@
     height: auto;
 }
 
-.directions-container3{
-    position: relative; 
+.directions-container3 {
+    position: relative;
     height: 85%;
-    aspect-ratio: 2/3;
+    width: 90%;
     background-color: transparent;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #000;
+    border: 2px solid #000;
     border-radius: 30px;
     margin-top: 7%;
-    margin-right: 3%;
     display: flex;
-    justify-content: center; 
-    align-items: flex-end; 
+    flex-direction: column;
+    justify-content: space-between; /* Distributes steps and button */
+    padding: 1rem;
+    overflow: hidden;
+  }
+
+  .step-list-container {
+  flex: 1;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  padding-right: 5px;
+}
+
+.step-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 1rem;
+}
+
+.step-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.step-text p {
+  margin: 0;
+  font-size: 0.9rem;
 }
 
 .start-container {

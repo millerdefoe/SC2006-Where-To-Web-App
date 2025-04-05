@@ -1,18 +1,10 @@
-import React, { useMemo, useRef, useEffect } from "react";
- import {
-   GoogleMap,
-   Polyline,
-   Marker
+import React, { useMemo, useRef, useEffect, useState } from "react";
+import {
+  GoogleMap,
+  Polyline,
+  Marker
 } from "@react-google-maps/api";
-
 import { useGoogleMapsLoader } from "../hooks/useGoogleMapsLoader";
-
-
-
-const containerStyle = {
-  width: "80%",
-  height: "400px"
-};
 
 const defaultCenter = {
   lat: 1.3521,
@@ -21,15 +13,16 @@ const defaultCenter = {
 
 function MapWithRoute({ encodedPolyline, mapContainerClassName }) {
   const { isLoaded } = useGoogleMapsLoader();
-
   const mapRef = useRef(null);
+  const [mapReady, setMapReady] = useState(false);
 
   const decodedPath = useMemo(() => {
     if (
       isLoaded &&
       window.google &&
       window.google.maps &&
-      window.google.maps.geometry
+      window.google.maps.geometry &&
+      encodedPolyline
     ) {
       try {
         return window.google.maps.geometry.encoding
@@ -46,23 +39,25 @@ function MapWithRoute({ encodedPolyline, mapContainerClassName }) {
     return [];
   }, [isLoaded, encodedPolyline]);
 
-  // Auto-fit bounds to route
   useEffect(() => {
-    if (mapRef.current && decodedPath.length > 0) {
+    if (mapReady && mapRef.current && decodedPath.length > 0) {
       const bounds = new window.google.maps.LatLngBounds();
       decodedPath.forEach((coord) => bounds.extend(coord));
       mapRef.current.fitBounds(bounds);
     }
-  }, [decodedPath]);
+  }, [mapReady, decodedPath]);
 
   if (!isLoaded) return <p>Loading map...</p>;
 
   return (
     <GoogleMap
       mapContainerClassName={mapContainerClassName || "map-container"}
-      center={defaultCenter}
-      zoom={12}
-      onLoad={(map) => (mapRef.current = map)}
+      defaultCenter={defaultCenter}
+      defaultZoom={12}
+      onLoad={(map) => {
+        mapRef.current = map;
+        setMapReady(true); // now it's safe to fitBounds
+      }}
     >
       {decodedPath.length > 0 && (
         <>
@@ -74,10 +69,7 @@ function MapWithRoute({ encodedPolyline, mapContainerClassName }) {
               strokeWeight: 4
             }}
           />
-          {/* Start Marker */}
           <Marker position={decodedPath[0]} label="A" />
-
-          {/* End Marker */}
           <Marker position={decodedPath[decodedPath.length - 1]} label="B" />
         </>
       )}
