@@ -456,7 +456,7 @@ def bookCarpark():
     return jsonify(returnData), 200
 
 
-@app.route("/PublicTransportRoute", methods=["GET"])
+@app.route("/PublicTransportRoute", methods=["GET", "POST"])
 def PublicTransportRoute():
     logger.info("Public Transport Route accessed. Verifying information provided")
     try:

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ReactComponent as Bus } from "../assets/Bus.svg";
 import { ReactComponent as Train } from "../assets/Train.svg";
 import { ReactComponent as Walking } from "../assets/Walking.svg";
@@ -16,9 +16,66 @@ import Badge from "../components/Badge";
 import mapImage from "../assets/inputStartLocationMap.png";
 import "../styles/ViewPublicTransportRoute.css";
 import "../styles/common.css";
+import MapWithRoute from "../components/MapDrivingRoute"; // Assuming you have a MapWithRoute component
 
 function ViewPublicTransportRoute() {
   const [selectedRoute, setSelectedRoute] = useState("fastest");
+  const [dynamicRouteData, setDynamicRouteData] = useState({
+    fastest: null,
+    leastCongested: null
+  });
+  useEffect(() => {
+    const fetchRoutes = async () => {
+      const currentLocation = {
+        latitude: parseFloat(localStorage.getItem("startLat")),
+        longitude: parseFloat(localStorage.getItem("startLng"))
+      };
+  
+      const destinationLocation = {
+        latitude: parseFloat(localStorage.getItem("endLat")),
+        longitude: parseFloat(localStorage.getItem("endLng"))
+      };
+  
+      try {
+        const response = await fetch("http://127.0.0.1:5000/PublicTransportRoute", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            currentLocation,
+            destinationLocation,
+            maxWalkingDistance: 1.5
+          })
+        });
+  
+        const data = await response.json();
+  
+        setDynamicRouteData({
+          fastest: {
+            title: "Fastest Route",
+            duration: `${Math.ceil(data.fastest.duration / 60)} mins`,
+            icons: data.fastest.icons,
+            directions: data.fastest.directions,
+            polyline: data.fastest.polyline
+          },
+          leastCongested: {
+            title: "Less Congested Route",
+            duration: `${Math.ceil(data.leastCongested.duration / 60)} mins`,
+            icons: data.leastCongested.icons,
+            directions: data.leastCongested.directions,
+            polyline: data.leastCongested.polyline
+          }
+        });
+  
+      } catch (error) {
+        console.error("Failed to fetch public transport routes", error);
+      }
+    };
+  
+    fetchRoutes();
+  }, []);
+    
 
   // Icon name → SVG component mapping (for rendering)
   const iconMap = {
@@ -37,8 +94,16 @@ function ViewPublicTransportRoute() {
 
       <div className="leftContainer2">
         <div className="map-container3">
-          <img src={mapImage} alt="Map" className="map-image3" />
+          {dynamicRouteData[selectedRoute]?.polyline ? (
+            <MapWithRoute
+              encodedPolyline={dynamicRouteData[selectedRoute].polyline}
+              mapContainerClassName="map-image3" // or update the class if needed
+            />
+          ) : (
+            <p>Loading map...</p>
+          )}
         </div>
+
 
         <div className="rowContainer2">
           <CongestionLevelButton />
