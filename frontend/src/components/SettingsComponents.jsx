@@ -12,13 +12,13 @@ const SettingsComponents = () => {
       if (user && user.password) {
         navigate("/profile-details");
       } else {
-        navigate("/profile-sign-in");
+        navigate("/profile-sign-up");
       }
     };
 
     const isProfilePage = [
       "/profile-log-in",
-      "/profile-sign-in",
+      "/profile-sign-up",
       "/profile-details"
     ].includes(location.pathname);
   

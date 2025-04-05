@@ -52,13 +52,13 @@ const ProfileDetails = () => {
         if (window.confirm("Are you sure you want to delete your account?")) {
           deleteCookie("user");
           localStorage.removeItem("user");
-          navigate("/profile-sign-in");
+          navigate("/profile-sign-up");
         }
       };
 
       const handleLogout = () => {
         localStorage.removeItem("user"); 
-        navigate("/profile-sign-in"); 
+        navigate("/profile-sign-up"); 
       };
     
       if (!user) return null;

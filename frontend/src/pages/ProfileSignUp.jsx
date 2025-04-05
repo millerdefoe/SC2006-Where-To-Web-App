@@ -2,13 +2,12 @@ import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import SettingsComponents from "../components/SettingsComponents.jsx";
 import ExitSettings from "../components/ExitSettings.jsx";
-import { ReactComponent as SignInButton } from "../assets/SignInButton.svg";
+import { ReactComponent as SignUpButton } from "../assets/SignUpButton.svg";
 import { ReactComponent as InputRectangle } from "../assets/InputRectangle.svg";
-import { isValidIdentifier, isValidPassword, setCookie, getUserFromCookie } from "../components/ProfileUtils";
+import { isValidIdentifier, isValidPassword, setCookie, getUserFromCookie } from "../components/ProfileUtils.jsx";
+import "../styles/ProfileSignUp.css";
 
-import "../styles/ProfileSignIn.css";
-
-function ProfileSignIn() {
+function ProfileSignUp() {
 
     const navigate = useNavigate();
     const [password, setPassword] = useState("");
@@ -100,8 +99,8 @@ function ProfileSignIn() {
                     </div>
                 </div>
 
-                <button className="signIn-container" onClick={handleCreateAccount}>
-                    <SignInButton className="signIn-icon" />
+                <button className="signUp-container" onClick={handleCreateAccount}>
+                    <SignUpButton className="signUp-icon" />
                 </button>
 
                 <div className="login-redirect-text">
@@ -115,5 +114,5 @@ function ProfileSignIn() {
   );
 }
 
-export default ProfileSignIn;
+export default ProfileSignUp
 
