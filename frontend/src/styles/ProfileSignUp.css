@@ -13,7 +13,7 @@
   flex-direction: column;
   background-color: transparent;
   margin-top: 5%;
-  margin-left: 4%;
+  margin-left: 6vw;
   justify-content: flex-start;  
 }
 
@@ -80,7 +80,7 @@
   height: 60px;
   margin-bottom: 20px;
   position: relative;
-  border: 1px solid #000;
+  border: 0.5px solid #000;
   border-radius: 15px;
   box-sizing: border-box;
 }
