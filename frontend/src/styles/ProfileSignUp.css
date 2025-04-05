@@ -146,8 +146,8 @@
 
 .login-redirect-text {
   position: fixed;
-  bottom: 40px;
-  right: 40px;
+  bottom: 4vh;
+  right: 3vw;
   color: #000;
   font-family: Inter;
   font-size: clamp(0.8rem, 2vw, 1.2rem);
