@@ -1,0 +1,167 @@
+.profile3-page {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+  }
+  
+  .profile3-container {
+    width: 67%;
+    height: 90%;
+    display: flex; 
+    flex-direction: column;
+    background-color: transparent;
+    margin-top: 5%;
+    margin-left: 4%;
+  }
+  
+  .emailPhone3-container{
+    width: 100%;
+    height:15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    border-radius: 10px;
+    border: none;
+    margin-top: 1.5%;
+    margin-bottom: 0.5%;
+  }
+
+  .emailPhone3-typography{
+    color: #000;
+    font-family: Inter;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+
+  .profileHeader3-typography{
+    color: #000;
+    font-family: Inter;
+    font-size: 18px; 
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    text-align: left;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding-left: 1%;
+    white-space: nowrap;
+
+  }
+  
+  .line-thick {
+    width: 100%;
+    border-bottom: 1px solid #000;
+  }
+  
+  .line-thin {
+    width: 100%;
+    border-bottom: 0.5px solid #000;
+  }
+  
+  .profileContent3-typography{
+    color: #000;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+    margin-bottom: 1%;
+    padding-left: 1%;
+  }
+
+  .user-profile-container{
+    width: 155px;
+    height: 155px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2% auto;
+  }
+
+  .user-profile-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .password3-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-top: 3%;
+    margin-bottom: 3%;
+  }
+
+  .password-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }  
+
+.rfid2-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    margin-top: 3%;
+    margin-bottom: 3%;
+  }
+
+  .rfid-left-container{
+    object-fit:contain;
+    align-items: flex-start;
+  }
+
+  .rfid-right-container{
+    object-fit:contain;
+    align-items: flex-end;
+  }
+
+  .details-typography{
+    color: #000;
+    font-family: Inter;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    align-items: flex-end;
+  }
+
+  .eye-container{
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    border:none;
+    background: transparent;
+  }
+
+  .eye-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .editProfile-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 250px;  
+    height: 70px;  
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .editProfile-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
