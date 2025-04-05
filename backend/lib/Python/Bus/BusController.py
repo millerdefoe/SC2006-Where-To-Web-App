@@ -28,15 +28,26 @@ class BusController:
         return None
 
     def getBusStopCode(arrivalBusStopName):
-        queryStatement = """
-            SELECT busstopcode 
-            FROM busstops 
-            WHERE landmarkdescription = '{}'; 
-        """ .format(arrivalBusStopName.replace('\'', "\'\'") )
-        #Replaces one singluar quote with double singuar quotes ''.
-        logger.debug("Running query string to get bus stop code")
-        data = dbObj.readData(queryStatement)[0][0] #Queries into a list of tuples
-        return data
+        if arrivalBusStopName == True:
+            queryStatement = """
+                SELECT busstopcode 
+                FROM busstops 
+                WHERE landmarkdescription = '{}'; 
+            """ .format(arrivalBusStopName.replace('\'', "\'\'") )
+            #Replaces one singluar quote with double singuar quotes ''.
+            logger.debug("Running query string to get bus stop code")
+
+            try:
+                data = dbObj.readData(queryStatement)[0][0] #Queries into a list of tuples
+                return data 
+            
+            except Exception as e:
+                logger.error("Query statement could not get  bus stop code from database")
+                return None
+            
+        else: 
+            logger.error("No arrival bus stop name was found. Data is empty. Might be because it is running at night.")
+        
 
     def getBusCongestionLevel(arrivalBusStopCode, arrivalBusServiceNumber):
         url = f'https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival?BusStopCode={arrivalBusStopCode}&ServiceNo={arrivalBusServiceNumber}'

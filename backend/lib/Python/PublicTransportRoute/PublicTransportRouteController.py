@@ -134,18 +134,92 @@ class PublicTransportRouteController():
                             break
         return sumofCongestion / count #Returns average congestion level of this one route
 
+    # def getTransportInfo(route):
+    #     for step in route["steps"]:
+    #         #For MRT mode of transport
+    #         if step['travelMode'] == "TRANSIT":
+    #             if step['transitDetails']['transitLine']['vehicle']['type'] == "SUBWAY": 
+    #                 arrivalMRTName = step['transitDetails']['stopDetails']['arrivalStop']['name'] # Loops through JSON file to extract name of MRT stations
+    #                 destinationMRTName = step['transitDetails']['stopDetails']['departureStop']['name']
+                
+    #                 arrivalStationNumber = MRTController.getMRTStationNumber(arrivalMRTName) #Saves station number to be used for API call for congestion level
+    #                 destinationStationNumber = MRTController.getMRTStationNumber(destinationMRTName)
+
+    #                 arrivalMRTCongestionLevel = MRTController.getMRTCongestionLevel(arrivalStationNumber)
+    #                 destinationMRTCongestionLevel = MRTController.getMRTCongestionLevel(destinationStationNumber)
+
     def computeLeastCongestedRoute(responseData):
         chosenRoute = {}
         minCongestionLevel = 99999 #Arbitary number 
-        for i in responseData['routes']:
-            congestionLevel = PublicTransportRouteController.getCongestionLevel(i["legs"][0]) #Refers to the list in legs
+        for route in responseData['routes']:
+            congestionLevel = PublicTransportRouteController.getCongestionLevel(route["legs"][0]) #Refers to the list in legs
             if congestionLevel < minCongestionLevel: #Stores the smallest congestion values all the routes have
                 minCongestionLevel = congestionLevel
-                chosenRoute = i["legs"][0] #Picks the least congested route
+                chosenRoute = route["legs"][0] #Picks the least congested route
 
-        logger.info("Route returned by googlemap api was {}".format(chosenRoute))
+        #logger.info("Route returned by googlemap api was {}".format(chosenRoute))
         return chosenRoute 
 
-    def getPolylineFromRoute(chosenRoute):
-        return chosenRoute['polyline']
+    def sendLeastCongestedRouteInformation(chosenRoute):
+        if chosenRoute == {}:
+            logger.error("No data found")
+            return None
+        result = {}
+        result['Routeinfo'] = "Least congested route information"
+        result['polyline'] = chosenRoute['polyline']
+        result['distanceMeters'] = chosenRoute['distanceMeters']
+        result['duration'] = chosenRoute['duration']
+
+        tempStepList = []
+        for navigationInstruction in chosenRoute['steps']: #Loops through steps
+            tempDict = {}
+
+            for attribute in navigationInstruction['navigationInstruction'].keys(): #Attributes in this case is 'maneuver', 'instructions'
+                tempDict[attribute] = navigationInstruction['navigationInstruction'][attribute] #Stores the information of either attribute into temp dict
+            
+            tempStepList.append(tempDict) #Appends tempDict to tempStepList 
+        
+        result['steps'] = tempStepList
+
+        return result
+
+    def computeFastestRoute(responseData):
+        fastestChosenRoute = {}
+        shortestDuration = 99999 #Arbitary number 
+        for route in responseData['routes']:
+            duration_str = route["duration"]
+            duration = int(duration_str.rstrip('s'))  
+            if duration < shortestDuration:
+                shortestDuration = route["duration"]
+                fastestChosenRoute = route["legs"][0]
+
+            else:
+                logger.info("Error in getting duration of shortest route")
+                break 
+
+        #logger.info("Fastest route returned by googlemap api was {}".format(fastestChosenRoute))
+        return fastestChosenRoute    
     
+    def sendFastestRouteInformation(fastestChosenRoute):
+        if fastestChosenRoute == {}:
+            logger.error("No data found")
+            return None
+        
+        result = {}
+        result['Routeinfo'] = "Fastest route information"
+        result['polyline'] = fastestChosenRoute['polyline']
+        result['distanceMeters'] = fastestChosenRoute['distanceMeters']
+        result['duration'] = fastestChosenRoute['duration']
+
+        tempStepList = []
+        for navigationInstruction in fastestChosenRoute['steps']: #Loops through steps
+            tempDict = {}
+
+            for attribute in navigationInstruction['navigationInstruction'].keys(): #Attributes in this case is 'maneuver', 'instructions'
+                tempDict[attribute] = navigationInstruction['navigationInstruction'][attribute] #Stores the information of either attribute into temp dict
+            
+            tempStepList.append(tempDict) #Appends tempDict to tempStepList 
+        
+        result['steps'] = tempStepList
+
+        return result

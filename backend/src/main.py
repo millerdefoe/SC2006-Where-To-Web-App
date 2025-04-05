@@ -153,7 +153,7 @@ def getRoute():
     if data == False:
         logger.error("No route was specified")
         returnData = {
-            "status": "Route nto found",
+            "status": "Route not found",
             "reason" : "Error in route found by google API. Contact admin"
         }
         return jsonify(returnData), 400
@@ -454,17 +454,15 @@ def bookCarpark():
     return jsonify(returnData), 200
 
 
-@app.route("/PublicTransportRoute", methods=["GET"])
+@app.route("/PublicTransportRoute", methods=["GET", "POST"])
 def PublicTransportRoute():
     logger.info("Public Transport Route accessed. Verifying information provided")
+
     try:
         data = request.get_json()
         if "currentLocation" not in data.keys() or "destinationLocation" not in data.keys():
             logger.error("Rasing Exception")
             raise Exception
-
-        # latitude = float(data["latitude"])
-        # longitude = float(data["longitude"])
 
         currentLocation = Location(data["currentLocation"]["latitude"],data["currentLocation"]["longitude"])
         destinationLocation = Location(data["destinationLocation"]["latitude"],data["destinationLocation"]["longitude"])
@@ -498,7 +496,6 @@ def PublicTransportRoute():
         return jsonify(returnData), 400
     
     limitWalkingDistanceData = PublicTransportRouteController.limitWalkingDistance(publicTransportRouteData, maxWalkingDistance)
-
     if limitWalkingDistanceData == False or limitWalkingDistanceData == None:
 
         logger.debug("Error when retrieving public transport route with maximum walking distance considered. Returning error 400")
@@ -509,11 +506,10 @@ def PublicTransportRoute():
 
         return jsonify(returnData), 400
     
-    chosenRouteData = PublicTransportRouteController.computeLeastCongestedRoute(limitWalkingDistanceData)
+    chosenLeastCongestedRouteData = PublicTransportRouteController.computeLeastCongestedRoute(limitWalkingDistanceData)
+    if chosenLeastCongestedRouteData == False:
 
-    if chosenRouteData == False:
-
-        logger.debug("Error when retrieving the chosen route. Returning error 400")
+        logger.debug("Error when retrieving the least congested route. Returning error 400")
         returnData = {
             "status" : "failure",
             "reason" : "backend error"
@@ -521,16 +517,36 @@ def PublicTransportRoute():
 
         return jsonify(returnData), 400
     
-    chosenRoutePolylineData = PublicTransportRouteController.getPolylineFromRoute(chosenRouteData)
-    if chosenRoutePolylineData == False or chosenRoutePolylineData == None:
+    sendLeastCongestedRouteInfo = PublicTransportRouteController.sendLeastCongestedRouteInformation(chosenLeastCongestedRouteData)
+    if sendLeastCongestedRouteInfo == False or sendLeastCongestedRouteInfo == None:
 
-        logger.debug("Error when retrieving the polyline of the chosen route. Returning error 400")
+        logger.debug("Error when retrieving the polyline of the least congested route. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "backend error"
+        }
+    
+    chosenFastestRouteData = PublicTransportRouteController.computeFastestRoute(limitWalkingDistanceData)
+    if chosenFastestRouteData == False:
+
+        logger.debug("Error when retrieving the chosen fastest route. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "backend error"
+        }
+
+        return jsonify(returnData), 400
+
+    sendFastestRouteInformation = PublicTransportRouteController.sendFastestRouteInformation(chosenFastestRouteData)
+    if sendFastestRouteInformation == False or sendFastestRouteInformation == None:
+
+        logger.debug("Error when retrieving the polyline of the chosen fastest route. Returning error 400")
         returnData = {
             "status" : "failure",
             "reason" : "backend error"
         }
         
-    return jsonify(chosenRoutePolylineData), 200
+    return jsonify(sendLeastCongestedRouteInfo, sendFastestRouteInformation), 200
 
 if __name__ == "__main__":
     app.run()
