@@ -6,6 +6,9 @@ import { ReactComponent as UserIcon } from "../assets/UserIcon.svg";
 import { ReactComponent as OpenEye } from "../assets/OpenEye.svg";
 import { ReactComponent as ClosedEye } from "../assets/ClosedEye.svg";
 import { ReactComponent as EditProfileButton } from "../assets/EditProfileButton.svg";
+import { ReactComponent as SaveDetailsButton } from "../assets/SaveDetailsButton.svg";
+import { ReactComponent as DeleteAccountButton } from "../assets/DeleteAccountButton.svg";
+import { ReactComponent as LogOutButton } from "../assets/LogOutButton.svg";
 import { getUserFromCookie, saveUserToCookie, deleteCookie, isValidPassword } from "../components/ProfileUtils";
 import "../styles/ProfileDetails.css";
 
@@ -81,7 +84,7 @@ const ProfileDetails = () => {
         <div className="line-thick"></div>
 
         <div className="password3-container">
-          <div className="profileHeader3-typography">Password</div>
+          <div className="password-rfid-typography">Password</div>
           <div className="password-right">
             {isEditing ? (
               <input
@@ -103,7 +106,7 @@ const ProfileDetails = () => {
         <div className="line-thick"></div>
 
         <div className="rfid2-container">
-          <div className="profileHeader3-typography">RFID Tag</div>
+          <div className="password-rfid-typography">RFID Tag</div>
           <div className="rfid-right">
             {isEditing ? (
               <input
@@ -135,16 +138,19 @@ const ProfileDetails = () => {
 
           {isEditing && (
             <button className="saveProfile-button" onClick={handleSave}>
-              Save
+              <SaveDetailsButton className="saveProfile-icon" />
             </button>
           )}
 
-          <button className="deleteProfile-button" onClick={handleDeleteAccount}>
-            Delete Account
+          <button
+            className={`deleteAccount-button ${!isEditing ? "shift-left" : ""}`}
+            onClick={handleDeleteAccount}
+          >
+            <DeleteAccountButton className="deleteAccount-icon" />
           </button>
 
-          <button className="logoutProfile-button" onClick={handleLogout}>
-            Log Out
+          <button className="logOut-button" onClick={handleLogout}>
+            <LogOutButton className="logOut-icon" />
           </button>
         </div>
       </div>
