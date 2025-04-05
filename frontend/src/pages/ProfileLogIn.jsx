@@ -4,7 +4,6 @@ import SettingsComponents from "../components/SettingsComponents.jsx";
 import ExitSettings from "../components/ExitSettings.jsx";
 import { ReactComponent as SignInButton } from "../assets/SignInButton.svg";
 import { ReactComponent as InputRectangle } from "../assets/InputRectangle.svg";
-import { getUserFromCookie } from "../components/ProfileUtils.jsx";
 import "../styles/ProfileLogIn.css";
 
 const ProfileLogIn = () => {
@@ -12,27 +11,44 @@ const ProfileLogIn = () => {
     const [password, setPassword] = useState("");
     const [email_phone, setEmailOrPhone] = useState("");
 
-    const handleLogin = () => {
-        const savedUser = getUserFromCookie();
-
-        if (!savedUser) {
-          alert("No account found. Please create one first.");
-          return;
-        }
+    const handleLogin = async () => {
+        try {
+          const response = await fetch("http://127.0.0.1:5000/login", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              username: email_phone,
+              password: password
+            })
+          });
       
-        if (email_phone !== savedUser.identifier) {
-          alert("This email or phone number does not match any existing account.");
-          return;
-        }
+          const data = await response.json();
       
-        if (password !== savedUser.password) {
-          alert("Incorrect password. Please try again.");
-          return;
-        }
+          if (response.ok && data.status === "login success") {
+            // Store user in localStorage and cookie
+            const loggedInUser = {
+              identifier: email_phone,
+              password,
+              userid: data.userid,
+              token: data.token
+            };
       
-        localStorage.setItem("user", JSON.stringify(savedUser));
-        navigate("/profile-details");
-      };     
+            localStorage.setItem("user", JSON.stringify(loggedInUser));
+            document.cookie = `user=${JSON.stringify(loggedInUser)}; max-age=${60 * 60 * 24 * 7}; path=/`;
+      
+            alert("Login successful!");
+            navigate("/profile-details");
+          } else {
+            alert(`Login failed: ${data.reason}`);
+          }
+        } catch (error) {
+          console.error("Login error:", error);
+          alert("Something went wrong. Please try again.");
+        }
+      };
+         
 
   return (
     <div className="profile2-page">

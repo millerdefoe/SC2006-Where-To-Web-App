@@ -12,7 +12,7 @@ const ProfileButton = () => {
         if (user && user.password) {
             navigate("/profile-details");
         } else {
-            navigate("/profile-sign-in");
+            navigate("/profile-sign-up");
         }
     };
 
