@@ -1,0 +1,155 @@
+.profile2-page {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+  }
+  
+  .profile2-container {
+    width: 67%;
+    height: 90%;
+    display: flex; 
+    flex-direction: column;
+    background-color: transparent;
+    margin-top: 5%;
+    margin-left: 4%;
+  }
+  
+  .emailPhone2-container{
+    width: 100%;
+    height:15%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: transparent;
+    border-radius: 10px;
+    border: none;
+    margin-top: 3%;
+    margin-bottom: 1%;
+  }
+
+  .profileHeader2-typography{
+    color: #000;
+    font-family: Inter;
+    font-size: 18px; 
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    text-align: left;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding-left: 1%;
+  }
+  
+  .line-thick {
+    width: 100%;
+    border-bottom: 1px solid #000;
+  }
+  
+  .line-thin {
+    width: 100%;
+    border-bottom: 0.5px solid #000;
+  }
+
+  .welcome-back-container{
+    width: 100%;
+    height:15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    border-radius: 10px;
+    border: none;
+    margin-top: 3%;
+    margin-bottom: 1%;
+  }
+
+  .welcome-back-typography {
+    color: #000;
+    font-family: Inter;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+  
+  .profileContent2-typography{
+    color: #000;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+    margin-bottom: 1%;
+    padding-left: 1%;
+  }
+  
+  .inputRectangle-container {
+    stroke-width: 0.5px;
+    stroke: #000;
+    width: 928px;
+    height: 60px;
+    flex-shrink: 0;
+    margin-bottom: 20px;
+  }
+  
+  .inputRectangle-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .inputRectangle-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  .custom-input-inside-rectangle {
+    position: absolute;
+    top: 50%;
+    left: 15px; 
+    transform: translateY(-50%);
+    height: 70%; 
+    width: 90%; 
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-family: Inter;
+    font-size: 16px;
+    font-weight: 400;
+    color: #000;
+  }
+
+  .password2-container{
+    width: 100%;
+    height:23%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: transparent;
+    border-radius: 10px;
+    border: none;
+    margin-top: 3%;
+    margin-bottom: 1%;
+  }
+
+  .signIn2-container {
+    width: 945px;
+    height: 60px;
+    flex-shrink: 0;
+    margin-top: 20px;
+    background: transparent;
+    border: none;
+    margin-left: -1%;
+    cursor: pointer;
+  }
+  
+  .signIn-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  

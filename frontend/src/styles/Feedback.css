@@ -1,4 +1,4 @@
-.feedback-page {
+.feedback-page1 {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -8,13 +8,13 @@
     position: relative;
   }
   
-  .top-left-button {
+  .top-left-button1 {
     position: absolute;
     top: 20px;
     left: 20px;
   }
   
-  .feedback-input {
+  .feedback-input1 {
     width: 100%;
     max-width: 500px;
     padding: 12px;
@@ -26,7 +26,7 @@
     margin-top: 20px;
   }
   
-  .feedback-submit-button {
+  .feedback-submit-button1 {
     background-color: #007bff;
     color: white;
     padding: 8px 16px;
