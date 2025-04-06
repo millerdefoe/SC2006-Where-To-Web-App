@@ -460,33 +460,20 @@ def bookCarpark():
 def PublicTransportRoute():
     logger.info("Public Transport Route accessed. Verifying information provided")
     try:
-        data = request.get_json()
-        if "currentLocation" not in data.keys() or "destinationLocation" not in data.keys():
-            logger.error("Rasing Exception")
-            raise Exception
+        source = request.get_json()["source"]
+        currentLocation = Location(source["latitude"], source["longitude"])
 
-        # latitude = float(data["latitude"])
-        # longitude = float(data["longitude"])
+    except:
+        return {"error": "No source was specified"}, 400
 
-        currentLocation = Location(data["currentLocation"]["latitude"],data["currentLocation"]["longitude"])
-        destinationLocation = Location(data["destinationLocation"]["latitude"],data["destinationLocation"]["longitude"])
-        maxWalkingDistance = data["maxWalkingDistance"]
+    try:
+        destination = request.get_json()["destination"]
+        destinationLocation = Location(destination["latitude"], destination["longitude"])
 
-    except ValueError:
-
-        logger.error("Coordinate information provided was not a number. Returning error 400")
-        returnData = {
-            "status" : "failure",
-            "reason" : "Coordinate information was not a number"
-        }
-
-    except Exception as e:
-
-        logger.error(f"Coordinate information was not provided. {e} Returning error 400")
-        returnData = {
-            "status" : "failure",
-            "reason" : "Coordinate information was not provided"
-        }
+    except:
+        return {"error": "No destination was specified"}, 400
+        
+    maxWalkingDistance = request.get_json()["maxWalkingDistance"]
 
     publicTransportRouteData = PublicTransportRouteController.getPublicTransportRoute(currentLocation, destinationLocation)
     if publicTransportRouteData == False or publicTransportRouteData == None:
@@ -533,6 +520,8 @@ def PublicTransportRoute():
         }
         
     return jsonify(chosenRoutePolylineData), 200
+
+
 
 if __name__ == "__main__":
     app.run()
