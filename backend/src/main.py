@@ -155,7 +155,7 @@ def getRoute():
     if data == False:
         logger.error("No route was specified")
         returnData = {
-            "status": "Route nto found",
+            "status": "Route not found",
             "reason" : "Error in route found by google API. Contact admin"
         }
         return jsonify(returnData), 400
@@ -459,21 +459,32 @@ def bookCarpark():
 @app.route("/PublicTransportRoute", methods=["GET", "POST"])
 def PublicTransportRoute():
     logger.info("Public Transport Route accessed. Verifying information provided")
-    try:
-        source = request.get_json()["source"]
-        currentLocation = Location(source["latitude"], source["longitude"])
-
-    except:
-        return {"error": "No source was specified"}, 400
 
     try:
-        destination = request.get_json()["destination"]
-        destinationLocation = Location(destination["latitude"], destination["longitude"])
+        data = request.get_json()
+        if "currentLocation" not in data.keys() or "destinationLocation" not in data.keys():
+            logger.error("Rasing Exception")
+            raise Exception
 
-    except:
-        return {"error": "No destination was specified"}, 400
-        
-    maxWalkingDistance = request.get_json()["maxWalkingDistance"]
+        currentLocation = Location(data["currentLocation"]["latitude"],data["currentLocation"]["longitude"])
+        destinationLocation = Location(data["destinationLocation"]["latitude"],data["destinationLocation"]["longitude"])
+        maxWalkingDistance = data["maxWalkingDistance"]
+
+    except ValueError:
+
+        logger.error("Coordinate information provided was not a number. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Coordinate information was not a number"
+        }
+
+    except Exception as e:
+
+        logger.error(f"Coordinate information was not provided. {e} Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Coordinate information was not provided"
+        }
 
     publicTransportRouteData = PublicTransportRouteController.getPublicTransportRoute(currentLocation, destinationLocation)
     if publicTransportRouteData == False or publicTransportRouteData == None:
@@ -487,7 +498,6 @@ def PublicTransportRoute():
         return jsonify(returnData), 400
     
     limitWalkingDistanceData = PublicTransportRouteController.limitWalkingDistance(publicTransportRouteData, maxWalkingDistance)
-
     if limitWalkingDistanceData == False or limitWalkingDistanceData == None:
 
         logger.debug("Error when retrieving public transport route with maximum walking distance considered. Returning error 400")
@@ -498,11 +508,10 @@ def PublicTransportRoute():
 
         return jsonify(returnData), 400
     
-    chosenRouteData = PublicTransportRouteController.computeLeastCongestedRoute(limitWalkingDistanceData)
+    chosenLeastCongestedRouteData = PublicTransportRouteController.computeLeastCongestedRoute(limitWalkingDistanceData)
+    if chosenLeastCongestedRouteData == False:
 
-    if chosenRouteData == False:
-
-        logger.debug("Error when retrieving the chosen route. Returning error 400")
+        logger.debug("Error when retrieving the least congested route. Returning error 400")
         returnData = {
             "status" : "failure",
             "reason" : "backend error"
@@ -510,18 +519,36 @@ def PublicTransportRoute():
 
         return jsonify(returnData), 400
     
-    chosenRoutePolylineData = PublicTransportRouteController.getPolylineFromRoute(chosenRouteData)
-    if chosenRoutePolylineData == False or chosenRoutePolylineData == None:
+    sendLeastCongestedRouteInformation = PublicTransportRouteController.sendRouteInformation(chosenLeastCongestedRouteData)
+    if sendLeastCongestedRouteInformation == False or sendLeastCongestedRouteInformation == None:
 
-        logger.debug("Error when retrieving the polyline of the chosen route. Returning error 400")
+        logger.debug("Error when retrieving the polyline of the least congested route. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "backend error"
+        }
+    
+    chosenFastestRouteData = PublicTransportRouteController.computeFastestRoute(limitWalkingDistanceData)
+    if chosenFastestRouteData == False:
+
+        logger.debug("Error when retrieving the chosen fastest route. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "backend error"
+        }
+
+        return jsonify(returnData), 400
+
+    sendFastestRouteInformation = PublicTransportRouteController.sendRouteInformation(chosenFastestRouteData)
+    if sendFastestRouteInformation == False or sendFastestRouteInformation == None:
+
+        logger.debug("Error when retrieving the polyline of the chosen fastest route. Returning error 400")
         returnData = {
             "status" : "failure",
             "reason" : "backend error"
         }
         
-    return jsonify(chosenRoutePolylineData), 200
-
-
+    return jsonify(sendLeastCongestedRouteInformation, sendFastestRouteInformation), 200
 
 if __name__ == "__main__":
     app.run()
