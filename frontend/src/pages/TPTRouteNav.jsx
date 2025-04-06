@@ -16,14 +16,7 @@ import "../styles/common.css";
 
 function TPTRouteNav() {
   const location = useLocation();
-  const { duration, route, directions } = location.state || {};
-
-  const iconMap = {
-    bus: Bus,
-    train: Train,
-    walking: Walking,
-    arrow: TransportArrow
-  };
+  const { routeData } = location.state || {};
 
   return (
     <div className="main-container">
@@ -44,10 +37,7 @@ function TPTRouteNav() {
       <div className="rightContainer3">
         <div className="routeNav-container">
           <DirectionDescription
-            duration={duration}
-            icons={route}
-            directions={directions}
-            iconMap={iconMap} 
+            routeData={routeData}
           />
         </div>
       </div>
