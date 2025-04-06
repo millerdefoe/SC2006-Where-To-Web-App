@@ -455,7 +455,6 @@ def bookCarpark():
 
     return jsonify(returnData), 200
 
-
 @app.route("/PublicTransportRoute", methods=["GET", "POST"])
 def PublicTransportRoute():
     logger.info("Public Transport Route accessed. Verifying information provided")
@@ -522,7 +521,7 @@ def PublicTransportRoute():
     sendLeastCongestedRouteInformation = PublicTransportRouteController.sendRouteInformation(chosenLeastCongestedRouteData)
     if sendLeastCongestedRouteInformation == False or sendLeastCongestedRouteInformation == None:
 
-        logger.debug("Error when retrieving the polyline of the least congested route. Returning error 400")
+        logger.debug("Error when retrieving the information of the least congested route. Returning error 400")
         returnData = {
             "status" : "failure",
             "reason" : "backend error"
@@ -542,7 +541,7 @@ def PublicTransportRoute():
     sendFastestRouteInformation = PublicTransportRouteController.sendRouteInformation(chosenFastestRouteData)
     if sendFastestRouteInformation == False or sendFastestRouteInformation == None:
 
-        logger.debug("Error when retrieving the polyline of the chosen fastest route. Returning error 400")
+        logger.debug("Error when retrieving the information of the chosen fastest route. Returning error 400")
         returnData = {
             "status" : "failure",
             "reason" : "backend error"
