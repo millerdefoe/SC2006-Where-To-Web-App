@@ -16,7 +16,7 @@ function InputTPTMode() {
   const handleSelectMode = (mode) => {
     localStorage.setItem("tptMode", mode);
     if (mode === "DRIVE") {
-      navigate("/view-driving-route");
+      navigate("/view-driving-directions");
     } else if (mode === "TRANSIT") {
       navigate("/view-public-route");
     }
