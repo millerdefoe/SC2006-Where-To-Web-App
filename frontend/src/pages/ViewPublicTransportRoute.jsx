@@ -13,62 +13,35 @@ import "../styles/ViewPublicTransportRoute.css";
 import "../styles/common.css";
 
 function ViewPublicTransportRoute() {
-  const [selectedRoute, setSelectedRoute] = useState("fastest");
-  const [routeData, setRouteData] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [selectedRouteIndex, setSelectedRouteIndex] = useState(0); // 0 = least congested, 1 = fastest
 
-  useEffect(() => {
-    const fetchRouteData = async () => {
-      try {
-        const currentLocation = {
-          latitude: parseFloat(localStorage.getItem("startLat")),
-          longitude: parseFloat(localStorage.getItem("startLng")),
-        };
-
-        const destinationLocation = {
-          latitude: parseFloat(localStorage.getItem("endLat")),
-          longitude: parseFloat(localStorage.getItem("endLng")),
-        };
-
-        // Check for NaN values before making the request
-        if (
-          isNaN(currentLocation.latitude) ||
-          isNaN(currentLocation.longitude) ||
-          isNaN(destinationLocation.latitude) ||
-          isNaN(destinationLocation.longitude)
-        ) {
-          console.error("Invalid coordinates in localStorage");
-          return;
-        }
-
-        const response = await fetch("http://127.0.0.1:5000/PublicTransportRoute", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            currentLocation,
-            destinationLocation,
-            maxWalkingDistance: 800, // Customize as needed
-          }),
-        });
-
-        if (!response.ok) throw new Error("Failed to fetch route data");
-
-        const [leastCongested, fastest] = await response.json();
-        setRouteData({ leastCongested, fastest });
-        setIsLoading(false);
-      } catch (error) {
-        console.error("Error fetching route data:", error);
-      }
-    };
-
-    fetchRouteData();
-  }, []);
-
-  if (isLoading || !routeData) {
-    return <div className="loading-container">Loading route data...</div>;
-  }
+  // ✅ This matches your updated route format
+  const routeData = [
+    {
+      routeType: "leastCongested",
+      duration: "1200s",
+      polyline: { encodedPolyline: "xyz789" },
+      steps: [
+        { travelMode: "WALK", instructions: "Walk to MRT station" },
+        { travelMode: "SUBWAY", MRTStopLine: "EWL", instructions: "Take EWL MRT to City Hall" },
+        { travelMode: "WALK", instructions: "Walk to Bus Stop" },
+        { travelMode: "BUS", ServiceNumberOrLine: "185", instructions: "Board Bus 185 to Jurong West" },
+        { travelMode: "WALK", instructions: "Walk to destination" }
+      ]
+    },
+    {
+      routeType: "fastest",
+      duration: "960s",
+      polyline: { encodedPolyline: "abc123" },
+      steps: [
+        { travelMode: "WALK", instructions: "Walk to MRT station" },
+        { travelMode: "SUBWAY", MRTStopLine: "TEL", instructions: "Take TEL MRT to Stevens" },
+        { travelMode: "WALK", instructions: "Walk to Bus Stop" },
+        { travelMode: "BUS", ServiceNumberOrLine: "52", instructions: "Board Bus 52 to Bukit Timah" },
+        { travelMode: "WALK", instructions: "Walk to destination" }
+      ]
+    }
+  ];
 
   return (
     <div className="main-container">
@@ -86,25 +59,25 @@ function ViewPublicTransportRoute() {
           <CongestionLevelButton />
 
           <RouteSelection
-            routeData={routeData.fastest}
-            onSelect={() => setSelectedRoute("fastest")}
-            isSelected={selectedRoute === "fastest"}
+            routeData={routeData[0]}
+            onSelect={() => setSelectedRouteIndex(0)}
+            isSelected={selectedRouteIndex === 0}
           />
 
           <RouteSelection
-            routeData={routeData.leastCongested}
-            onSelect={() => setSelectedRoute("leastCongested")}
-            isSelected={selectedRoute === "leastCongested"}
+            routeData={routeData[1]}
+            onSelect={() => setSelectedRouteIndex(1)}
+            isSelected={selectedRouteIndex === 1}
           />
         </div>
       </div>
 
       <div className="rightContainer2">
         <div className="directions-container">
-          <DirectionDescription routeData={routeData[selectedRoute]} />
+          <DirectionDescription routeData={routeData[selectedRouteIndex]} />
 
           <div className="startButton-container">
-            <StartButton routeData={routeData[selectedRoute]} />
+            <StartButton routeData={routeData[selectedRouteIndex]} />
           </div>
         </div>
       </div>
