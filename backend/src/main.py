@@ -517,8 +517,8 @@ def PublicTransportRoute():
 
         return jsonify(returnData), 400
     
-    sendLeastCongestedRouteInfo = PublicTransportRouteController.sendLeastCongestedRouteInformation(chosenLeastCongestedRouteData)
-    if sendLeastCongestedRouteInfo == False or sendLeastCongestedRouteInfo == None:
+    sendLeastCongestedRouteInformation = PublicTransportRouteController.sendRouteInformation(chosenLeastCongestedRouteData)
+    if sendLeastCongestedRouteInformation == False or sendLeastCongestedRouteInformation == None:
 
         logger.debug("Error when retrieving the polyline of the least congested route. Returning error 400")
         returnData = {
@@ -537,7 +537,7 @@ def PublicTransportRoute():
 
         return jsonify(returnData), 400
 
-    sendFastestRouteInformation = PublicTransportRouteController.sendFastestRouteInformation(chosenFastestRouteData)
+    sendFastestRouteInformation = PublicTransportRouteController.sendRouteInformation(chosenFastestRouteData)
     if sendFastestRouteInformation == False or sendFastestRouteInformation == None:
 
         logger.debug("Error when retrieving the polyline of the chosen fastest route. Returning error 400")
@@ -546,7 +546,7 @@ def PublicTransportRoute():
             "reason" : "backend error"
         }
         
-    return jsonify(sendLeastCongestedRouteInfo, sendFastestRouteInformation), 200
+    return jsonify(sendLeastCongestedRouteInformation, sendFastestRouteInformation), 200
 
 if __name__ == "__main__":
     app.run()

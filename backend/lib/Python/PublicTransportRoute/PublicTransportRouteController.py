@@ -160,24 +160,46 @@ class PublicTransportRouteController():
         #logger.info("Route returned by googlemap api was {}".format(chosenRoute))
         return chosenRoute 
 
-    def sendLeastCongestedRouteInformation(chosenRoute):
+    def sendRouteInformation(chosenRoute):
         if chosenRoute == {}:
             logger.error("No data found")
             return None
         result = {}
-        result['Routeinfo'] = "Least congested route information"
+        result['Routeinfo'] = "1st route is least congested. Second route is fastest."
         result['polyline'] = chosenRoute['polyline']
         result['distanceMeters'] = chosenRoute['distanceMeters']
         result['duration'] = chosenRoute['duration']
 
         tempStepList = []
         for leg in chosenRoute["legs"]:
-            for navigationInstruction in leg['steps']: #Loops through steps
+            for step in leg['steps']: #Loops through steps
                 tempDict = {}
+                if step['travelMode'] == "WALK":
+                    tempDict['travelMode'] = step['travelMode']
 
-                for attribute in navigationInstruction['navigationInstruction'].keys(): #Attributes in this case is 'maneuver', 'instructions'
-                    tempDict[attribute] = navigationInstruction['navigationInstruction'][attribute] #Stores the information of either attribute into temp dict
+                if 'transitDetails' in step.keys():
+                    transitDetails = step['transitDetails']
                 
+                    if 'stopCount' in transitDetails.keys():
+                        tempDict['numberOfStops'] = transitDetails['stopCount']
+                    if 'stopDetails' in transitDetails.keys():
+                        tempDict['currentStopName'] = transitDetails['stopDetails']['arrivalStop']['name']
+                        tempDict['destinationStopName'] = transitDetails['stopDetails']['departureStop']['name']
+                    if 'transitLine' in transitDetails.keys():
+                        if 'nameShort' in transitDetails['transitLine'].keys():
+                            tempDict['MRTStopLine'] = transitDetails['transitLine']['nameShort']
+                        tempDict['ServiceNumberOrLine'] = transitDetails['transitLine']['name']
+                        tempDict['travelMode'] = transitDetails['transitLine']['vehicle']['type']
+                        
+                for navigationInstructionAttribute in step['navigationInstruction'].keys(): #Attributes in this case is 'maneuver', 'instructions'
+                    tempDict[navigationInstructionAttribute] = step['navigationInstruction'][navigationInstructionAttribute] #Stores the information of either attribute into temp dict
+                
+                for localizedValuesAttribute in step['localizedValues'].keys():
+                    if 'text' in step['localizedValues'][localizedValuesAttribute].keys():
+                        tempDict[localizedValuesAttribute] = step['localizedValues'][localizedValuesAttribute]['text']
+                    else:    
+                        tempDict[localizedValuesAttribute] = step['localizedValues'][localizedValuesAttribute]
+
                 tempStepList.append(tempDict) #Appends tempDict to tempStepList 
         
         result['steps'] = tempStepList
@@ -185,38 +207,13 @@ class PublicTransportRouteController():
         return result
 
     def computeFastestRoute(responseData):
-        fastestChosenRoute = {}
+        chosenRoute = {}
         shortestDuration = 99999 #Arbitary number 
         for route in responseData['routes']:
             duration_str = route["duration"]
             duration = int(duration_str.rstrip('s'))  
             if duration < shortestDuration:
                 shortestDuration = duration
-                fastestChosenRoute = route["legs"][0]
-
+                chosenRoute = route
         #logger.info("Fastest route returned by googlemap api was {}".format(fastestChosenRoute))
-        return fastestChosenRoute    
-    
-    def sendFastestRouteInformation(fastestChosenRoute):
-        if fastestChosenRoute == {}:
-            logger.error("No data found")
-            return None
-        
-        result = {}
-        result['Routeinfo'] = "Fastest route information"
-        result['distanceMeters'] = fastestChosenRoute['distanceMeters']
-        result['duration'] = fastestChosenRoute['duration']
-        result['polyline'] = fastestChosenRoute['polyline']
-
-        tempStepList = []
-        for navigationInstruction in fastestChosenRoute['steps']: #Loops through steps
-            tempDict = {}
-
-            for attribute in navigationInstruction['navigationInstruction'].keys(): #Attributes in this case is 'maneuver', 'instructions'
-                tempDict[attribute] = navigationInstruction['navigationInstruction'][attribute] #Stores the information of either attribute into temp dict
-            
-            tempStepList.append(tempDict) #Appends tempDict to tempStepList 
-        
-        result['steps'] = tempStepList
-
-        return result
+        return chosenRoute    
