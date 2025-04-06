@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ReactComponent as Bus } from "../assets/Bus.svg";
-import { ReactComponent as Train } from "../assets/Train.svg";
-import { ReactComponent as Walking } from "../assets/Walking.svg";
-import { ReactComponent as TransportArrow } from "../assets/TransportArrow.svg";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
@@ -11,40 +8,94 @@ import ModeOfTransport from "../components/ModeOfTransport";
 import CongestionLevelButton from '../components/CongestionLevelButton';
 import RouteSelection from '../components/RouteSelection';
 import DirectionDescription from '../components/DirectionDescription';
-import mapImage from "../assets/inputStartLocationMap.png";
+import MapWithRoute from "../components/MapDrivingRoute"; // ✅ IMPORT HERE
 import "../styles/ViewPublicTransportRoute.css";
 import "../styles/common.css";
 
 function ViewPublicTransportRoute() {
-  const [selectedRouteIndex, setSelectedRouteIndex] = useState(0); // 0 = least congested, 1 = fastest
+  const [selectedRouteIndex, setSelectedRouteIndex] = useState(0);
+  const [routeData, setRouteData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  //replace routeData with api
-  const routeData = [
-    {
-      routeType: "leastCongested",
-      duration: "1200s",
-      polyline: { encodedPolyline: "xyz789" },
-      steps: [
-        { travelMode: "WALK", instructions: "Walk to MRT station" },
-        { travelMode: "SUBWAY", MRTStopLine: "EWL", instructions: "Take EWL MRT to City Hall" },
-        { travelMode: "WALK", instructions: "Walk to Bus Stop" },
-        { travelMode: "BUS", ServiceNumberOrLine: "185", instructions: "Board Bus 185 to Jurong West" },
-        { travelMode: "WALK", instructions: "Walk to destination" }
-      ]
-    },
-    {
-      routeType: "fastest",
-      duration: "960s",
-      polyline: { encodedPolyline: "abc123" },
-      steps: [
-        { travelMode: "WALK", instructions: "Walk to MRT station" },
-        { travelMode: "SUBWAY", MRTStopLine: "TEL", instructions: "Take TEL MRT to Stevens" },
-        { travelMode: "WALK", instructions: "Walk to Bus Stop" },
-        { travelMode: "BUS", ServiceNumberOrLine: "52", instructions: "Board Bus 52 to Bukit Timah" },
-        { travelMode: "WALK", instructions: "Walk to destination" }
-      ]
-    }
-  ];
+  useEffect(() => {
+    const fetchRouteData = async () => {
+      try {
+        const currentLocation = {
+          latitude: parseFloat(localStorage.getItem("startLat")),
+          longitude: parseFloat(localStorage.getItem("startLng")),
+        };
+
+        const destinationLocation = {
+          latitude: parseFloat(localStorage.getItem("endLat")),
+          longitude: parseFloat(localStorage.getItem("endLng")),
+        };
+
+        if (
+          isNaN(currentLocation.latitude) ||
+          isNaN(currentLocation.longitude) ||
+          isNaN(destinationLocation.latitude) ||
+          isNaN(destinationLocation.longitude)
+        ) {
+          console.error("Invalid coordinates in localStorage");
+          return;
+        }
+
+        const response = await fetch("http://127.0.0.1:5000/PublicTransportRoute", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            currentLocation,
+            destinationLocation,
+            maxWalkingDistance: 800,
+          }),
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch route data");
+
+        const [leastCongested, fastest] = await response.json();
+
+        const transformedRouteData = [
+          {
+            routeType: "leastCongested",
+            duration: leastCongested.duration || "",
+            polyline: leastCongested.polyline,
+            steps: leastCongested.steps.map(step => ({
+              travelMode: step.travelMode,
+              instructions: step.instructions || "",
+              MRTStopLine: step.transitDetails?.transitLine?.name || "",
+              ServiceNumberOrLine: step.transitDetails?.transitLine?.name || ""
+            }))
+          },
+          {
+            routeType: "fastest",
+            duration: fastest.duration || "",
+            polyline: fastest.polyline,
+            steps: fastest.steps.map(step => ({
+              travelMode: step.travelMode,
+              instructions: step.instructions || "",
+              MRTStopLine: step.transitDetails?.transitLine?.name || "",
+              ServiceNumberOrLine: step.transitDetails?.transitLine?.name || ""
+            }))
+          }
+        ];
+
+        setRouteData(transformedRouteData);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching route data:", error);
+      }
+    };
+
+    fetchRouteData();
+  }, []);
+
+  if (isLoading || routeData.length === 0) {
+    return <div className="loading-container">Loading route data...</div>;
+  }
+
+  const selectedRoute = routeData[selectedRouteIndex];
 
   return (
     <div className="main-container">
@@ -55,7 +106,10 @@ function ViewPublicTransportRoute() {
 
       <div className="leftContainer2">
         <div className="map-container3">
-          <img src={mapImage} alt="Map" className="map-image3" />
+          <MapWithRoute
+            encodedPolyline={selectedRoute.polyline?.encodedPolyline}
+            mapContainerClassName="map-image3"
+          />
         </div>
 
         <div className="rowContainer2">
@@ -77,10 +131,24 @@ function ViewPublicTransportRoute() {
 
       <div className="rightContainer2">
         <div className="directions-container">
-          <DirectionDescription routeData={routeData[selectedRouteIndex]} />
+          <DirectionDescription routeData={{
+            ...selectedRoute,
+            steps: [
+              ...selectedRoute.steps.slice(0, 4),
+              { travelMode: "ELLIPSIS", instructions: "⋯" }, // ⬅️ fake ellipsis step
+              selectedRoute.steps[selectedRoute.steps.length - 1]
+            ]
+          }} />
 
           <div className="startButton-container">
-            <StartButton routeData={routeData[selectedRouteIndex]} />
+            <StartButton routeData={{
+              ...selectedRoute,
+              steps: [
+                ...selectedRoute.steps.slice(0, 4),
+                { travelMode: "ELLIPSIS", instructions: "⋯" },
+                selectedRoute.steps[selectedRoute.steps.length - 1]
+              ]
+            }} />
           </div>
         </div>
       </div>

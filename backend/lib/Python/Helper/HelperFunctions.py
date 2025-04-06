@@ -105,7 +105,7 @@ def getPCDAPIKey(filePath = None):
         logger.info("Retrieving PCD API key using filepath")
         try:
             with open(filePath, "r") as f:
-                return json.load(f)["pcd-api-key"]
+                return json.load(f)["lta-api-key"]
 
         except FileNotFoundError:
             logger.error("File {} does not exist".format(filePath))
