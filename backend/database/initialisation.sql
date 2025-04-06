@@ -62,7 +62,8 @@ CREATE TABLE feedbackrecords(
 CREATE TABLE users(
     userid SERIAL PRIMARY KEY,
     username varchar(20) NOT NULL,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    rfid TEXT
 );
 
 CREATE TABLE addresses(

@@ -4,3 +4,7 @@ psycopg2
 pathlib
 argparse
 requests
+pandas
+numpy
+holidays
+scikit-learn
