@@ -18,7 +18,7 @@ import "../styles/common.css";
 function ViewPublicTransportRoute() {
   const [selectedRouteIndex, setSelectedRouteIndex] = useState(0); // 0 = least congested, 1 = fastest
 
-  // ✅ This matches your updated route format
+  //replace routeData with api
   const routeData = [
     {
       routeType: "leastCongested",
