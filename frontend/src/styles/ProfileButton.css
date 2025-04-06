@@ -1,8 +1,8 @@
 .profileIcon-container {
     position: absolute;
-    top: 2vh; 
-    left: 2vw; 
-    width: min(4vw, 50px); 
+    top: 3.1vh; 
+    right: 6.4vw; 
+    width: min(2.7vw, 50px); 
     aspect-ratio: 1 / 1; 
     display: flex;
     align-items: center;
