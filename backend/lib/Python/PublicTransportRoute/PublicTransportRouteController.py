@@ -117,7 +117,7 @@ class PublicTransportRouteController():
                             sumofCongestion += 3
                             break
                 elif step['transitDetails']['transitLine']['vehicle']['type'] == "BUS": #For Bus mode of transport. Only need arrival bus's congestion level logically since that is where we want to take the bus. 
-                    arrivalBusServiceNumber = step['transitDetails']['transitLine']['name'] #Gets bus service number that user is taking
+                    arrivalBusServiceNumber = step['transitDetails']['transitLine']['name'] #Gets bus service number that user is taking  
                     arrivalBusStopName = step['transitDetails']['stopDetails']['arrivalStop']['name'] # Loops through JSON file to extract name of MRT stations
                     arrivalBusStopCode = BusController.getBusStopCode(arrivalBusStopName) #Saves bus stop code to be used for API call for congestion level
                     arrivalBusCongestionLevel = BusController.getBusCongestionLevel(arrivalBusStopCode, arrivalBusServiceNumber)
@@ -155,7 +155,7 @@ class PublicTransportRouteController():
             congestionLevel = PublicTransportRouteController.getCongestionLevel(route["legs"][0]) #Refers to the list in legs
             if congestionLevel < minCongestionLevel: #Stores the smallest congestion values all the routes have
                 minCongestionLevel = congestionLevel
-                chosenRoute = route["legs"][0] #Picks the least congested route
+                chosenRoute = route #Picks the least congested route
 
         #logger.info("Route returned by googlemap api was {}".format(chosenRoute))
         return chosenRoute 
@@ -171,13 +171,14 @@ class PublicTransportRouteController():
         result['duration'] = chosenRoute['duration']
 
         tempStepList = []
-        for navigationInstruction in chosenRoute['steps']: #Loops through steps
-            tempDict = {}
+        for leg in chosenRoute["legs"]:
+            for navigationInstruction in leg['steps']: #Loops through steps
+                tempDict = {}
 
-            for attribute in navigationInstruction['navigationInstruction'].keys(): #Attributes in this case is 'maneuver', 'instructions'
-                tempDict[attribute] = navigationInstruction['navigationInstruction'][attribute] #Stores the information of either attribute into temp dict
-            
-            tempStepList.append(tempDict) #Appends tempDict to tempStepList 
+                for attribute in navigationInstruction['navigationInstruction'].keys(): #Attributes in this case is 'maneuver', 'instructions'
+                    tempDict[attribute] = navigationInstruction['navigationInstruction'][attribute] #Stores the information of either attribute into temp dict
+                
+                tempStepList.append(tempDict) #Appends tempDict to tempStepList 
         
         result['steps'] = tempStepList
 
@@ -190,12 +191,8 @@ class PublicTransportRouteController():
             duration_str = route["duration"]
             duration = int(duration_str.rstrip('s'))  
             if duration < shortestDuration:
-                shortestDuration = route["duration"]
+                shortestDuration = duration
                 fastestChosenRoute = route["legs"][0]
-
-            else:
-                logger.info("Error in getting duration of shortest route")
-                break 
 
         #logger.info("Fastest route returned by googlemap api was {}".format(fastestChosenRoute))
         return fastestChosenRoute    
@@ -207,9 +204,9 @@ class PublicTransportRouteController():
         
         result = {}
         result['Routeinfo'] = "Fastest route information"
-        result['polyline'] = fastestChosenRoute['polyline']
         result['distanceMeters'] = fastestChosenRoute['distanceMeters']
         result['duration'] = fastestChosenRoute['duration']
+        result['polyline'] = fastestChosenRoute['polyline']
 
         tempStepList = []
         for navigationInstruction in fastestChosenRoute['steps']: #Loops through steps

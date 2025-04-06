@@ -28,7 +28,7 @@ class BusController:
         return None
 
     def getBusStopCode(arrivalBusStopName):
-        if arrivalBusStopName == True:
+        if arrivalBusStopName != '':
             queryStatement = """
                 SELECT busstopcode 
                 FROM busstops 
@@ -42,7 +42,7 @@ class BusController:
                 return data 
             
             except Exception as e:
-                logger.error("Query statement could not get  bus stop code from database")
+                logger.error("Query statement could not get bus stop code from database")
                 return None
             
         else: 
@@ -59,14 +59,11 @@ class BusController:
 
         response = requests.get(url, headers=headers)
         responseData = response.json()
-        print(url)
-        print(responseData)
         if 'Services' in responseData.keys():
             services = responseData['Services']
 
             if services != []: 
                 #Extracts the bus load only. NextBus just refers to the current one that is arriving
-                print(services[0]['NextBus']['Load'])
                 return services[0]['NextBus']['Load']
             else:
                 return None
