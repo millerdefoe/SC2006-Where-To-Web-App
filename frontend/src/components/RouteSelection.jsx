@@ -11,22 +11,49 @@ const RouteSelection = ({ routeData, onSelect, isSelected }) => {
 
   const steps = routeData.steps || [];
 
+  function groupSteps(steps) {
+    const grouped = [];
+    let current = null;
+  
+    for (const step of steps) {
+      const mode = step.travelMode;
+      const label = mode === "BUS" || mode === "SUBWAY" ? step.ServiceNumberOrLine : null;
+  
+      if (!current || current.type !== mode || current.label !== label) {
+        if (current) grouped.push(current);
+  
+        current = {
+          type: mode,
+          label,
+          count: 1,
+        };
+      } else {
+        current.count++;
+      }
+    }
+  
+    if (current) grouped.push(current);
+    return grouped;
+  }
+  
+
   // Generate icons array from steps
-  const icons = steps.map((step) => {
-    if (step.travelMode === "WALK") {
+  const icons = groupSteps(steps).map((group) => {
+    if (group.type === "WALK") {
       return { type: "walk" };
     }
-
-    if (step.travelMode === "BUS") {
-      return { type: "bus", label: step.ServiceNumberOrLine };
+  
+    if (group.type === "BUS") {
+      return { type: "bus", label: group.label };
     }
-
-    if (step.travelMode === "SUBWAY") {
-      return { type: "mrt", label: step.MRTStopLine };
+  
+    if (group.type === "SUBWAY") {
+      return { type: "mrt", label: group.label };
     }
-
+  
     return null;
   }).filter(Boolean);
+  
 
   // Format duration from "1209s" → "20 mins"
   const rawDuration = routeData.duration || "0s";
@@ -94,7 +121,7 @@ const RouteSelection = ({ routeData, onSelect, isSelected }) => {
         <div className="duration-text">{duration}</div>
         <button
           className="view-button"
-          onClick={() => onSelect(polyline)}
+          onClick={onSelect}
         >
           View
         </button>
