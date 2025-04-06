@@ -1,8 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ReactComponent as Bus } from "../assets/Bus.svg";
-import { ReactComponent as Train } from "../assets/Train.svg";
-import { ReactComponent as Walking } from "../assets/Walking.svg";
-import { ReactComponent as TransportArrow } from "../assets/TransportArrow.svg";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
@@ -17,89 +14,62 @@ import "../styles/common.css";
 
 function ViewPublicTransportRoute() {
   const [selectedRoute, setSelectedRoute] = useState("fastest");
+  const [routeData, setRouteData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const routeData = {
-    fastest: {
-      legs: [
-        {
-          title: "Fastest Route",
-          duration: "960s", // 16 mins
-          polyline: {
-            encodedPolyline: "abc123" // fake polyline
-          },
-          steps: [
-            {
-              travelMode: "WALK",
-              staticDuration: "60s"
-            },
-            {
-              travelMode: "TRANSIT",
-              transitDetails: {
-                transitLine: {
-                  name: "48",
-                  vehicle: {
-                    type: "BUS"
-                  }
-                }
-              },
-              staticDuration: "420s"
-            },
-            {
-              travelMode: "WALK",
-              staticDuration: "120s"
-            }
-          ]
+  useEffect(() => {
+    const fetchRouteData = async () => {
+      try {
+        const currentLocation = {
+          latitude: parseFloat(localStorage.getItem("startLat")),
+          longitude: parseFloat(localStorage.getItem("startLng")),
+        };
+
+        const destinationLocation = {
+          latitude: parseFloat(localStorage.getItem("endLat")),
+          longitude: parseFloat(localStorage.getItem("endLng")),
+        };
+
+        // Check for NaN values before making the request
+        if (
+          isNaN(currentLocation.latitude) ||
+          isNaN(currentLocation.longitude) ||
+          isNaN(destinationLocation.latitude) ||
+          isNaN(destinationLocation.longitude)
+        ) {
+          console.error("Invalid coordinates in localStorage");
+          return;
         }
-      ]
-    },
-  
-    leastCongested: {
-      legs: [
-        {
-          title: "Least Congested",
-          duration: "1200s", // 20 mins
-          polyline: {
-            encodedPolyline: "xyz789"
+
+        const response = await fetch("http://127.0.0.1:5000/PublicTransportRoute", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
           },
-          steps: [
-            {
-              travelMode: "WALK",
-              staticDuration: "90s"
-            },
-            {
-              travelMode: "TRANSIT",
-              transitDetails: {
-                transitLine: {
-                  name: "EWL",
-                  vehicle: {
-                    type: "SUBWAY"
-                  }
-                }
-              },
-              staticDuration: "540s"
-            },
-            {
-              travelMode: "WALK",
-              staticDuration: "120s"
-            },
-            {
-              travelMode: "TRANSIT",
-              transitDetails: {
-                transitLine: {
-                  name: "185",
-                  vehicle: {
-                    type: "BUS"
-                  }
-                }
-              },
-              staticDuration: "330s"
-            }
-          ]
-        }
-      ]
-    }
-  };
-  
+          body: JSON.stringify({
+            currentLocation,
+            destinationLocation,
+            maxWalkingDistance: 800, // Customize as needed
+          }),
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch route data");
+
+        const [leastCongested, fastest] = await response.json();
+        setRouteData({ leastCongested, fastest });
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching route data:", error);
+      }
+    };
+
+    fetchRouteData();
+  }, []);
+
+  if (isLoading || !routeData) {
+    return <div className="loading-container">Loading route data...</div>;
+  }
+
   return (
     <div className="main-container">
       <HomeButton />
@@ -116,28 +86,26 @@ function ViewPublicTransportRoute() {
           <CongestionLevelButton />
 
           <RouteSelection
-          routeData={routeData.fastest}
-          onSelect={() => setSelectedRoute("fastest")}
-          isSelected={selectedRoute === "fastest"}
-        />
+            routeData={routeData.fastest}
+            onSelect={() => setSelectedRoute("fastest")}
+            isSelected={selectedRoute === "fastest"}
+          />
 
-
-        <RouteSelection
-          routeData={routeData.leastCongested}
-          onSelect={() => setSelectedRoute("leastCongested")}
-          isSelected={selectedRoute === "leastCongested"}
-        />
-
+          <RouteSelection
+            routeData={routeData.leastCongested}
+            onSelect={() => setSelectedRoute("leastCongested")}
+            isSelected={selectedRoute === "leastCongested"}
+          />
         </div>
       </div>
 
       <div className="rightContainer2">
         <div className="directions-container">
-        <DirectionDescription routeData={routeData[selectedRoute]} />
+          <DirectionDescription routeData={routeData[selectedRoute]} />
 
-        <div className="startButton-container">
-          <StartButton routeData={routeData[selectedRoute]}/>
-        </div>
+          <div className="startButton-container">
+            <StartButton routeData={routeData[selectedRoute]} />
+          </div>
         </div>
       </div>
     </div>

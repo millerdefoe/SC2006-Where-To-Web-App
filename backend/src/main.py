@@ -250,7 +250,7 @@ def login():
     
     if result == 0:
 
-        loger.debug("Password mismatch when logging in")
+        logger.debug("Password mismatch when logging in")
 
         returnData = {
             "status" : "login failure",
