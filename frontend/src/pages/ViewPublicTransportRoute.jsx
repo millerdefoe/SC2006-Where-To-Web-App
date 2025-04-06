@@ -16,90 +16,36 @@ import "../styles/ViewPublicTransportRoute.css";
 import "../styles/common.css";
 
 function ViewPublicTransportRoute() {
-  const [selectedRoute, setSelectedRoute] = useState("fastest");
+  const [selectedRouteIndex, setSelectedRouteIndex] = useState(0); // 0 = least congested, 1 = fastest
 
-  const routeData = {
-    fastest: {
-      legs: [
-        {
-          title: "Fastest Route",
-          duration: "960s", // 16 mins
-          polyline: {
-            encodedPolyline: "abc123" // fake polyline
-          },
-          steps: [
-            {
-              travelMode: "WALK",
-              staticDuration: "60s"
-            },
-            {
-              travelMode: "TRANSIT",
-              transitDetails: {
-                transitLine: {
-                  name: "48",
-                  vehicle: {
-                    type: "BUS"
-                  }
-                }
-              },
-              staticDuration: "420s"
-            },
-            {
-              travelMode: "WALK",
-              staticDuration: "120s"
-            }
-          ]
-        }
+  // ✅ This matches your updated route format
+  const routeData = [
+    {
+      routeType: "leastCongested",
+      duration: "1200s",
+      polyline: { encodedPolyline: "xyz789" },
+      steps: [
+        { travelMode: "WALK", instructions: "Walk to MRT station" },
+        { travelMode: "SUBWAY", MRTStopLine: "EWL", instructions: "Take EWL MRT to City Hall" },
+        { travelMode: "WALK", instructions: "Walk to Bus Stop" },
+        { travelMode: "BUS", ServiceNumberOrLine: "185", instructions: "Board Bus 185 to Jurong West" },
+        { travelMode: "WALK", instructions: "Walk to destination" }
       ]
     },
-  
-    leastCongested: {
-      legs: [
-        {
-          title: "Least Congested",
-          duration: "1200s", // 20 mins
-          polyline: {
-            encodedPolyline: "xyz789"
-          },
-          steps: [
-            {
-              travelMode: "WALK",
-              staticDuration: "90s"
-            },
-            {
-              travelMode: "TRANSIT",
-              transitDetails: {
-                transitLine: {
-                  name: "EWL",
-                  vehicle: {
-                    type: "SUBWAY"
-                  }
-                }
-              },
-              staticDuration: "540s"
-            },
-            {
-              travelMode: "WALK",
-              staticDuration: "120s"
-            },
-            {
-              travelMode: "TRANSIT",
-              transitDetails: {
-                transitLine: {
-                  name: "185",
-                  vehicle: {
-                    type: "BUS"
-                  }
-                }
-              },
-              staticDuration: "330s"
-            }
-          ]
-        }
+    {
+      routeType: "fastest",
+      duration: "960s",
+      polyline: { encodedPolyline: "abc123" },
+      steps: [
+        { travelMode: "WALK", instructions: "Walk to MRT station" },
+        { travelMode: "SUBWAY", MRTStopLine: "TEL", instructions: "Take TEL MRT to Stevens" },
+        { travelMode: "WALK", instructions: "Walk to Bus Stop" },
+        { travelMode: "BUS", ServiceNumberOrLine: "52", instructions: "Board Bus 52 to Bukit Timah" },
+        { travelMode: "WALK", instructions: "Walk to destination" }
       ]
     }
-  };
-  
+  ];
+
   return (
     <div className="main-container">
       <HomeButton />
@@ -116,28 +62,26 @@ function ViewPublicTransportRoute() {
           <CongestionLevelButton />
 
           <RouteSelection
-          routeData={routeData.fastest}
-          onSelect={() => setSelectedRoute("fastest")}
-          isSelected={selectedRoute === "fastest"}
-        />
+            routeData={routeData[0]}
+            onSelect={() => setSelectedRouteIndex(0)}
+            isSelected={selectedRouteIndex === 0}
+          />
 
-
-        <RouteSelection
-          routeData={routeData.leastCongested}
-          onSelect={() => setSelectedRoute("leastCongested")}
-          isSelected={selectedRoute === "leastCongested"}
-        />
-
+          <RouteSelection
+            routeData={routeData[1]}
+            onSelect={() => setSelectedRouteIndex(1)}
+            isSelected={selectedRouteIndex === 1}
+          />
         </div>
       </div>
 
       <div className="rightContainer2">
         <div className="directions-container">
-        <DirectionDescription routeData={routeData[selectedRoute]} />
+          <DirectionDescription routeData={routeData[selectedRouteIndex]} />
 
-        <div className="startButton-container">
-          <StartButton routeData={routeData[selectedRoute]}/>
-        </div>
+          <div className="startButton-container">
+            <StartButton routeData={routeData[selectedRouteIndex]} />
+          </div>
         </div>
       </div>
     </div>
