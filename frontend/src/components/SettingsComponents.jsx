@@ -9,7 +9,10 @@ const SettingsComponents = () => {
     const user = getUserFromCookie();
 
     const handleProfileClick = () => {
-      if (user && user.password) {
+      const user = getUserFromCookie(); 
+      const sessionUser = localStorage.getItem("user");
+    
+      if (user && sessionUser) {
         navigate("/profile-details");
       } else {
         navigate("/profile-sign-up");

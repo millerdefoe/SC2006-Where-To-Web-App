@@ -2,9 +2,9 @@ import React, { useState} from 'react';
 import { useNavigate } from 'react-router-dom';
 import SettingsComponents from "../components/SettingsComponents.jsx";
 import ExitSettings from "../components/ExitSettings.jsx";
-import { ReactComponent as SignUpButton } from "../assets/SignUpButton.svg";
-import { ReactComponent as InputRectangle } from "../assets/InputRectangle.svg";
-import { isValidIdentifier, isValidPassword, setCookie } from "../components/ProfileUtils.jsx";
+import { isValidIdentifier, isValidPassword, setCookie, getUserFromCookie } from "../components/ProfileUtils.jsx";
+import { ReactComponent as OpenEye } from "../assets/OpenEye.svg";
+import { ReactComponent as ClosedEye } from "../assets/ClosedEye.svg";
 import "../styles/ProfileSignUp.css";
 
 function ProfileSignUp() {
@@ -13,6 +13,7 @@ function ProfileSignUp() {
     const [password, setPassword] = useState("");
     const [email_phone, setEmailOrPhone] = useState("");
     const [rfid, setRFID] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleCreateAccount = async () => {
         if (!isValidIdentifier(email_phone)) {
@@ -69,30 +70,31 @@ function ProfileSignUp() {
                 <div className="emailPhone-container">
                     <div className="profileHeader1-typography">Email / Phone Number</div>
                     <div className="inputRectangle-container">
-                        <div className="inputRectangle-wrapper">
-                            <InputRectangle className="inputRectangle-icon" />
-                            <input 
-                                className="custom-input-inside-rectangle" 
-                                placeholder="Input here!" 
-                                value={email_phone} 
-                                onChange={(e) => setEmailOrPhone(e.target.value)} 
-                            />
-                        </div>
+                        <input 
+                            className="custom-input-inside-rectangle" 
+                            placeholder="Input here!" 
+                            value={email_phone} 
+                            onChange={(e) => setEmailOrPhone(e.target.value)} 
+                        />
                     </div>
                 </div>
 
                 <div className="password-container">
                     <div className="profileHeader1-typography">Password</div>
                     <div className="inputRectangle-container">
-                        <div className="inputRectangle-wrapper">
-                            <InputRectangle className="inputRectangle-icon" />
-                            <input 
-                                className="custom-input-inside-rectangle" 
-                                placeholder="Input here!" 
-                                value={password} 
-                                onChange={(e) => setPassword(e.target.value)} 
-                            />
-                        </div>
+                        <input 
+                            className="custom-input-inside-rectangle" 
+                            placeholder="Input here!" 
+                            value={password} 
+                            onChange={(e) => setPassword(e.target.value)} 
+                            type={showPassword ? "text" : "password"}
+                        />
+                        <button
+                            className="eye-container"
+                            onClick={() => setShowPassword(!showPassword)} 
+                        >
+                            {showPassword ? <OpenEye className="eye-icon" /> : <ClosedEye className="eye-icon" />}
+                        </button>
                     </div>
                     <div className="passwordRequirement-container">
                         <div className="passwordRequirement-typography">Use 8 or more characters</div>
@@ -104,20 +106,17 @@ function ProfileSignUp() {
                 <div className="rfidTag-container">
                     <div className="profileHeader1-typography">RFID Tag (Optional)</div>
                     <div className="inputRectangle-container">
-                        <div className="inputRectangle-wrapper">
-                            <InputRectangle className="inputRectangle-icon" />
-                            <input 
-                                className="custom-input-inside-rectangle" 
-                                placeholder="Input here!" 
-                                value={rfid} 
-                                onChange={(e) => setRFID(e.target.value)} 
-                            />
-                        </div>
+                        <input 
+                            className="custom-input-inside-rectangle" 
+                            placeholder="Input here!" 
+                            value={rfid} 
+                            onChange={(e) => setRFID(e.target.value)} 
+                        />
                     </div>
                 </div>
 
                 <button className="signUp-container" onClick={handleCreateAccount}>
-                    <SignUpButton className="signUp-icon" />
+                    Sign Up
                 </button>
 
                 <div className="login-redirect-text">
