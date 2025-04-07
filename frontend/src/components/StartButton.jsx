@@ -2,15 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/StartButton.css"; 
 
-const StartButton = ({duration, route, directions}) => {
+const StartButton = ({routeData}) => {
     const navigate = useNavigate(); 
 
     const handleClick = () => {
         navigate("/public-transport-nav", {
             state: {
-                duration,
-                route,
-                directions
+                routeData
             }
         });
     };

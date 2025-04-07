@@ -57,9 +57,9 @@ class Database():
 
     def writeData(self, writeStatement, data = None):
 
-        logger.info("Writing information from database with given string")
-        logger.info("Given string = {}".format(writeStatement))
-        logger.info("Given data = {}".format(data))
+        #logger.info("Writing information from database with given string")
+        #logger.info("Given string = {}".format(writeStatement))
+        #logger.info("Given data = {}".format(data))
         try:
             self.cursor.execute(writeStatement, data)
             self.conn.commit()

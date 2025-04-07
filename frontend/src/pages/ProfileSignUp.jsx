@@ -15,7 +15,7 @@ function ProfileSignUp() {
     const [rfid, setRFID] = useState("");
     const [showPassword, setShowPassword] = useState(false);
 
-    const handleCreateAccount = () => {
+    const handleCreateAccount = async () => {
         if (!isValidIdentifier(email_phone)) {
           alert("Invalid phone or email format.");
           return;
@@ -26,19 +26,36 @@ function ProfileSignUp() {
           return;
         }
       
-        const savedUser = getUserFromCookie();
+        try {
+          const response = await fetch("http://127.0.0.1:5000/createUser", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              username: email_phone,
+              password: password
+            })
+          });
       
-        if (savedUser && savedUser.identifier === email_phone) {
-          alert("Looks like you already made an account!");
-          return;
+          const data = await response.json();
+      
+          if (response.ok && data.status === "user created") {
+            const newUser = { identifier: email_phone, password, rfid };
+            setCookie("user", JSON.stringify(newUser), 7);
+            localStorage.setItem("user", JSON.stringify(newUser));
+      
+            alert("Account created successfully!");
+            navigate("/profile-details");
+          } else {
+            alert(`Error: ${data.reason}`);
+          }
+        } catch (error) {
+          console.error("Error creating user:", error);
+          alert("Something went wrong. Please try again.");
         }
-      
-        const newUser = { identifier: email_phone, password, rfid };
-        setCookie("user", JSON.stringify(newUser), 7);
-        localStorage.setItem("user", JSON.stringify(newUser));
-      
-        navigate("/profile-details");
       };
+      
 
   return (
     <div className="profile1-page">

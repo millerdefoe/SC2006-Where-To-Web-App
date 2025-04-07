@@ -1,9 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ReactComponent as Bus } from "../assets/Bus.svg";
-import { ReactComponent as Train } from "../assets/Train.svg";
-import { ReactComponent as Walking } from "../assets/Walking.svg";
-import { ReactComponent as TransportArrow } from "../assets/TransportArrow.svg";
-import { routeData } from "../context/routeData.js";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
@@ -12,21 +8,96 @@ import ModeOfTransport from "../components/ModeOfTransport";
 import CongestionLevelButton from '../components/CongestionLevelButton';
 import RouteSelection from '../components/RouteSelection';
 import DirectionDescription from '../components/DirectionDescription';
-import Badge from "../components/Badge";
-import mapImage from "../assets/inputStartLocationMap.png";
+import MapWithRoute from "../components/MapDrivingRoute"; // ✅ IMPORT HERE
 import "../styles/ViewPublicTransportRoute.css";
 import "../styles/common.css";
 
 function ViewPublicTransportRoute() {
-  const [selectedRoute, setSelectedRoute] = useState("fastest");
+  const [selectedRouteIndex, setSelectedRouteIndex] = useState(0);
+  const [routeData, setRouteData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Icon name → SVG component mapping (for rendering)
-  const iconMap = {
-    bus: Bus,
-    train: Train,
-    walking: Walking,
-    arrow: TransportArrow
-  };
+  useEffect(() => {
+    const fetchRouteData = async () => {
+      try {
+        const currentLocation = {
+          latitude: parseFloat(localStorage.getItem("startLat")),
+          longitude: parseFloat(localStorage.getItem("startLng")),
+        };
+
+        const destinationLocation = {
+          latitude: parseFloat(localStorage.getItem("endLat")),
+          longitude: parseFloat(localStorage.getItem("endLng")),
+        };
+
+        if (
+          isNaN(currentLocation.latitude) ||
+          isNaN(currentLocation.longitude) ||
+          isNaN(destinationLocation.latitude) ||
+          isNaN(destinationLocation.longitude)
+        ) {
+          console.error("Invalid coordinates in localStorage");
+          return;
+        }
+
+        const response = await fetch("http://127.0.0.1:5000/PublicTransportRoute", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            currentLocation,
+            destinationLocation,
+            maxWalkingDistance: 800,
+          }),
+        });
+
+        if (!response.ok) throw new Error("Failed to fetch route data");
+
+        const [leastCongested, fastest] = await response.json();
+
+        const transformedRouteData = [
+          {
+            routeType: "leastCongested",
+            duration: leastCongested.duration || "",
+            polyline: leastCongested.polyline,
+            steps: leastCongested.steps.map(step => ({
+              travelMode: step.travelMode,
+              instructions: step.instructions || "",
+              MRTStopLine: step.transitDetails?.line?.short_name || "",
+              ServiceNumberOrLine: step.ServiceNumberOrLine || ""
+
+            }))
+          },
+          {
+            routeType: "fastest",
+            duration: fastest.duration || "",
+            polyline: fastest.polyline,
+            steps: fastest.steps.map(step => ({
+              travelMode: step.travelMode,
+              instructions: step.instructions || "",
+              MRTStopLine: step.transitDetails?.line?.short_name || "",
+              ServiceNumberOrLine: step.ServiceNumberOrLine || ""
+
+            }))
+          }
+        ];
+
+        setRouteData(transformedRouteData);
+        setIsLoading(false);
+      } catch (error) {
+        console.error("Error fetching route data:", error);
+      }
+    };
+
+    fetchRouteData();
+  }, []);
+
+  if (isLoading || routeData.length === 0) {
+    return <div className="loading-container">Loading route data...</div>;
+  }
+
+  const selectedRoute = routeData[selectedRouteIndex];
 
   return (
     <div className="main-container">
@@ -37,47 +108,42 @@ function ViewPublicTransportRoute() {
 
       <div className="leftContainer2">
         <div className="map-container3">
-          <img src={mapImage} alt="Map" className="map-image3" />
+          <MapWithRoute
+            encodedPolyline={selectedRoute.polyline?.encodedPolyline}
+            mapContainerClassName="map-image3"
+          />
         </div>
 
         <div className="rowContainer2">
           <CongestionLevelButton />
 
           <RouteSelection
-            title={routeData.fastest.title}
-            duration={routeData.fastest.duration}
-            icons={routeData.fastest.icons}
-            onSelect={() => setSelectedRoute("fastest")}
-            isSelected={selectedRoute === "fastest"}
-            iconMap={iconMap}
+            routeData={routeData[0]}
+            onSelect={() => setSelectedRouteIndex(0)}
+            isSelected={selectedRouteIndex === 0}
           />
 
           <RouteSelection
-            title={routeData.leastCongested.title}
-            duration={routeData.leastCongested.duration}
-            icons={routeData.leastCongested.icons}
-            onSelect={() => setSelectedRoute("leastCongested")}
-            isSelected={selectedRoute === "leastCongested"}
-            iconMap={iconMap}
+            routeData={routeData[1]}
+            onSelect={() => setSelectedRouteIndex(1)}
+            isSelected={selectedRouteIndex === 1}
           />
         </div>
       </div>
 
       <div className="rightContainer2">
         <div className="directions-container">
-          <DirectionDescription
-            duration={routeData[selectedRoute].duration}
-            icons={routeData[selectedRoute].icons}
-            directions={routeData[selectedRoute].directions}
-            iconMap={iconMap}
-          />
+          <DirectionDescription routeData={{
+            ...selectedRoute,
+            steps: selectedRoute.steps
+
+          }} />
 
           <div className="startButton-container">
-            <StartButton
-              duration={routeData[selectedRoute].duration}
-              route={routeData[selectedRoute].icons}
-              directions={routeData[selectedRoute].directions}
-            />
+            <StartButton routeData={{
+              ...selectedRoute,
+              steps: selectedRoute.steps
+            }} />
           </div>
         </div>
       </div>

@@ -58,6 +58,15 @@ function MapWithRoute({ encodedPolyline, mapContainerClassName }) {
         mapRef.current = map;
         setMapReady(true); // now it's safe to fitBounds
       }}
+      options={{
+        disableDefaultUI: false,    // Keep UI controls like zoom if needed
+        draggable: false,           // Disable dragging
+        zoomControl: false,         // Disable zoom buttons
+        scrollwheel: false,         // Disable scroll zoom
+        disableDoubleClickZoom: true, // Disable zoom on double click
+        keyboardShortcuts: false,   // Disable keyboard navigation
+        gestureHandling: "none",    // Disable all gestures
+      }}
     >
       {decodedPath.length > 0 && (
         <>

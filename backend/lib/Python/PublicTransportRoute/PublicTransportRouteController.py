@@ -117,8 +117,8 @@ class PublicTransportRouteController():
                             sumofCongestion += 3
                             break
                 elif step['transitDetails']['transitLine']['vehicle']['type'] == "BUS": #For Bus mode of transport. Only need arrival bus's congestion level logically since that is where we want to take the bus. 
-                    arrivalBusServiceNumber = step['transitDetails']['transitLine']['name'] #Gets bus service number that user is taking
-                    arrivalBusStopName = step['transitDetails']['stopDetails']['arrivalStop']['name'] # Loops through JSON file to extract name of MRT stations
+                    arrivalBusServiceNumber = step['transitDetails']['transitLine']['name'] #Gets bus service number that user is taking  
+                    arrivalBusStopName = step['transitDetails']['stopDetails']['arrivalStop']['name'] # Loops through JSON file to extract name of arrival bus stop names
                     arrivalBusStopCode = BusController.getBusStopCode(arrivalBusStopName) #Saves bus stop code to be used for API call for congestion level
                     arrivalBusCongestionLevel = BusController.getBusCongestionLevel(arrivalBusStopCode, arrivalBusServiceNumber)
                     count += 1 
@@ -137,15 +137,80 @@ class PublicTransportRouteController():
     def computeLeastCongestedRoute(responseData):
         chosenRoute = {}
         minCongestionLevel = 99999 #Arbitary number 
-        for i in responseData['routes']:
-            congestionLevel = PublicTransportRouteController.getCongestionLevel(i["legs"][0]) #Refers to the list in legs
+        for route in responseData['routes']:
+            congestionLevel = PublicTransportRouteController.getCongestionLevel(route["legs"][0]) #Refers to the list in legs
             if congestionLevel < minCongestionLevel: #Stores the smallest congestion values all the routes have
                 minCongestionLevel = congestionLevel
-                chosenRoute = i["legs"][0] #Picks the least congested route
+                chosenRoute = route #Picks the least congested route
 
-        logger.info("Route returned by googlemap api was {}".format(chosenRoute))
+        #logger.info("Route returned by googlemap api was {}".format(chosenRoute))
         return chosenRoute 
 
-    def getPolylineFromRoute(chosenRoute):
-        return chosenRoute['polyline']
-    
+    def sendRouteInformation(chosenRoute):
+        if chosenRoute == {}:
+            logger.error("No data found")
+            return None
+        result = {}
+
+        #Details that will be output to frontend
+        result['Routeinfo'] = "1st route is least congested. 2nd route is fastest."
+        result['polyline'] = chosenRoute['polyline']
+        result['distanceMeters'] = chosenRoute['distanceMeters']
+        result['duration'] = chosenRoute['duration']
+
+        tempStepList = []
+        for leg in chosenRoute["legs"]:
+            for step in leg['steps']: #Loops through steps
+                tempDict = {}
+
+                # If mode of travelling is WALK, outputs it. If it's transit, don't output. It will be outputting BUS/MRT at the bottom later. 
+                if step['travelMode'] == "WALK":
+                    tempDict['travelMode'] = step['travelMode']
+
+                if 'transitDetails' in step.keys():
+                    transitDetails = step['transitDetails']
+
+                    #Checks if attribute stopCount is in transitDetails dictionary.
+                    if 'stopCount' in transitDetails.keys():
+                        tempDict['numberOfStops'] = transitDetails['stopCount']
+                    
+                    #Checks if attribute stopDetails is in transitDetails dictionary.
+                    if 'stopDetails' in transitDetails.keys():
+                        tempDict['currentStopName'] = transitDetails['stopDetails']['arrivalStop']['name']
+                        tempDict['destinationStopName'] = transitDetails['stopDetails']['departureStop']['name']
+
+                    #Checks if attribute transitLine is in transitDetails dictionary.  
+                    if 'transitLine' in transitDetails.keys():
+                        #Checks if attribute nameShort is in transitLine dictionary.
+                        if 'nameShort' in transitDetails['transitLine'].keys():
+                            tempDict['MRTStopLine'] = transitDetails['transitLine']['nameShort']
+
+                        tempDict['ServiceNumberOrLine'] = transitDetails['transitLine']['name']
+                        tempDict['travelMode'] = transitDetails['transitLine']['vehicle']['type']
+                        
+                for navigationInstructionAttribute in step['navigationInstruction'].keys(): #Attributes in this case is 'maneuver', 'instructions'
+                    tempDict[navigationInstructionAttribute] = step['navigationInstruction'][navigationInstructionAttribute] #Stores the information of either attribute into temp dict
+                
+                for localizedValuesAttribute in step['localizedValues'].keys():
+                    if 'text' in step['localizedValues'][localizedValuesAttribute].keys():
+                        tempDict[localizedValuesAttribute] = step['localizedValues'][localizedValuesAttribute]['text'] #Used to output distance & staticDuration
+                    else:    
+                        tempDict[localizedValuesAttribute] = step['localizedValues'][localizedValuesAttribute]
+
+                tempStepList.append(tempDict) 
+        
+        result['steps'] = tempStepList
+
+        return result
+
+    def computeFastestRoute(responseData):
+        chosenRoute = {}
+        shortestDuration = 99999 #Arbitary number 
+        for route in responseData['routes']:
+            duration_str = route["duration"]
+            duration = int(duration_str.rstrip('s')) #Removes the 's' and converts str to int
+            if duration < shortestDuration:
+                shortestDuration = duration
+                chosenRoute = route
+        #logger.info("Fastest route returned by googlemap api was {}".format(fastestChosenRoute))
+        return chosenRoute    
