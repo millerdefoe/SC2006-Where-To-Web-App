@@ -178,16 +178,12 @@ class PublicTransportRouteController():
                     if 'stopDetails' in transitDetails.keys():
                         tempDict['currentStopName'] = transitDetails['stopDetails']['arrivalStop']['name']
                         tempDict['destinationStopName'] = transitDetails['stopDetails']['departureStop']['name']
-                        
-                        tempDict['currentStopCode'] = BusController.getBusStopCode(tempDict['currentStopName'])
-                        tempDict['destinationStopCode'] = BusController.getBusStopCode(tempDict['destinationStopName'])
-                        
 
                     #Checks if attribute transitLine is in transitDetails dictionary.  
                     if 'transitLine' in transitDetails.keys():
                         #Checks if attribute nameShort is in transitLine dictionary.
                         if 'nameShort' in transitDetails['transitLine'].keys():
-                            tempDict['Line'] = transitDetails['transitLine']['nameShort']
+                            tempDict['MRTStopLine'] = transitDetails['transitLine']['nameShort']
 
                         tempDict['ServiceNumberOrLine'] = transitDetails['transitLine']['name']
                         tempDict['travelMode'] = transitDetails['transitLine']['vehicle']['type']
@@ -218,81 +214,3 @@ class PublicTransportRouteController():
                 chosenRoute = route
         #logger.info("Fastest route returned by googlemap api was {}".format(fastestChosenRoute))
         return chosenRoute    
-    
-    def getCongestionList(routes):
-        returnlist = []
-        title = ["leastCongested", "fastest"]
-        for routeindex in range(len(routes)):
-            tempdict = {
-                'CongestionInfo' : title[routeindex]
-            }
-
-            FirstCurrentStopCongestionLevel = ''
-
-            if 'steps' in routes[routeindex].keys():
-                for steps in routes[routeindex]['steps']:
-                    if 'travelMode' in steps.keys():
-                        if steps['travelMode'] == "BUS":
-                            if isinstance(steps['ServiceNumberOrLine'], str):
-                                # Skip NTU Campus buses
-                                service_name = steps['ServiceNumberOrLine'].lower()
-                                if "campus loop" not in service_name and "campus rider" not in service_name:
-                                    if 'ServiceNumberOrLine' in steps.keys() and 'currentStopCode' in steps.keys() and 'destinationStopCode' in steps.keys():
-
-                                        currentStopCongestionLevel = BusController.getBusCongestionLevel(steps['currentStopCode'],steps['ServiceNumberOrLine'])
-                                        destinationStopCongestionLevel = BusController.getBusCongestionLevel(steps['destinationStopCode'],steps['ServiceNumberOrLine'])
-
-                                        if FirstCurrentStopCongestionLevel == '':
-                                            FirstCurrentStopCongestionLevel = { 
-                                                "travelMode": steps['travelMode'],
-                                                "ServiceNumberOrLine": steps['ServiceNumberOrLine'],
-                                                "currentStopName": steps['currentStopName'],
-                                                "crowdLevel" : currentStopCongestionLevel
-                                            } 
-
-                                        lastDestinationStopCongestionLevel = {
-                                            "travelMode": steps['travelMode'],
-                                            "ServiceNumberOrLine": steps['ServiceNumberOrLine'],
-                                            "destinationStopName": steps['destinationStopName'],
-                                            "crowdLevel" : destinationStopCongestionLevel
-                                        }
-
-                                    else:
-                                        logger.error("No Bus information found")
-                                        return None
-                                    
-                        elif steps['travelMode'] == "SUBWAY":
-                            if 'currentStopName' in steps.keys() and 'destinationStopName' in steps.keys():
-                                arrivalStationNumber = MRTController.getMRTStationNumber(steps['currentStopName'])
-                                destinationStationNumber = MRTController.getMRTStationNumber(steps['destinationStopName'])
-
-                                arrivalMRTCongestionLevel = MRTController.getMRTCongestionLevel(arrivalStationNumber)
-                                destinationMRTCongestionLevel = MRTController.getMRTCongestionLevel(destinationStationNumber)
-
-                                if FirstCurrentStopCongestionLevel == '':
-                                    FirstCurrentStopCongestionLevel = { 
-                                        "travelMode": steps['travelMode'],
-                                        "currentStopName": steps['currentStopName'],
-                                        "ServiceNumberOrLine": steps['ServiceNumberOrLine'],
-                                        "crowdLevel" : arrivalMRTCongestionLevel
-                                    } 
-
-                                lastDestinationStopCongestionLevel = {
-                                    "travelMode": steps['travelMode'],
-                                    "ServiceNumberOrLine": steps['ServiceNumberOrLine'],
-                                    "destinationStopName": steps['destinationStopName'],
-                                    "crowdLevel" : destinationMRTCongestionLevel
-                                }
-
-                    else:
-                        logger.error("No Travel Mode information found")
-                        return None
-            else:
-                logger.error("No route information found")
-                return None
-            
-            tempdict['FirstCurrentStopCongestionLevel'] = FirstCurrentStopCongestionLevel
-            tempdict['lastDestinationStopCongestionLevel'] = lastDestinationStopCongestionLevel
-            returnlist.append(tempdict)
-            
-        return returnlist

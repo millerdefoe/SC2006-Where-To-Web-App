@@ -773,11 +773,9 @@ def PublicTransportRoute():
             "status" : "failure",
             "reason" : "backend error"
         }
-
-        return jsonify(returnData), 400
     
     chosenFastestRouteData = PublicTransportRouteController.computeFastestRoute(limitWalkingDistanceData)
-    if chosenFastestRouteData == False or chosenFastestRouteData == None:
+    if chosenFastestRouteData == False:
 
         logger.debug("Error when retrieving the chosen fastest route. Returning error 400")
         returnData = {
@@ -797,28 +795,6 @@ def PublicTransportRoute():
         }
         
     return jsonify(sendLeastCongestedRouteInformation, sendFastestRouteInformation), 200
-
-@app.route("/CongestionData", methods=["GET", "POST"])
-def CongestionData():
-    logger.info("Congestion Data accessed. Verifying information provided")
-
-    try:
-        data = request.get_json()
-        congestionList = PublicTransportRouteController.getCongestionList(data)
-
-        if congestionList == None:
-            logger.error("congestionList is None, Rasing Exception")
-            raise Exception("congestionList is None, Rasing Exception")
-
-    except Exception as e:
-        logger.error(f"Route data was not provided. {e} Returning error 400")
-        returnData = {
-            "status" : "failure",
-            "reason" : "Route data was not provided"
-        }
-        return jsonify(returnData), 400
-    
-    return jsonify(congestionList), 200
 
 if __name__ == "__main__":
     app.run()
