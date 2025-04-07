@@ -790,15 +790,12 @@ def PublicTransportRoute():
 def CongestionData():
     logger.info("Congestion Data accessed. Verifying information provided")
 
-
-    data = request.get_json()
-    congestionList = PublicTransportRouteController.getCongestionList(data)
-
-    if congestionList == None:
-        logger.error("congestionList is None, Rasing Exception")
-
     try:
+        data = request.get_json()
+        congestionList = PublicTransportRouteController.getCongestionList(data)
 
+        if congestionList == None:
+            logger.error("congestionList is None, Rasing Exception")
             raise Exception("congestionList is None, Rasing Exception")
 
     except Exception as e:
@@ -808,6 +805,8 @@ def CongestionData():
             "reason" : "Route data was not provided"
         }
         return jsonify(returnData), 400
+    
     return jsonify(congestionList), 200
+
 if __name__ == "__main__":
     app.run()
