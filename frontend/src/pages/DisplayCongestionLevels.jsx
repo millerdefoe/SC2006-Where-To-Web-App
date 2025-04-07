@@ -11,13 +11,13 @@ import "../styles/common.css";
 function DisplayCongestionLevels() {
     const routeData = {  // route data is hard coded for now 
         station1: {
-            crowdLevel: "h",
+            crowdLevel: "90%",
             stationName: "Tanjong Katong",
             badgeLabel: "TEL"
         },
 
         station2: {
-            crowdLevel: "h",
+            crowdLevel: "50%",
             stationName: "Promenade",
             badgeLabel: "DTL"
         },
@@ -29,13 +29,13 @@ function DisplayCongestionLevels() {
         },
 
         station4: {
-            crowdLevel: "SEA",
+            crowdLevel: "60%",
             stationName: "Opp Tg Katong Rd Sth P/G",
             badgeLabel: "48"
         },
 
         station5: {
-            crowdLevel: "SDA",
+            crowdLevel: "34%",
             stationName: "Opp Botanic Gdns Stn",
             badgeLabel: "14"
         }
