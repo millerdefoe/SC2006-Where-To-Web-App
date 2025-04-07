@@ -10,6 +10,7 @@ import { ReactComponent as SaveDetailsButton } from "../assets/SaveDetailsButton
 import { ReactComponent as DeleteAccountButton } from "../assets/DeleteAccountButton.svg";
 import { ReactComponent as LogOutButton } from "../assets/LogOutButton.svg";
 import { getUserFromCookie, saveUserToCookie, deleteCookie, isValidPassword } from "../components/ProfileUtils";
+import bcrypt from 'bcryptjs';
 import "../styles/ProfileDetails.css";
 
 const ProfileDetails = () => {
@@ -19,6 +20,18 @@ const ProfileDetails = () => {
     const [rfid, setRfid] = useState("");
     const [isEditing, setIsEditing] = useState(false);
     const navigate = useNavigate();
+    const fixedSalt = '$2a$10$abcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstu'; // Fixed salt
+
+    async function generateDeterministicHash(password) {
+      try {
+        const hash = await bcrypt.hash(password, fixedSalt); 
+        return hash;
+      } catch (error) {
+        console.error('Error hashing the password:', error);
+        return null;
+      }
+    }
+
 
     useEffect(() => {
         const savedUser = getUserFromCookie();
@@ -31,22 +44,72 @@ const ProfileDetails = () => {
         setRfid(savedUser.rfid || "");
       }, [navigate]);
     
-      const handleSave = () => {
+      const handleSave = async () => {
         if (!password.trim()) {
           alert("Password cannot be empty.");
           return;
         }
-
+      
         if (!isValidPassword(password)) {
-            alert("Password must be at least 8 characters long and include at least one number, one uppercase letter, and one lowercase letter.");
-            return;
+          alert("Password must be at least 8 characters long and include at least one number, one uppercase letter, and one lowercase letter.");
+          return;
         }
-    
-        const updatedUser = { ...user, password, rfid };
-        setUser(updatedUser);
-        saveUserToCookie(updatedUser); 
-        setIsEditing(false);
+      
+        const requestData = {
+          username: user.identifier,
+        };
+      
+        // Include password only if it was changed
+        if (password !== user.password) {
+          const hashedPassword = await generateDeterministicHash(password);
+          if (!hashedPassword) {
+            alert("Failed to hash the password.");
+            return;
+          }
+          requestData.password = hashedPassword;
+        }
+      
+        // Include RFID only if it was changed
+        if (rfid !== user.rfid) {
+          requestData.rfid = rfid;
+        }
+      
+        if (!requestData.password && !requestData.rfid) {
+          alert("No changes detected.");
+          return;
+        }
+      
+        try {
+          const res = await fetch("http://127.0.0.1:5000/editUser", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestData),
+          });
+      
+          const data = await res.json();
+      
+          if (res.status === 200 && data.status === "user editted") {
+            const updatedUser = {
+              ...user,
+              password: requestData.password || user.password,
+              rfid: requestData.rfid || user.rfid,
+            };
+            setUser(updatedUser);
+            saveUserToCookie(updatedUser);
+            setIsEditing(false);
+            alert("Profile updated successfully!");
+          } else {
+            alert(`Failed to update profile: ${data.reason}`);
+          }
+        } catch (error) {
+          console.error("Error updating profile:", error);
+          alert("Something went wrong while updating your profile.");
+        }
       };
+      
+      
     
       const handleDeleteAccount = () => {
         if (window.confirm("Are you sure you want to delete your account?")) {
