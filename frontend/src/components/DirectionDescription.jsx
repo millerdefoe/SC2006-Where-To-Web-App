@@ -13,7 +13,7 @@ function groupSteps(steps) {
 
   for (const step of steps) {
     if (!step.instructions || step.instructions.trim() === "") continue;
-    
+
     const mode = step.travelMode;
     const label = (mode === "BUS" || mode === "SUBWAY")
       ? step.ServiceNumberOrLine || step.MRTStopLine
@@ -87,9 +87,15 @@ const DirectionDescription = ({ routeData }) => {
             {/* RIGHT TEXT */}
             <div className="instructionGroup">
               {group.instructions.map((text, subIdx) => (
-                <p key={subIdx}>{text}</p>
+                <p
+                  key={subIdx}
+                  className={subIdx === 0 ? "main-instruction" : "sub-instruction"}
+                >
+                  {text}
+                </p>
               ))}
             </div>
+
           </div>
         ))}
       </div>

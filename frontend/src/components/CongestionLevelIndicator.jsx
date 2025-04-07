@@ -5,21 +5,38 @@ import "../styles/CongestionLevelIndicator.css";
 
 const CongestionLevelIndicator = ({CrowdLevel, StopName, BadgeLabel}) => {
     let isBus = false;
-    let numericLevel = parseInt(CrowdLevel.toString().replace("%", ""));
+    let congestionLevel = CrowdLevel;
     let colour = "#ECE9E9"; 
-    if (numericLevel < 40){
+    let width = "10";
+
+    if (congestionLevel === "SEA" || congestionLevel === "l"){
         colour = "#7ed957"; // green 
+        width = "20";
     }
-    else if (numericLevel > 70){
+    else if (congestionLevel === "LSD" || congestionLevel === "h"){
         colour = "#ff5757"; // red
+        width = "80";
     }
     else {
         colour = "#ffbd59"; // yellow
+        width = "50";
     }
 
     if (!isNaN(Number(BadgeLabel))){
         isBus = true;
     }
+
+    const mrtCrowdIndicators = {
+        l: "Low",
+        m: "Medium",
+        h: "High",
+    };
+
+    const busCrowdIndicators = {
+        SEA: "Seats Available",
+        SDA: "Standing Available",
+        LSD: "Limited Standing",
+    };
 
     return(
         <div className="congestionLevelIndicator-container">
@@ -36,8 +53,9 @@ const CongestionLevelIndicator = ({CrowdLevel, StopName, BadgeLabel}) => {
             <div className="crowdIndicator-container" style={{ borderColor: colour, backgroundColor: `rgba(${hexToRgb(colour)}, 0.1)` }}
             >
             <div className="crowdIndicator-bar" 
-                style={{ backgroundColor: colour, width: `${numericLevel}%` }}>
-                {numericLevel}%
+                style={{ backgroundColor: colour, width: `100%` }}>
+                {isBus ? (busCrowdIndicators[congestionLevel] || congestionLevel) : (mrtCrowdIndicators[congestionLevel] || congestionLevel)}
+
             </div>
 
             </div>
