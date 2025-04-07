@@ -2,8 +2,10 @@ import requests
 import json
 import os
 from datetime import datetime
+from datetime import timedelta
 
 from lib.Python.Logging.PythonLogger import PythonLogger
+from lib.Python.User.UserController import UserController
 
 logger = PythonLogger(os.path.basename(__file__))
 
@@ -137,6 +139,52 @@ class CarparkController():
             logger.error(e)
             logger.info(traceback.print_exc())
             return False, str(e)
+
+    def getBookings(self, username, dbObj):
+
+        logger.info("Getting carpark bookings for user {}".format(username))
+
+        userController = UserController()
+        userid = userController.findUserId(username, dbObj)
+
+        timelimit = datetime.now() - timedelta(minutes=30)
+
+        selectStatement = "SELECT * FROM bookings WHERE userid = {} AND starttime > '{}'".format(userid, timelimit.strftime("%Y-%m-%d %H:%M:%S"))
+
+        data = dbObj.readData(selectStatement)
+
+        if data == []:
+            return False
+
+        else:
+            dataParsed = []
+            for i in data:
+                currentBooking = []
+                currentBooking.append(i[0])
+                currentBooking.append(i[1])
+                currentBooking.append(i[2])
+                currentBooking.append(i[3].strftime("%Y-%m-%d %H:%M:%S"))
+                dataParsed.append(currentBooking)
+            return dataParsed
+
+    def deleteBooking(self, username, carparkid, starttime, dbObj):
+
+        logger.info("Deleting booking for user {} at carpark {} at time {}".format(username, carparkid, starttime))
+
+        userController = UserController()
+        userid = userController.findUserId(username, dbObj)
+
+        deleteString = "DELETE FROM bookings WHERE userid = {} AND carparkid = '{}' AND starttime = '{}'".format(userid, carparkid, starttime)
+
+        data = dbObj.writeData(deleteString)
+
+        if data:
+            logger.info("Deletion from database was succesful")
+            return True
+
+        else:
+
+            logger.error("Error deleting booking. Please check logs")
 
     def updateCarparkRate(carparkId, rate):
 
