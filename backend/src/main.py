@@ -386,7 +386,7 @@ def carparksNearby():
 
     return jsonify(data), 200
 
-@app.route("/carparkPricing", methods=["GET"])
+@app.route("/carparkPricing", methods=["GET", "POST"])
 def carparkPricing():
 
     logger.info("carparkPricing route accessed. Verifying information provided")
@@ -421,7 +421,7 @@ def carparkPricing():
 
     return jsonify(returnData), 200
 
-@app.route("/carparkLots", methods=["GET"])
+@app.route("/carparkLots", methods=["GET", "POST"])
 def carparkLots():
 
     logger.info("carparkLots route accessed. Verifying information provided")
@@ -460,7 +460,7 @@ def carparkLots():
 
     return jsonify(returnData), 200
 
-@app.route("/bookCarpark", methods=["GET"])
+@app.route("/bookCarpark", methods=["GET", "POST"])
 def bookCarpark():
 
     logger.info("bookCarpark route accessed. Verifying information provided")
