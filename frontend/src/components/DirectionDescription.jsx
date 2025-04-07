@@ -24,11 +24,11 @@ function groupSteps(steps) {
       current = {
         type: mode,
         label,
-        instructions: [step.instructions],
+        steps: [],
       };
-    } else {
-      current.instructions.push(step.instructions);
     }
+
+    current.steps.push(step);
   }
 
   if (current) grouped.push(current);
@@ -86,20 +86,42 @@ const DirectionDescription = ({ routeData }) => {
 
             {/* RIGHT TEXT */}
             <div className="instructionGroup">
-              {group.instructions.map((text, subIdx) => (
-                <p
-                  key={subIdx}
-                  className={subIdx === 0 ? "main-instruction" : "sub-instruction"}
-                >
-                  {text}
-                </p>
-              ))}
-            </div>
+              {group.steps.map((step, subIdx) => {
+                const isFirst = subIdx === 0;
+                const isWalk = group.type === "WALK";
+                const showNumber = isWalk && !isFirst;
+                const prefix = showNumber ? `${subIdx}. ` : "";
 
+                return (
+                  <p
+                    key={subIdx}
+                    className={isFirst ? "main-instruction" : "sub-instruction"}
+                  >
+                    {/* WALKING SUBSTEPS */}
+                    {isWalk && !isFirst && `${prefix}`}
+                    {/* MAIN INSTRUCTION */}
+                    {isFirst && !isWalk ? (
+                      <strong>
+                        {step.instructions}
+                        {step.numberOfStops && step.staticDuration && (
+                          <> ({step.numberOfStops} stops, {step.staticDuration})</>
+                        )}
+                      </strong>
+                    ) : (
+                      <>
+                        {step.instructions}
+                        {isWalk && step.distance && step.staticDuration && (
+                          <> ({step.distance}, {step.staticDuration})</>
+                        )}
+                      </>
+                    )}
+                  </p>
+                );
+              })}
+            </div>
           </div>
         ))}
       </div>
-
     </div>
   );
 };
