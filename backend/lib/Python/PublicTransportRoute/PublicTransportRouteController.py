@@ -61,6 +61,10 @@ class PublicTransportRouteController():
             return responseData
     
     def limitWalkingDistance(responseData, maxWalkingDistance):
+        if maxWalkingDistance == 0:
+            logger.error("No values in maxWalkingDistance. Value is 0.")
+            return None
+
         result = {
             "routes" : [] #Template
         }
@@ -221,7 +225,7 @@ class PublicTransportRouteController():
                                 if firstArrivalCongestionLevel == '': #Stores the first result 
                                     firstArrivalCongestionLevel = arrivalCongestionLevel
 
-                            elif tempDict['travelMode'] == 'SUBWAY':
+                            elif tempDict['travelMode'] == 'SUBWAY':    
                                 #Saves station number to be used for API call for congestion level
                                 currentStopName = tempDict['currentStopName']
                                 StationNumber = MRTController.getMRTStationNumber(currentStopName)
