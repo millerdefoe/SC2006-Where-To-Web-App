@@ -178,14 +178,12 @@ function ViewCarParks() {
                         <p>{name} Booked Successfully!</p>
                         <button
                           className="computeRoute-button"
-                          onClick={() =>
-                            navigate("/view-driving-directions", {
-                              state: {
-                                destinationLat: parseFloat(lat),
-                                destinationLng: parseFloat(lng),
-                              },
-                            })
-                          }
+                          onClick={() => {
+                            localStorage.setItem("endLat", lat);
+                            localStorage.setItem("endLng", lng);
+                            navigate("/view-driving-directions");
+                          }}
+                          
                         >
                           <ComputeRoute className="computeRoute-icon" />
                         </button>
