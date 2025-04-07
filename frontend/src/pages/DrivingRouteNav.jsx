@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { ReactComponent as Car } from "../assets/Car.svg";
 import { ReactComponent as MapPin } from "../assets/MapPin.svg";
 import { ReactComponent as Parking } from "../assets/Parking.svg";
 import { ReactComponent as Road } from "../assets/Road.svg";
 import { ReactComponent as Merge } from "../assets/Merge.svg";
 import { ReactComponent as TimerIcon } from "../assets/Timer.svg";
+import { ReactComponent as EndJourneyButton } from "../assets/EndJourney.svg";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
@@ -16,6 +18,7 @@ import axios from "axios";
 import "../styles/DrivingRouteNav.css";
 
 function DrivingRouteNav() {
+  const navigate = useNavigate();
   const [route, setRoute] = useState(null);
   const [source, setSource] = useState("");
   const [destination, setDestination] = useState("");
@@ -80,9 +83,9 @@ function DrivingRouteNav() {
               mapContainerClassName="map-image5"
             />
           )}
-          <div className="endButton1-container">
-            <EndButton />
-          </div>
+          <button className="endButton1-container" onClick={() => navigate("/end-location")}>
+            <EndJourneyButton className="endButton1-icon" />
+          </button>
         </div>
       </div>
 

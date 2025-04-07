@@ -88,13 +88,13 @@ const ViewDrivingDirections = () => {
               <p className="text-red-600">{error}</p>
             ) : (
               route && (
-                <div className="map-container6">
+                <div className="map-container5">
                   <MapWithRoute
                     encodedPolyline={route.polyline}
-                    mapContainerClassName="map-container6"
+                    mapContainerClassName="map-image5"
                   />
                   <button className="view-car-parks-button1" onClick={() => navigate("/view-car-parks")}>
-                    <ViewNearbyCarParksIcon className="view-car-parks-icon1"/>
+                    <ViewNearbyCarParksIcon className="view-car-parks-icon1" />
                   </button>
                 </div>
               )

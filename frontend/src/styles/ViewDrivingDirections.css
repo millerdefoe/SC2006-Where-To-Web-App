@@ -12,7 +12,7 @@
     aspect-ratio: 5 / 3; 
     background-color: transparent;
     padding: 1em;
-    margin-top: 5%;
+    margin-top: 3.5%;
     box-sizing: border-box;
     flex-grow: 1;
     display: flex;
@@ -27,7 +27,6 @@
     width: 30%;
     aspect-ratio: 5/ 7; 
     background-color: transparent;
-    margin-top: 4%;
     box-sizing: border-box;
     flex-grow: 1;
     display: flex;
@@ -39,18 +38,19 @@
 
 .directions-container3 {
     position: relative;
-    height: 550px;
+    height: 540px;
+    aspect-ratio: 2/3;
     background-color: transparent;
     border: 2px solid #000;
     border-radius: 30px;
-    margin-top: 5%;
+    margin-top: 5.3%;
     display: flex;
     flex-direction: column;
     justify-content: space-between; 
     padding: 1rem;
     overflow: hidden;
     align-items: center;
-    margin-right: 5%;
+    margin-right: 2%;
   }
 
   .directions-header {
@@ -62,7 +62,6 @@
     flex-direction: row; 
     align-items: center;
     justify-content: flex-start; 
-    margin-top: 2%;
 }
 
 .directions-title {
@@ -105,7 +104,7 @@
 .step-list {
     list-style: none;
     padding: 0;
-    margin-top: 3%;
+    margin-top: 0;
     overflow-y: auto;
 }
 
@@ -154,9 +153,9 @@
 
 .start-container {
     position: absolute;
-    bottom: -3%;  
-    width: clamp(70px, 12vw, 100px); 
-    height: clamp(70px, 12vw, 100px);
+    bottom: -2.5%;  
+    width: clamp(70px, 12vw, 95px); 
+    height: clamp(70px, 12vw, 95px);
     background: transparent;
     border: none;
     cursor: pointer;
@@ -193,7 +192,7 @@
     aspect-ratio: 8/3;
     display: flex;
     align-items: center;
-    background: #ECE9E9;
+    background: transparent;
     flex-shrink: 0;
     border-radius: 20px;
     margin-top: -1%;
@@ -210,7 +209,7 @@
 .view-car-parks-button1 {
     position: absolute;
     bottom: -8%;
-    left: 50%;
+    left: 90%;
     transform: translateX(-50%); 
     width: clamp(120px, 20vw, 160px); 
     height: clamp(120px, 20vw, 160px);
