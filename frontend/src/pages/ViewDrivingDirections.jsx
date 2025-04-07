@@ -16,7 +16,7 @@ import axios from "axios";
 import "../styles/ViewDrivingDirections.css";
 import MapWithRoute from "../components/MapDrivingRoute";
 import ModeOfTransport from "../components/ModeOfTransport";
-import { useLocation } from "react-router-dom";
+
 
 
 const ViewDrivingDirections = () => {
@@ -27,9 +27,9 @@ const ViewDrivingDirections = () => {
   const [source, setSource] = useState("");
   const [destination, setDestination] = useState("");
 
-  const location = useLocation();
-  const destLatFromState = location.state?.destinationLat;
-  const destLngFromState = location.state?.destinationLng;
+  const selectedLat = parseFloat(localStorage.getItem("selectedCarparkLat"));
+  const selectedLng = parseFloat(localStorage.getItem("selectedCarparkLng"));
+  
   
   useEffect(() => {
     const fetchRoute = async () => {
@@ -42,16 +42,12 @@ const ViewDrivingDirections = () => {
       };
   
       const destinationCoords = {
-        latitude: destLatFromState ?? parseFloat(localStorage.getItem("endLat")),
-        longitude: destLngFromState ?? parseFloat(localStorage.getItem("endLng")),
+        latitude: !isNaN(selectedLat) ? selectedLat : parseFloat(localStorage.getItem("endLat")),
+        longitude: !isNaN(selectedLng) ? selectedLng : parseFloat(localStorage.getItem("endLng")),
       };
   
-      setSource(startLocation);
-      if (destLatFromState && destLngFromState) {
-        setDestination("Selected Carpark");
-      } else {
-        setDestination(endLocation);
-      }
+      setDestination(!isNaN(selectedLat) ? "Selected Carpark" : endLocation);
+
   
       try {
         const response = await axios.post("http://127.0.0.1:5000/getRoute", {

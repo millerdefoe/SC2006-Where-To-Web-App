@@ -98,7 +98,7 @@ function ViewCarParks() {
     return (R * c).toFixed(2);
   };
 
-  const handleBooking = async (carparkId, lotType, index) => {
+  const handleBooking = async (carparkId, lotType, index, lat, lng) => {
     try {
       const etaSeconds = parseInt(localStorage.getItem("etaSeconds") || 60);
       const now = new Date(Date.now() + etaSeconds * 1000);
@@ -118,6 +118,9 @@ function ViewCarParks() {
 
       if (res.status === 200 && res.data.status === "success") {
         setStickyVisible(prev => ({ ...prev, [`carPark${index + 1}`]: true }));
+        localStorage.setItem("selectedCarparkLat", lat);
+        localStorage.setItem("selectedCarparkLng", lng);
+
       } else {
         alert(res.data.reason || "Booking failed");
       }
@@ -162,7 +165,7 @@ function ViewCarParks() {
                   <span>Lots Available: {lots}</span>
                 </p>
                 <div className="book-button">
-                  <Book className="book-icon" onClick={() => handleBooking(id, lotType, index)} />
+                  <Book className="book-icon" onClick={() => handleBooking(id, lotType, index, parseFloat(lat), parseFloat(lng))} />
                   {stickyVisible[`carPark${index + 1}`] && (
                     <div className="sticky-overlay">
                       <div className="sticky-bar">
