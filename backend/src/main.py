@@ -217,6 +217,46 @@ def createUser():
     }
     return jsonify(returnData), 200
 
+@app.route("/deleteUser", methods=["GET", "POST"])
+def deleteUser():
+
+    logger.info("Delete user route accessed. Attempting to create new user")
+    logger.info("Checking for validity of information provided")
+
+    try:
+        data = request.get_json()
+        if "userid" not in data.keys():
+            raise Exception
+
+        userid = data["userid"]
+
+    except Exception as e:
+
+        logger.error("Required information to delete user was not provided. Returning error 400")
+        returnData = {
+            "status" : "user not deleted",
+            "reason" : "userid was not provided"
+        }
+
+        return jsonify(returnData), 400
+
+    result = userController.deleteUser(userid, dbObj)
+
+    if result == False:
+        logger.debug("Database error when deleting user. Please check logs")
+        returnData = {
+            "status": "user not deleted",
+            "reason" : "backend error"
+        }
+        return jsonify(returnData), 400
+
+    logger.info("Returning json specifying deleted user's userid")
+    returnData = {
+        "status": "user deleted",
+        "userid" : result
+    }
+    return jsonify(returnData), 200
+
 @app.route("/editUser", methods=["GET", "POST"])
 def editUser():
 
@@ -631,6 +671,25 @@ def checkinCarpark():
 
         return jsonify(returnData), 400
 
+    result = carparkController.checkinCarpark(carparkid, lottype, rfid, time, dbObj)
+
+    if result == False:
+
+        logger.error("Unable to checkin. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Booking not available. Else, contact backend team"
+        }
+
+        return jsonify(returnData), 400
+
+    returnData = {
+        "status" : "success",
+        "reason" : "Checkin successful"
+    }
+
+    return jsonify(returnData), 200
+
 @app.route("/PublicTransportRoute", methods=["GET", "POST"])
 def PublicTransportRoute():
     logger.info("Public Transport Route accessed. Verifying information provided")
@@ -702,9 +761,11 @@ def PublicTransportRoute():
             "status" : "failure",
             "reason" : "backend error"
         }
+
+        return jsonify(returnData), 400
     
     chosenFastestRouteData = PublicTransportRouteController.computeFastestRoute(limitWalkingDistanceData)
-    if chosenFastestRouteData == False:
+    if chosenFastestRouteData == False or chosenFastestRouteData == None:
 
         logger.debug("Error when retrieving the chosen fastest route. Returning error 400")
         returnData = {
@@ -724,6 +785,28 @@ def PublicTransportRoute():
         }
         
     return jsonify(sendLeastCongestedRouteInformation, sendFastestRouteInformation), 200
+
+@app.route("/CongestionData", methods=["GET", "POST"])
+def CongestionData():
+    logger.info("Congestion Data accessed. Verifying information provided")
+
+    try:
+        data = request.get_json()
+        congestionList = PublicTransportRouteController.getCongestionList(data)
+
+        if congestionList == None:
+            logger.error("congestionList is None, Rasing Exception")
+            raise Exception("congestionList is None, Rasing Exception")
+
+    except Exception as e:
+        logger.error(f"Route data was not provided. {e} Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Route data was not provided"
+        }
+        return jsonify(returnData), 400
+    
+    return jsonify(congestionList), 200
 
 if __name__ == "__main__":
     app.run()

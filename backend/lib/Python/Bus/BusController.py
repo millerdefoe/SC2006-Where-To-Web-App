@@ -72,8 +72,8 @@ class BusController:
                 #Extracts the bus load only. NextBus just refers to the current one that is arriving
                 return services[0]['NextBus']['Load']
             else:
-                logger.error("Cannot get congestion level from services")
+                logger.error("No bus services found")
                 return None
         else:
-            logger.error("No bus services found")
+            logger.error("No service attribute in response")
             return None
