@@ -56,6 +56,18 @@ class UserController():
 
         return userid
 
+    def deleteUser(self, userid: str, dbObj):
+
+        logger.info("Deleting user {}".format(userid))
+
+        deleteStatement = "DELETE FROM users WHERE userid = {}".format(userid)
+
+        if dbObj.writeData(deleteStatement):
+            return True
+
+        logger.error("Database error when deleting user {}".format(userid))
+        return False
+
     def loginUser(self, username: str, password: str, dbObj):
 
         logger.info("Verifying credentials for username {}".format(username))
@@ -129,3 +141,19 @@ class UserController():
         logger.info("Returning userid: {} of user {}".format(userid, username))
 
         return userid
+
+    def findUserFromRFID(self, rfid, dbObj):
+
+        logger.info("Finding user that owns RFID tag {}".format(rfid))
+
+        selectStatement = "SELECT username FROM users WHERE rfid = '{}'".format(rfid)
+
+        data = dbObj.readData(selectStatement)
+
+        if data == []:
+            logger.info("RFID does not belong to any user")
+            return False
+
+        else:
+            logger.info("RFID belongs to user {}".format(data[0]))
+            return data[0]

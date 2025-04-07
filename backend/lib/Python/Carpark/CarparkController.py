@@ -101,7 +101,7 @@ class CarparkController():
 
         try:
 
-            insertStatement = "INSERT INTO bookings(carparkid, lottype, userid, startTime, duration) values (%s, %s, %s, %s, %s)"
+            insertStatement = "INSERT INTO bookings(carparkid, lottype, userid, startTime, duration, status) values (%s, %s, %s, %s, %s, %s)"
 
             if lotType not in ["C", "M", "Y", "S", "H", "L"]:
                 logger.error("Lot type provided was not valid: {}".format(duration))
@@ -125,7 +125,7 @@ class CarparkController():
                 logger.error("Error with start time provided: {}".format(startTime))
                 return False, "Error with start time provided: {}".format(startTime)
 
-            values = [carparkId, lotType, userId, startTime, duration]
+            values = [carparkId, lotType, userId, startTime, duration, 0]
 
             if dbObj.writeData(insertStatement, values):
                 logger.info("Successfully created booking given parameters above.")
@@ -186,14 +186,49 @@ class CarparkController():
 
             logger.error("Error deleting booking. Please check logs")
 
-    def updateCarparkRate(carparkId, rate):
-
         return True
 
-    def updateAvailableLots(carparkId, lots):
+    def checkinCarpark(self, carparkid, lottype, rfid, time, dbObj):
 
-        return True
+        logger.info("Attempting to checkin rfid {} to carpark {} at {}".format(carparkid, rfid, time))
 
-    def updateCarparkName(carparkId, carparkName):
+        logger.info("Finding booking for RFID tag")
 
-        return True
+        userController = UserController()
+        username = userController.findUserFromRFID(rfid, dbObj)
+        userid = userController.findUserId(username, dbObj)
+
+        selectString = "SELECT * FROM bookings WHERE userid = {} AND carparkid = '{}' AND status = 0".format(userid, carparkid)
+
+        data = dbObj.readData(selectString)
+
+        if data == []:
+
+            logger.info("Unable to find bookings of user")
+            return False
+
+        timenow = datetime.now()
+        bookingFound = False
+        for booking in data:
+            timediff = booking[3] - datetime.timenow()
+            if timediff.total_seconds() < 900:
+                bookingFound = booking
+                break
+
+        if bookingFound == False:
+            reutrn False
+
+        updateString = "UPDATE bookings SET status = 1 WHERE userid = {} AND carparkid = '{}' AND starttime = '{}'".format(userid, carparkid, booking[3].strftime("%Y-%m-%d %H:%M:%S"))
+
+        data = dbObj.writeData(updateString)
+
+        if data:
+
+            logger.info("Successfully checked in user {} at {}".format(username, carparkid))
+
+            return True
+        
+        else:
+            logger.error("UNable to check in user {} at {}".format(username, carparkid))
+
+            return False

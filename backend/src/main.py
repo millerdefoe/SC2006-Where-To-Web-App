@@ -215,6 +215,46 @@ def createUser():
     }
     return jsonify(returnData), 200
 
+@app.route("/deleteUser", methods=["POST"])
+def deleteUser():
+
+    logger.info("Delete user route accessed. Attempting to create new user")
+    logger.info("Checking for validity of information provided")
+
+    try:
+        data = request.get_json()
+        if "userid" not in data.keys():
+            raise Exception
+
+        userid = data["userid"]
+
+    except Exception as e:
+
+        logger.error("Required information to delete user was not provided. Returning error 400")
+        returnData = {
+            "status" : "user not deleted",
+            "reason" : "userid was not provided"
+        }
+
+        return jsonify(returnData), 400
+
+    result = userController.deleteUser(userid, dbObj)
+
+    if result == False:
+        logger.debug("Database error when deleting user. Please check logs")
+        returnData = {
+            "status": "user not deleted",
+            "reason" : "backend error"
+        }
+        return jsonify(returnData), 400
+
+    logger.info("Returning json specifying deleted user's userid")
+    returnData = {
+        "status": "user deleted",
+        "userid" : result
+    }
+    return jsonify(returnData), 200
+
 @app.route("/editUser", methods=["GET", "POST"])
 def editUser():
 
@@ -628,6 +668,25 @@ def checkinCarpark():
         }
 
         return jsonify(returnData), 400
+
+    result = carparkController.checkinCarpark(carparkid, lottype, rfid, time, dbObj)
+
+    if result == False:
+
+        logger.error("Unable to checkin. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Booking not available. Else, contact backend team"
+        }
+
+        return jsonify(returnData), 400
+
+    returnData = {
+        "status" : "success",
+        "reason" : "Checkin successful"
+    }
+
+    return jsonify(returnData), 200
 
 @app.route("/PublicTransportRoute", methods=["GET", "POST"])
 def PublicTransportRoute():
