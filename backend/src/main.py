@@ -326,7 +326,7 @@ def login():
     logger.info("Login for user {} was successful. Returning userid and token")
     return jsonify(returnData), 200
 
-@app.route("/carparksNearby", methods=["GET"])
+@app.route("/carparksNearby", methods=["GET","POST"])
 def carparksNearby():
 
     logger.info("carparksNearby route accessed. Verifying information provided")
