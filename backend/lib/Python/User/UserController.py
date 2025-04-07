@@ -117,12 +117,12 @@ class UserController():
             insertStatement += "password = %s, rfid = %s "
             values = [password, rfid]
 
-        if password:
+        elif password:
 
             insertStatement += "password = %s "
             values = [password]
 
-        if rfid:
+        elif rfid:
 
             insertStatement += "rfid = %s "
             values = [rfid]
