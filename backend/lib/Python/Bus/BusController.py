@@ -64,6 +64,7 @@ class BusController:
         responseData = response.json()
         if responseData == {}:
             raise Exception("responseData is empty, check API")
+        
         if 'Services' in responseData.keys():
             services = responseData['Services']
 
@@ -71,6 +72,8 @@ class BusController:
                 #Extracts the bus load only. NextBus just refers to the current one that is arriving
                 return services[0]['NextBus']['Load']
             else:
+                logger.error("Cannot get congestion level from services")
                 return None
         else:
+            logger.error("No bus services found")
             return None
