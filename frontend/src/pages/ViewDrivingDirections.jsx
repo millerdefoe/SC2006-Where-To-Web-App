@@ -16,6 +16,8 @@ import axios from "axios";
 import "../styles/ViewDrivingDirections.css";
 import MapWithRoute from "../components/MapDrivingRoute";
 import ModeOfTransport from "../components/ModeOfTransport";
+import { useLocation } from "react-router-dom";
+
 
 const ViewDrivingDirections = () => {
   const navigate = useNavigate();
@@ -25,31 +27,41 @@ const ViewDrivingDirections = () => {
   const [source, setSource] = useState("");
   const [destination, setDestination] = useState("");
 
+  const location = useLocation();
+  const destLatFromState = location.state?.destinationLat;
+  const destLngFromState = location.state?.destinationLng;
+  
   useEffect(() => {
     const fetchRoute = async () => {
       const startLocation = localStorage.getItem("startLocation");
       const endLocation = localStorage.getItem("endLocation");
-
+  
       const sourceCoords = {
         latitude: parseFloat(localStorage.getItem("startLat")),
         longitude: parseFloat(localStorage.getItem("startLng")),
       };
-
+  
       const destinationCoords = {
-        latitude: parseFloat(localStorage.getItem("endLat")),
-        longitude: parseFloat(localStorage.getItem("endLng")),
+        latitude: destLatFromState ?? parseFloat(localStorage.getItem("endLat")),
+        longitude: destLngFromState ?? parseFloat(localStorage.getItem("endLng")),
       };
-
+  
       setSource(startLocation);
-      setDestination(endLocation);
-
+      if (destLatFromState && destLngFromState) {
+        setDestination("Selected Carpark");
+      } else {
+        setDestination(endLocation);
+      }
+  
       try {
         const response = await axios.post("http://127.0.0.1:5000/getRoute", {
           source: sourceCoords,
           destination: destinationCoords,
         });
-
+  
         setRoute(response.data);
+        const etaSeconds = parseInt(response.data.duration.replace("s", ""));
+        localStorage.setItem("etaSeconds", etaSeconds);
       } catch (err) {
         console.error("Error fetching route:", err);
         setError("Could not retrieve route.");
@@ -57,9 +69,10 @@ const ViewDrivingDirections = () => {
         setLoading(false);
       }
     };
-
+  
     fetchRoute();
   }, []);
+  
 
   const iconMap = {
     TURN_LEFT: Road,

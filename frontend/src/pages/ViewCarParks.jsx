@@ -31,18 +31,18 @@ function ViewCarParks() {
         setEndLng(longitude);
 
         const requestData = { latitude, longitude, maxrange: 1 };
-
         const response = await axios.post("http://127.0.0.1:5000/carparksNearby", requestData, {
           headers: { "Content-Type": "application/json" },
         });
 
         if (response.status === 200) {
-          const carparks = response.data.slice(0, 2); // Limit to 2
-          setCarParks(carparks);
+          const rawCarparks = response.data;
+          const validCarparks = [];
 
-          // Fetch pricing and lots in parallel
-          carparks.forEach(async (carPark) => {
+          for (const carPark of rawCarparks) {
             const carparkId = carPark[0];
+            let pricingFetched = false;
+            let lotsFetched = false;
 
             // Fetch pricing
             try {
@@ -51,6 +51,7 @@ function ViewCarParks() {
               });
               if (res.status === 200) {
                 setPricingMap(prev => ({ ...prev, [carparkId]: res.data.rate }));
+                pricingFetched = true;
               }
             } catch (e) {
               console.error(`Failed to fetch pricing for ${carparkId}`);
@@ -63,11 +64,20 @@ function ViewCarParks() {
               });
               if (res.status === 200) {
                 setLotsMap(prev => ({ ...prev, [carparkId]: res.data }));
+                lotsFetched = true;
               }
             } catch (e) {
               console.error(`Failed to fetch lots for ${carparkId}`);
             }
-          });
+
+            if (pricingFetched && lotsFetched) {
+              validCarparks.push(carPark);
+            }
+
+            if (validCarparks.length === 3) break;
+          }
+
+          setCarParks(validCarparks);
         }
       } catch (error) {
         console.error("Error fetching car parks:", error);
@@ -90,10 +100,10 @@ function ViewCarParks() {
 
   const handleBooking = async (carparkId, lotType, index) => {
     try {
-      const etaSeconds = parseInt(localStorage.getItem("etaSeconds") || 60); // fallback to 60s
-      const now = new Date(Date.now() + etaSeconds * 1000); // add ETA in ms
+      const etaSeconds = parseInt(localStorage.getItem("etaSeconds") || 60);
+      const now = new Date(Date.now() + etaSeconds * 1000);
       const startTime = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
-      
+
       const duration = 0;
 
       const res = await axios.post("http://127.0.0.1:5000/bookCarpark", {
@@ -134,9 +144,14 @@ function ViewCarParks() {
         {carParks.length > 0 ? (
           carParks.map((carPark, index) => {
             const [id, location, name, lat, lng, lotType] = carPark;
+
+            if (!lotsMap[id] || lotsMap[id][lotType] === undefined) {
+              return null;
+            }
+
             const distance = calculateDistance(endLat, endLng, parseFloat(lat), parseFloat(lng));
             const rate = pricingMap[id] || "Fetching...";
-            const lots = lotsMap[id]?.[lotType] || "Fetching...";
+            const lots = lotsMap[id][lotType];
 
             return (
               <div key={index} className={index % 2 === 0 ? "leftContainer1" : "rightContainer1"}>
@@ -153,9 +168,20 @@ function ViewCarParks() {
                       <div className="sticky-bar">
                         <Cross className="close-icon" onClick={() => toggleStickyBar(`carPark${index + 1}`)} />
                         <p>{name} Booked Successfully!</p>
-                        <button className="computeRoute-button" onClick={() => navigate("/view-driving-route")}>
+                        <button
+                          className="computeRoute-button"
+                          onClick={() =>
+                            navigate("/view-driving-directions", {
+                              state: {
+                                destinationLat: parseFloat(lat),
+                                destinationLng: parseFloat(lng),
+                              },
+                            })
+                          }
+                        >
                           <ComputeRoute className="computeRoute-icon" />
                         </button>
+
                       </div>
                     </div>
                   )}
@@ -164,7 +190,7 @@ function ViewCarParks() {
             );
           })
         ) : (
-          <div>No nearby car parks available.</div>
+          <div>Checking Carpark Status!</div>
         )}
       </div>
     </div>
