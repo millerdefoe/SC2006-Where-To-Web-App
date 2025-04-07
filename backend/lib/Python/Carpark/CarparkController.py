@@ -149,7 +149,7 @@ class CarparkController():
 
         timelimit = datetime.now() - timedelta(minutes=30)
 
-        selectStatement = "SELECT * FROM bookings WHERE userid = {} AND starttime > '{}' ORDER BY starttime ASC limit 1".format(userid, timelimit.strftime("%Y-%m-%d %H:%M:%S"))
+        selectStatement = "SELECT bookings.*, carpark.development FROM bookings JOIN carpark ON bookings.carparkid = carpark.carparkid WHERE bookings.userid = {} AND bookings.starttime > '{}' AND status = 0 ORDER BY bookings.starttime ASC limit 1".format(userid, timelimit.strftime("%Y-%m-%d %H:%M:%S"))
 
         data = dbObj.readData(selectStatement)
 
@@ -164,6 +164,7 @@ class CarparkController():
                 currentBooking.append(i[1])
                 currentBooking.append(i[2])
                 currentBooking.append(i[3].strftime("%Y-%m-%d %H:%M:%S"))
+                currentBooking.append(i[6])
                 dataParsed.append(currentBooking)
             return dataParsed
 
