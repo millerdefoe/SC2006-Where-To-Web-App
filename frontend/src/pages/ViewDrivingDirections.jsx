@@ -6,10 +6,11 @@ import { ReactComponent as MapPin } from "../assets/MapPin.svg";
 import { ReactComponent as Parking } from "../assets/Parking.svg";
 import { ReactComponent as Road } from "../assets/Road.svg";
 import { ReactComponent as Merge } from "../assets/Merge.svg";
+import { ReactComponent as TimerIcon} from "../assets/Timer.svg";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
-import ViewNearbyCarParks from "../components/ViewCarParksButton";
+import {ReactComponent as ViewNearbyCarParksIcon} from "../assets/ViewNearbyCarParks.svg"
 import MyBookingsButton from "../components/MyBookingsButton";
 import axios from "axios";
 import "../styles/ViewDrivingDirections.css";
@@ -87,75 +88,70 @@ const ViewDrivingDirections = () => {
               <p className="text-red-600">{error}</p>
             ) : (
               route && (
-                <MapWithRoute
-                  encodedPolyline={route.polyline}
-                  mapContainerClassName="map-container6"
-                />
+                <div className="map-container5">
+                  <MapWithRoute
+                    encodedPolyline={route.polyline}
+                    mapContainerClassName="map-image5"
+                  />
+                  <button className="view-car-parks-button1" onClick={() => navigate("/view-car-parks")}>
+                    <ViewNearbyCarParksIcon className="view-car-parks-icon1" />
+                  </button>
+                </div>
               )
             )}
-            <div className="rowContainer5">
-              <ViewNearbyCarParks />
-              <div className="greyRectangle-container4">
-                <div className="greyRectangle-typography4">
-                  <span>Via...</span>
-                  <br />
-                  <br />
-                  <span>Time (Duration)</span>
-                </div>
-              </div>
-            </div>
           </div>
 
-          {/* 🧭 Right-side directions panel */}
-          <div className="rightContainer5">
-            <div className="directions-container3">
-              <button className="start-container" onClick={() => navigate("/driving-route-nav")}>
-                <Start className="start-icon" />
-              </button>
+          <div className="directions-container3">
+            <button className="start-container" onClick={() => navigate("/driving-route-nav")}>
+              <Start className="start-icon" />
+            </button>
 
-              {route?.steps && (
-                <div className="step-list-container">
-                  <h3>Step-by-step Directions</h3>
-                  <ol className="step-list">
-                    {(() => {
-                      const steps = route.steps;
-                      const total = steps.length;
-                      const limit = 5;
-
-                      if (total <= limit) {
-                        return steps;
-                      }
-                      const interval = Math.floor(total / limit);
-                      return Array.from({ length: limit }, (_, i) => steps[i * interval]);
-                    })().map((step, index) => {
-                      const Icon = iconMap[step.maneuver] || iconMap.DEFAULT;
-                      return (
-                        <li key={index} className="step-item">
-                          <div className="step-icon"><Icon /></div>
-                          <div className="step-text">
-                            <p><strong>{step.instructions}</strong></p>
-                            <p>{step.distance} • {step.duration}</p>
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ol>
+            {route?.steps && (
+              <div className="step-list-container">
+                <div className="directions-header">
+                  <div className="directions-title">Directions</div>
+                    <div className="directions-timer">
+                      <TimerIcon />
+                    </div>
+                    <div className="directions-duration">
+                      <h3><span><strong>{Math.ceil(parseInt(route?.duration) / 60)} mins</strong></span></h3>
+                    </div>
                 </div>
-              )}
 
+                <div className="step-list">
+                {(() => {
+                  const steps = route.steps;
+                  const total = steps.length;
+                  const limit = 5;
 
-              <div className="route-details">
-                <p><strong>From:</strong> {source}</p>
-                <p><strong>To:</strong> {destination}</p>
-                <p><strong>Duration:</strong> {Math.ceil(parseInt(route?.duration) / 60)} min</p>
-
-                <p><strong>Distance:</strong> {route?.distance} meters</p>
+                  if (total <= limit) {
+                    return steps;
+                  }
+                  const interval = Math.floor(total / limit);
+                  return Array.from({ length: limit }, (_, i) => steps[i * interval]);
+                })().map((step, index) => {
+                  const Icon = iconMap[step.maneuver] || iconMap.DEFAULT;
+                  return (
+                    <li key={index} className="step-item">
+                      <div className="step-icon"><Icon /></div>
+                      <div className="step-text">
+                        <div className="step-description">
+                          <p><strong>{step.instructions}</strong></p>
+                        </div>
+                        <div className="step-distance-duration">
+                          <p>{step.distance} ({step.duration})</p>
+                        </div>
+                      </div>
+                    </li>
+                  );
+                })}
               </div>
+              </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

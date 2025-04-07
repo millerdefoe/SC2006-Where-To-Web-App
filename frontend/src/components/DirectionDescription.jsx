@@ -6,35 +6,45 @@ import { ReactComponent as Train } from "../assets/Train.svg";
 import { ReactComponent as Walking } from "../assets/Walking.svg";
 import "../styles/DirectionDescription.css";
 
+// Group consecutive steps by same mode & label
+function groupSteps(steps) {
+  const grouped = [];
+  let current = null;
+
+  for (const step of steps) {
+    if (!step.instructions || step.instructions.trim() === "") continue;
+    
+    const mode = step.travelMode;
+    const label = (mode === "BUS" || mode === "SUBWAY")
+      ? step.ServiceNumberOrLine || step.MRTStopLine
+      : null;
+
+    if (!current || current.type !== mode || current.label !== label) {
+      if (current) grouped.push(current);
+      current = {
+        type: mode,
+        label,
+        instructions: [step.instructions],
+      };
+    } else {
+      current.instructions.push(step.instructions);
+    }
+  }
+
+  if (current) grouped.push(current);
+  return grouped;
+}
+
 const DirectionDescription = ({ routeData }) => {
   if (!routeData || !routeData.steps) return null;
 
   const steps = routeData.steps || [];
+  const groupedSteps = groupSteps(steps);
 
-  // Generate icons array from steps
-  const icons = steps.map((step) => {
-    if (step.travelMode === "WALK") {
-      return { type: "walk" };
-    }
-
-    if (step.travelMode === "BUS") {
-      return { type: "bus", label: step.ServiceNumberOrLine };
-    }
-
-    if (step.travelMode === "SUBWAY") {
-      return { type: "mrt", label: step.MRTStopLine };
-    }
-
-    return null;
-  }).filter(Boolean);
-
-  // Format duration from "1209s" → "20 mins"
+  // Duration format
   const rawDuration = routeData.duration || "0s";
   const durationMins = Math.round(parseInt(rawDuration.replace("s", "")) / 60);
   const duration = `${durationMins} mins`;
-
-  // Extract instruction text for directions
-  const directions = steps.map((step) => step.instructions).filter(Boolean);
 
   return (
     <div className="directionDescription-wrapper">
@@ -47,50 +57,43 @@ const DirectionDescription = ({ routeData }) => {
       </div>
 
       <div className="directionDescription-wrapper2">
-        <div className="directionsIcon-container">
-          {icons.map((icon, index) => (
-            <div className="transportIconAndBadge-vertical" key={index}>
-              {icon.type === "walk" && (
-                <div className="walkingIconDD-icon">
-                  <Walking />
-                </div>
+        {groupedSteps.map((group, index) => (
+          <div key={index} className="direction-row">
+            {/* LEFT ICON */}
+            <div className="transportIconAndBadge-vertical">
+              {group.type === "WALK" && (
+                <div className="walkingIconDD-icon"><Walking /></div>
               )}
 
-              {icon.type === "bus" && (
+              {group.type === "BUS" && (
                 <>
-                  <div className="busIconDD-icon">
-                    <Bus />
-                  </div>
+                  <div className="busIconDD-icon"><Bus /></div>
                   <div className="badgeDD-icon">
-                    <Badge label={icon.label} isBus />
+                    <Badge label={group.label} isBus />
                   </div>
                 </>
               )}
 
-              {icon.type === "mrt" && (
+              {group.type === "SUBWAY" && (
                 <>
-                  <div className="trainIconDD-icon">
-                    <Train />
-                  </div>
+                  <div className="trainIconDD-icon"><Train /></div>
                   <div className="badgeDD-icon">
-                    <Badge label={icon.label} isBus={false} />
+                    <Badge label={group.label} isBus={false} />
                   </div>
                 </>
               )}
             </div>
-          ))}
-        </div>
 
-        <div className="directionDescription-container">
-          <div className="directionDescription-mainDirection">
-            {directions.length > 0 ? (
-              directions.map((text, index) => <p key={index}>{text}</p>)
-            ) : (
-              <p>No directions available.</p>
-            )}
+            {/* RIGHT TEXT */}
+            <div className="instructionGroup">
+              {group.instructions.map((text, subIdx) => (
+                <p key={subIdx}>{text}</p>
+              ))}
+            </div>
           </div>
-        </div>
+        ))}
       </div>
+
     </div>
   );
 };

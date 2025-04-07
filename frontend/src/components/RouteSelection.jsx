@@ -17,7 +17,13 @@ const RouteSelection = ({ routeData, onSelect, isSelected }) => {
   
     for (const step of steps) {
       const mode = step.travelMode;
-      const label = mode === "BUS" || mode === "SUBWAY" ? step.ServiceNumberOrLine : null;
+      const label =
+        mode === "BUS"
+          ? step.ServiceNumberOrLine
+          : mode === "SUBWAY"
+          ? step.ServiceNumberOrLine
+          : null;
+
   
       if (!current || current.type !== mode || current.label !== label) {
         if (current) grouped.push(current);
