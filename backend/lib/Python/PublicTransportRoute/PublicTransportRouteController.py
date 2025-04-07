@@ -139,6 +139,8 @@ class PublicTransportRouteController():
                         case "LSD":
                             sumofCongestion += 3
                             break
+    
+                           
         return sumofCongestion / count #Returns average congestion level of this one route
 
     def computeLeastCongestedRoute(responseData):
@@ -166,8 +168,6 @@ class PublicTransportRouteController():
         result['duration'] = chosenRoute['duration']
 
         tempStepList = []
-        destinationCongestionLevel= ""
-        firstArrivalCongestionLevel= ""
 
         for leg in chosenRoute["legs"]:
             for step in leg['steps']: #Loops through steps
@@ -207,54 +207,9 @@ class PublicTransportRouteController():
                     else:    
                         tempDict[localizedValuesAttribute] = step['localizedValues'][localizedValuesAttribute]
 
-                #Displays congestion levels of start and endpoints. 
-                if 'ServiceNumberOrLine' in tempDict.keys():
-
-                    if type(tempDict['ServiceNumberOrLine']) is str: #Checking if it's string
-
-                        if tempDict['ServiceNumberOrLine'].lower().find("campus loop") == -1: # IGNORE NTU BUS 
-
-                            # Arrival congestion level
-                            if tempDict['travelMode'] == 'BUS':
-                                ServiceNumber = tempDict['ServiceNumberOrLine']
-                                StopName =  tempDict['currentStopName']
-                                BusStopCode = BusController.getBusStopCode(StopName) #Saves bus stop code to be used for API call for congestion level
-                                arrivalCongestionLevel = BusController.getBusCongestionLevel(BusStopCode, ServiceNumber) #Calls to get bus congestion level
-                                tempDict['arrivalCongestionLevel']  = arrivalCongestionLevel
-
-                                if firstArrivalCongestionLevel == '': #Stores the first result 
-                                    firstArrivalCongestionLevel = arrivalCongestionLevel
-
-                            elif tempDict['travelMode'] == 'SUBWAY':    
-                                #Saves station number to be used for API call for congestion level
-                                currentStopName = tempDict['currentStopName']
-                                StationNumber = MRTController.getMRTStationNumber(currentStopName)
-                                arrivalCongestionLevel = MRTController.getMRTCongestionLevel(StationNumber) #Calls API to get MRT congestion level
-                                tempDict['arrivalCongestionLevel']  = arrivalCongestionLevel
-                                
-                                if firstArrivalCongestionLevel == '':
-                                    firstArrivalCongestionLevel = arrivalCongestionLevel
-
-                            # Destionation congestion level
-                            if tempDict['travelMode'] == 'BUS':
-                                ServiceNumber = tempDict['ServiceNumberOrLine']
-                                StopName =  tempDict['destinationStopName']
-                                BusStopCode = BusController.getBusStopCode(StopName) #Saves bus stop code to be used for API call for congestion level
-                                destinationCongestionLevel = BusController.getBusCongestionLevel(BusStopCode, ServiceNumber)
-                                tempDict['destinationCongestionLevel'] = destinationCongestionLevel
-
-                            elif tempDict['travelMode'] == 'SUBWAY':
-                                #Saves station number to be used for API call for congestion level
-                                currentStopName = tempDict['destinationStopName']
-                                StationNumber = MRTController.getMRTStationNumber(currentStopName)
-                                destinationCongestionLevel = MRTController.getMRTCongestionLevel(StationNumber)
-                                tempDict['destinationCongestionLevel'] = destinationCongestionLevel
-
                 tempStepList.append(tempDict) 
     
         result['steps'] = tempStepList
-        result['firstArrivalCongestionLevel'] = firstArrivalCongestionLevel
-        result['lastDestinationCongestionLevel'] = destinationCongestionLevel
         return result
 
     def computeFastestRoute(responseData):
