@@ -99,6 +99,18 @@ class CarparkController():
 
         logger.info("Attempting to book carpark {}/{} for user {}. Start time of booking: {}. Duration of booking: {}".format(carparkId, lotType, userId, startTime, duration))
 
+        logger.info("Checking if user {} has a booking within 30mins before and after starttime {}".format(userId, startTime))
+
+        beforeTiming = datetime.strptime(startTime, "%d-%m-%Y %H:%M:%S") - timedelta(minutes=30)
+        afterTiming = datetime.strptime(startTime, "%d-%m-%Y %H:%M:%S") + timedelta(minutes=30)
+        queryString = "SELECT * FROM bookings WHERE userid = {} AND starttime > '{}' AND starttime < '{}'".format(userId, beforeTiming, afterTiming)
+
+        data = dbObj.readData(queryString)
+
+        if data != []:
+
+            return False, "User already has an existing booking"
+
         try:
 
             insertStatement = "INSERT INTO bookings(carparkid, lottype, userid, startTime, duration, status) values (%s, %s, %s, %s, %s, %s)"
