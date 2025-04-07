@@ -317,10 +317,15 @@ def login():
 
         return jsonify(returnData), 400
 
+    query = f"SELECT rfid FROM users WHERE username = '{username}'"
+    rfid_data = dbObj.readData(query)
+    rfid_value = rfid_data[0][0] if rfid_data and rfid_data[0][0] else None
+
     returnData = {
         "status" : "login success",
         "userid" : userid,
-        "token" : "temporarytokenfortesting"
+        "token" : "temporarytokenfortesting",
+        "rfid": rfid_value
     }
 
     logger.info("Login for user {} was successful. Returning userid and token")
