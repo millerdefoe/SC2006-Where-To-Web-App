@@ -149,7 +149,7 @@ class CarparkController():
 
         timelimit = datetime.now() - timedelta(minutes=30)
 
-        selectStatement = "SELECT * FROM bookings WHERE userid = {} AND starttime > '{}'".format(userid, timelimit.strftime("%Y-%m-%d %H:%M:%S"))
+        selectStatement = "SELECT * FROM bookings WHERE userid = {} AND starttime > '{}' ORDER BY starttime ASC limit 1".format(userid, timelimit.strftime("%Y-%m-%d %H:%M:%S"))
 
         data = dbObj.readData(selectStatement)
 

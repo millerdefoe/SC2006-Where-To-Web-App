@@ -111,13 +111,34 @@ const ProfileDetails = () => {
       
       
     
-      const handleDeleteAccount = () => {
-        if (window.confirm("Are you sure you want to delete your account?")) {
-          deleteCookie("user");
-          localStorage.removeItem("user");
-          navigate("/profile-sign-up");
+      const handleDeleteAccount = async () => {
+        if (!window.confirm("Are you sure you want to delete your account?")) return;
+      
+        try {
+          const res = await fetch("http://127.0.0.1:5000/deleteUser", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ userid: user.userid }),
+          });
+      
+          const data = await res.json();
+      
+          if (res.status === 200 && data.status === "user deleted") {
+            deleteCookie("user");
+            localStorage.removeItem("user");
+            alert("Your account was successfully deleted.");
+            navigate("/profile-sign-up");
+          } else {
+            alert(`Failed to delete account: ${data.reason}`);
+          }
+        } catch (error) {
+          console.error("Error deleting account:", error);
+          alert("Something went wrong while deleting your account.");
         }
       };
+      
 
       const handleLogout = () => {
         localStorage.removeItem("user"); 
