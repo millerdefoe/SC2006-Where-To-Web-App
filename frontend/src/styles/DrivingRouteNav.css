@@ -170,17 +170,19 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
+    margin-top: 1%;
 }
 
 .step-description1 {
     display: flex;
     flex-grow: 1; 
     text-align: left;
-    margin-left: 1%;
+    margin-left: 3%;
 }
 
 .step-distance-duration1 {
     font-size: 0.9rem; 
     margin-top: -5%;
     color: #555; 
+    margin-left: 3%;
 }
