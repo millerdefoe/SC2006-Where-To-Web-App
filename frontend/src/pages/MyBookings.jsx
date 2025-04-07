@@ -41,7 +41,8 @@ function MyBookings() {
 
         const enrichedBookings = await Promise.all(
           data.map(async (bookingArray, idx) => {
-            const [carparkid, lottype, userid, starttime] = bookingArray;
+            const [carparkid, lottype, userid, starttime, name] = bookingArray;
+
 
             let rate = "N/A";
             let lots = "N/A";
@@ -77,7 +78,8 @@ function MyBookings() {
               userid,
               starttime,
               rate,
-              lotsAvailable: lots
+              lotsAvailable: lots,
+              name
             };
           })
         );
@@ -132,7 +134,8 @@ function MyBookings() {
       ) : (
         bookings.map((booking, idx) => (
           <div key={idx} className="greyCarPark-container">
-            <p className="greyCarParkContainer-topText">{`Car Park ${idx + 1}`}</p>
+            <p className="greyCarParkContainer-topText">{booking.name || `Car Park ${idx + 1}`}</p>
+
             <p className="greyCarParkContainer-bottomText">
               <span>Lots Available: {booking.lotsAvailable ?? "N/A"}</span><br />
               <span>Car Park Rate: {booking.rate ?? "N/A"}</span><br />
