@@ -213,7 +213,8 @@ def createUser():
     logger.info("Returning json specifying user has been created alongside userid")
     returnData = {
         "status": "user created",
-        "userid" : result
+        "userid" : result,
+        "rfid" : rfid
     }
     return jsonify(returnData), 200
 
