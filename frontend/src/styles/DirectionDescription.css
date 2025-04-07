@@ -7,14 +7,24 @@
     background-color: transparent;
 }
 
-.directionDescription-wrapper2{
-    height: 90%;
-    width: 100%;
+.directionDescription-wrapper2 {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
+    gap: 1rem; /* This replaces row-gap */
+    margin-top: 10px;
+    max-height: 450px;
+    overflow-y: auto;
+    padding-right: 2rem;
+    padding-left: 3rem;
+  }
+  
+  .direction-row {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    column-gap: 4rem;
     align-items: center;
-    background-color: transparent;
-}
+  }
+  
 
 .directionDescription-header{
     height: 10%; 
@@ -49,24 +59,27 @@
     object-fit: contain;
 }
 
-.directionsIcon-container{
-    height: 95%;
-    width: 40%;
-    background-color: transparent;
-    align-items: center;
-    justify-content: top;
+.directionsIcon-container {
     display: flex;
     flex-direction: column;
-    gap: 7%;
+    align-items: center;
+    margin-top: 0.5rem;
 }
 
-.directionDescription-container{
-    height: 95%; 
-    width: 60%;
-    background-color: transparent;
-    display: flex;
-    flex-direction: column;
+
+.directionDescription-container {
+    width: 100%;
+    height: auto; 
 }
+
+.instructionGroup {
+    margin-bottom: 1rem;
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: 1vw;
+    font-weight: 600;
+    text-align: center;
+  }
 
 .directionDescription-mainDirection{
     color: #000;
@@ -86,13 +99,10 @@
 
 .transportIconAndBadge-vertical {
     display: flex;
-    align-items: center;
-    justify-content: center;
     flex-direction: column;
-    gap: 0px;
-    padding: 4px 0px;
-    background-color: transparent;
-  }
+    align-items: center;
+    margin-bottom: 1rem;
+}
   
   .badgeDD-icon {
     width: 27px;
