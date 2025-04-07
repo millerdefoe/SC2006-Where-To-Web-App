@@ -90,10 +90,11 @@ function ViewCarParks() {
 
   const handleBooking = async (carparkId, lotType, index) => {
     try {
-      const now = new Date(Date.now() + 60000); // Add 1 min into future
+      const etaSeconds = parseInt(localStorage.getItem("etaSeconds") || 60); // fallback to 60s
+      const now = new Date(Date.now() + etaSeconds * 1000); // add ETA in ms
       const startTime = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
       
-      const duration = 3600;
+      const duration = 0;
 
       const res = await axios.post("http://127.0.0.1:5000/bookCarpark", {
         carparkId,
