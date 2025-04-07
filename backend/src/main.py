@@ -365,6 +365,7 @@ def login():
     returnData = {
         "status" : "login success",
         "userid" : userid,
+        "username": username,
         "token" : "temporarytokenfortesting",
         "rfid": rfid_value
     }
@@ -466,6 +467,7 @@ def carparkPricing():
     }
 
     return jsonify(returnData), 200
+    
 
 @app.route("/carparkLots", methods=["GET", "POST"])
 def carparkLots():
@@ -593,6 +595,10 @@ def getBookings():
         }
 
         return jsonify(returnData), 400
+    
+    if result == False or result == []:
+        logger.info("No bookings found for user.")
+        return jsonify([]), 200  # Return an empty array, not error
 
     logger.info("Returning bookings for user")
     return jsonify(result), 200
