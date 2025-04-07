@@ -215,7 +215,7 @@ def createUser():
     }
     return jsonify(returnData), 200
 
-@app.route("/deleteUser", methods=["POST"])
+@app.route("/deleteUser", methods=["GET", "POST"])
 def deleteUser():
 
     logger.info("Delete user route accessed. Attempting to create new user")

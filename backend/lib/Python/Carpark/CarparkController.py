@@ -216,7 +216,7 @@ class CarparkController():
                 break
 
         if bookingFound == False:
-            reutrn False
+            return False
 
         updateString = "UPDATE bookings SET status = 1 WHERE userid = {} AND carparkid = '{}' AND starttime = '{}'".format(userid, carparkid, booking[3].strftime("%Y-%m-%d %H:%M:%S"))
 
