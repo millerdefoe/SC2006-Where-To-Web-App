@@ -36,7 +36,7 @@
   flex-wrap: wrap;
   align-items: flex-start;
   justify-content: left;
-  overflow: hidden;
+  overflow-x: auto;
   object-fit: contain;
   gap: 8px;
   padding-top: 2px;

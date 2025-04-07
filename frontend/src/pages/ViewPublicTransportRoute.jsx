@@ -64,8 +64,9 @@ function ViewPublicTransportRoute() {
             steps: leastCongested.steps.map(step => ({
               travelMode: step.travelMode,
               instructions: step.instructions || "",
-              MRTStopLine: step.transitDetails?.transitLine?.name || "",
-              ServiceNumberOrLine: step.transitDetails?.transitLine?.name || ""
+              MRTStopLine: step.transitDetails?.line?.short_name || "",
+              ServiceNumberOrLine: step.ServiceNumberOrLine || ""
+
             }))
           },
           {
@@ -75,8 +76,9 @@ function ViewPublicTransportRoute() {
             steps: fastest.steps.map(step => ({
               travelMode: step.travelMode,
               instructions: step.instructions || "",
-              MRTStopLine: step.transitDetails?.transitLine?.name || "",
-              ServiceNumberOrLine: step.transitDetails?.transitLine?.name || ""
+              MRTStopLine: step.transitDetails?.line?.short_name || "",
+              ServiceNumberOrLine: step.ServiceNumberOrLine || ""
+
             }))
           }
         ];
@@ -133,21 +135,14 @@ function ViewPublicTransportRoute() {
         <div className="directions-container">
           <DirectionDescription routeData={{
             ...selectedRoute,
-            steps: [
-              ...selectedRoute.steps.slice(0, 4),
-              { travelMode: "ELLIPSIS", instructions: "⋯" }, // ⬅️ fake ellipsis step
-              selectedRoute.steps[selectedRoute.steps.length - 1]
-            ]
+            steps: selectedRoute.steps
+
           }} />
 
           <div className="startButton-container">
             <StartButton routeData={{
               ...selectedRoute,
-              steps: [
-                ...selectedRoute.steps.slice(0, 4),
-                { travelMode: "ELLIPSIS", instructions: "⋯" },
-                selectedRoute.steps[selectedRoute.steps.length - 1]
-              ]
+              steps: selectedRoute.steps
             }} />
           </div>
         </div>
