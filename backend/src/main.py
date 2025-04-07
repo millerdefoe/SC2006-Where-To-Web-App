@@ -176,6 +176,12 @@ def createUser():
         username = data["username"]
         password = data["password"]
 
+        if "rfid" in data.keys():
+            rfid = data["rfid"]
+
+        else:
+            rfid = None
+
     except Exception as e:
 
         logger.error("Required information to create user was not provided. Returning error 400")
@@ -194,7 +200,7 @@ def createUser():
         }
         return jsonify(returnData), 400
 
-    result = userController.createUser(username, password, dbObj)
+    result = userController.createUser(username, password, rfid, dbObj)
 
     if result == False:
         logger.debug("Database error when creating user. Please check logs")
@@ -207,6 +213,58 @@ def createUser():
     logger.info("Returning json specifying user has been created alongside userid")
     returnData = {
         "status": "user created",
+        "userid" : result
+    }
+    return jsonify(returnData), 200
+
+@app.route("/editUser", methods=["GET"])
+def editUser():
+
+    logger.info("Create user route accessed. Attempting to create new user")
+    logger.info("Checking for validity of information provided")
+
+    try:
+        data = request.get_json()
+        if "username" not in data.keys() or ("password" not in data.keys() and "rfid" not in data.keys()):
+            raise Exception
+
+        username = data["username"]
+
+        if "password" in data.keys():
+            password = data["password"]
+
+        else:
+            password = None
+
+        if "rfid" in data.keys():
+            rfid = data["rfid"]
+
+        else:
+            rfid = None
+
+    except Exception as e:
+
+        logger.error("Required information to create user was not provided. Returning error 400")
+        returnData = {
+            "status" : "user information was not editted",
+            "reason" : "required fields were not present"
+        }
+
+        return jsonify(returnData), 400
+    
+    result = userController.editUserDetails(username, password, rfid, dbObj)
+
+    if result == False:
+        logger.debug("Database error when editting user. Please check logs")
+        returnData = {
+            "status": "user details not editted",
+            "reason" : "backend error"
+        }
+        return jsonify(returnData), 400
+
+    logger.info("Returning json specifying user information has been editted alongside userid")
+    returnData = {
+        "status": "user editted",
         "userid" : result
     }
     return jsonify(returnData), 200
@@ -455,7 +513,7 @@ def bookCarpark():
 
     return jsonify(returnData), 200
 
-@app.route("/PublicTransportRoute", methods=["GET", "POST"])
+@app.route("/PublicTransportRoute", methods=["GET"])
 def PublicTransportRoute():
     logger.info("Public Transport Route accessed. Verifying information provided")
 

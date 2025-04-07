@@ -29,12 +29,19 @@ class UserController():
             logger.info("Username {} is not taken".format(username))
             return 1
 
-    def createUser(self, username: str, password: str, dbObj):
+    def createUser(self, username: str, password: str, rfid: str, dbObj):
 
         logger.info("Creating new user with username {}".format(username))
 
-        insertStatement = "INSERT INTO users(username, password) VALUES (%s, %s)"
-        values = [username, password]
+        insertStatement = "INSERT INTO users(username, password" 
+        
+        if rfid:
+            insertStatement += ", rfid) VALUES (%s, %s, %s)"
+            values = [username, password, rfid]
+
+        else:
+            insertStatement += ") VALUES (%s, %s)"
+            values = [username, password]
 
         if dbObj.writeData(insertStatement, values) == False:
             logger.error("Unable to create user with username: {}".format(username))
@@ -86,3 +93,39 @@ class UserController():
             userId = data[0][0]
             logger.info("Returning userid for user {}".format(username))
             return userId
+    
+    def editUserDetails(self, username: str, password: str, rfid: str, dbObj):
+
+        logger.info("Editing user details for {}".format(username))
+
+        insertStatement = "UPDATE users set "
+
+        if password and rfid:
+
+            insertStatement += "password = %s, rfid = %s "
+            values = [password, rfid]
+
+        if password:
+
+            insertStatement += "password = %s "
+            values = [password]
+
+        if rfid:
+
+            insertStatement += "rfid = %s "
+            values = [rfid]
+
+        userid = self.findUserId(username, dbObj)
+
+        insertStatement += "WHERE userid = {}".format(userid)
+
+        if dbObj.writeData(insertStatement, values) == False:
+            logger.error("Unable to edit user details with username: {}".format(username))
+            logger.info("Insert string: {} ||| Values: {}".format(insertStatement, values))
+            return False
+        
+        logger.info("Successfully edited user details for user: {}".format(username))
+
+        logger.info("Returning userid: {} of user {}".format(userid, username))
+
+        return userid
