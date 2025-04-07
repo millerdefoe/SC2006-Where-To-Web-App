@@ -27,7 +27,9 @@ CORS(app)
 
 apiKeyPath = os.path.join(".", "creds", "priv", "googleMapApi.json")
 googleApiKey = getGoogleMapAPIKey(apiKeyPath)
+
 databaseCredsPath = os.path.join(".", "creds", "priv", "database.json")
+
 databaseCreds = loadDatabaseCredentials(databaseCredsPath)
 
 dbObj = Database(
@@ -306,7 +308,7 @@ def login():
     
     if result == 0:
 
-        loger.debug("Password mismatch when logging in")
+        logger.debug("Password mismatch when logging in")
 
         returnData = {
             "status" : "login failure",
@@ -324,7 +326,7 @@ def login():
     logger.info("Login for user {} was successful. Returning userid and token")
     return jsonify(returnData), 200
 
-@app.route("/carparksNearby", methods=["GET"])
+@app.route("/carparksNearby", methods=["GET","POST"])
 def carparksNearby():
 
     logger.info("carparksNearby route accessed. Verifying information provided")
@@ -384,7 +386,7 @@ def carparksNearby():
 
     return jsonify(data), 200
 
-@app.route("/carparkPricing", methods=["GET"])
+@app.route("/carparkPricing", methods=["GET", "POST"])
 def carparkPricing():
 
     logger.info("carparkPricing route accessed. Verifying information provided")
@@ -419,7 +421,7 @@ def carparkPricing():
 
     return jsonify(returnData), 200
 
-@app.route("/carparkLots", methods=["GET"])
+@app.route("/carparkLots", methods=["GET", "POST"])
 def carparkLots():
 
     logger.info("carparkLots route accessed. Verifying information provided")
@@ -458,7 +460,7 @@ def carparkLots():
 
     return jsonify(returnData), 200
 
-@app.route("/bookCarpark", methods=["GET"])
+@app.route("/bookCarpark", methods=["GET", "POST"])
 def bookCarpark():
 
     logger.info("bookCarpark route accessed. Verifying information provided")

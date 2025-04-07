@@ -2,9 +2,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-wrap: no-wrap;
   
-    height: 25px;                    /* fixed height for consistency */
+    min-height: 25px;                    /* fixed height for consistency */
+    max-height: 50px;
     min-width: 25px;
+    max-width: 50px;
     padding: 0 0.6em;                /* horizontal padding only */
     border-radius: 12px;
   

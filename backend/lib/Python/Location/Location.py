@@ -6,6 +6,7 @@ from lib.Python.Logging.PythonLogger import PythonLogger
 
 logger = PythonLogger(os.path.basename(__file__))
 
+
 class Location(): 
     def __init__(self, latitude, longitude):
 

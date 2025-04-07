@@ -7,9 +7,6 @@ const ViewNearbyCarParks = () => {
     const navigate = useNavigate(); 
     return(
         <div className="fastest-route-car-park-container">
-            <div className="fastest-route-typography">
-                Fastest Route
-            </div>
             <div className="view-car-parks-container">
                 <button 
                     onClick={() => navigate("/view-car-parks")}

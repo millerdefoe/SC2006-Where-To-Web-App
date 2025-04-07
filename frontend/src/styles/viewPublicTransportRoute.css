@@ -4,7 +4,7 @@
     aspect-ratio: 5 / 3; 
     background-color: #FFF;
     padding: 1em;
-    margin-top: 5%;
+    margin-top: 3.5%;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -52,7 +52,7 @@
 }
 
 .map-container3 {
-    height: 70%;
+    height: 72%;
     max-width: 1000px;
     aspect-ratio: 8/3; /* Keeps proper map aspect ratio */
     display: flex;
