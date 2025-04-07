@@ -30,7 +30,7 @@ function MyBookings() {
           </p>
         </div>
         <div className="bottomRowButtons-container">
-            <button className="computeRoute-button1" onClick={() => navigate("/view-driving-route")}>
+            <button className="computeRoute-button1" onClick={() => navigate("/view-driving-directions")}>
                 <ComputeRoute className="computeRoute-icon1 " />
             </button>
             <button className="changeBooking-button" onClick={() => navigate("/view-car-parks")}>
