@@ -4,8 +4,11 @@ import { ReactComponent as Car } from "../assets/Car.svg";
 import { ReactComponent as Start } from "../assets/Start.svg";
 import { ReactComponent as MapPin } from "../assets/MapPin.svg";
 import { ReactComponent as Parking } from "../assets/Parking.svg";
+import { ReactComponent as TurnLeft } from "../assets/TurnLeft.svg";
+import { ReactComponent as TurnRight } from "../assets/TurnRight.svg";
 import { ReactComponent as Road } from "../assets/Road.svg";
 import { ReactComponent as Merge } from "../assets/Merge.svg";
+import { ReactComponent as Continue } from "../assets/ContinueStraight.svg";
 import { ReactComponent as TimerIcon} from "../assets/Timer.svg";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
@@ -62,13 +65,14 @@ const ViewDrivingDirections = () => {
   }, []);
 
   const iconMap = {
-    TURN_LEFT: Road,
-    TURN_RIGHT: Road,
-    STRAIGHT: Merge,
+    TURN_LEFT: TurnLeft,
+    TURN_RIGHT: TurnRight,
+    STRAIGHT: Continue,
     MERGE: Merge,
     RAMP_LEFT: Road,
     RAMP_RIGHT: Road,
     PARKING: Parking,
+    CONTINUE: Continue,
     DEFAULT: MapPin,
   };
 
@@ -130,7 +134,7 @@ const ViewDrivingDirections = () => {
                   const interval = Math.floor(total / limit);
                   return Array.from({ length: limit }, (_, i) => steps[i * interval]);
                 })().map((step, index) => {
-                  const Icon = iconMap[step.maneuver] || iconMap.DEFAULT;
+                  const Icon = iconMap[step.maneuver?.toUpperCase()] || iconMap.DEFAULT;
                   return (
                     <li key={index} className="step-item">
                       <div className="step-icon"><Icon /></div>
