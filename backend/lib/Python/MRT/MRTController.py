@@ -1,8 +1,8 @@
 import requests
 import json
 import os 
+import sys
 import time
-import datetime
 import subprocess
 from lib.Python.Logging.PythonLogger import PythonLogger
 from lib.Python.Database.Database import Database
@@ -60,5 +60,7 @@ class MRTController():
     def updateCongestionDatabase():
         timestamp = MRTController.getMRTCongestionTimestamp()
         unix_timestamp = int(time.mktime(timestamp.timetuple())) #Converts it to unix
-        if time.time() - 10 * 60 > unix_timestamp: # Update database if the table timestamp is older than 10 mins
-            subprocess.Popen(["python", ".\scripts\MRTCrowdDensityFetcher.py", "-d"])
+        if time.time() - 30 * 60 > unix_timestamp: # Update database if the table timestamp is older than 30 mins
+            current_dir = os.path.dirname(os.path.abspath(__file__)) 
+            script_path = os.path.abspath(os.path.join(current_dir, "..", "..", "..", "scripts", "MRTCrowdDensityFetcher.py"))
+            subprocess.Popen(["python", script_path, "-d"])

@@ -28,17 +28,31 @@ class BusController:
         return None
 
     def getBusStopCode(arrivalBusStopName):
-        queryStatement = """
-            SELECT busstopcode 
-            FROM busstops 
-            WHERE landmarkdescription = '{}'; 
-        """ .format(arrivalBusStopName.replace('\'', "\'\'") )
-        #Replaces one singluar quote with double singuar quotes ''.
-        logger.debug("Running query string to get bus stop code")
-        data = dbObj.readData(queryStatement)[0][0] #Queries into a list of tuples
-        return data
+        if arrivalBusStopName != '':
+            queryStatement = """
+                SELECT busstopcode 
+                FROM busstops 
+                WHERE landmarkdescription ILIKE '%{}%'
+                LIMIT 1; 
+            """ .format(arrivalBusStopName.lower().replace('\'', "\'\'").replace('interchange','int')) #Replaces bus stop name that has 'interchange' with 'int' to match database
+            #Replaces one singluar quote with double singuar quotes ''.
+            logger.debug("Running query string to get bus stop code")
+            try:
+                data = dbObj.readData(queryStatement)[0][0] #Queries into a list of tuples
+                return data 
+            
+            except Exception as e:
+                logger.error("Query statement could not get bus stop code from database")
+                return None
+            
+        else: 
+            logger.error("No arrival bus stop name was found. Data is empty. Might be because it is running at night.")
+        
 
     def getBusCongestionLevel(arrivalBusStopCode, arrivalBusServiceNumber):
+        if arrivalBusStopCode == "" or arrivalBusServiceNumber == "":
+            raise Exception("arrivalBusStopCode or arrivalBusServiceNumber empty") 
+
         url = f'https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival?BusStopCode={arrivalBusStopCode}&ServiceNo={arrivalBusServiceNumber}'
 
         headers = {
@@ -48,16 +62,18 @@ class BusController:
 
         response = requests.get(url, headers=headers)
         responseData = response.json()
-        print(url)
-        print(responseData)
+        if responseData == {}:
+            raise Exception("responseData is empty, check API")
+        
         if 'Services' in responseData.keys():
             services = responseData['Services']
 
             if services != []: 
                 #Extracts the bus load only. NextBus just refers to the current one that is arriving
-                print(services[0]['NextBus']['Load'])
                 return services[0]['NextBus']['Load']
             else:
+                logger.error("No bus services found")
                 return None
         else:
+            logger.error("No service attribute in response")
             return None

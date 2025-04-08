@@ -27,7 +27,9 @@ CORS(app)
 
 apiKeyPath = os.path.join(".", "creds", "priv", "googleMapApi.json")
 googleApiKey = getGoogleMapAPIKey(apiKeyPath)
+
 databaseCredsPath = os.path.join(".", "creds", "priv", "database.json")
+
 databaseCreds = loadDatabaseCredentials(databaseCredsPath)
 
 dbObj = Database(
@@ -153,7 +155,7 @@ def getRoute():
     if data == False:
         logger.error("No route was specified")
         returnData = {
-            "status": "Route nto found",
+            "status": "Route not found",
             "reason" : "Error in route found by google API. Contact admin"
         }
         return jsonify(returnData), 400
@@ -211,7 +213,8 @@ def createUser():
     logger.info("Returning json specifying user has been created alongside userid")
     returnData = {
         "status": "user created",
-        "userid" : result
+        "userid" : result,
+        "rfid" : rfid
     }
     return jsonify(returnData), 200
 
@@ -346,7 +349,7 @@ def login():
     
     if result == 0:
 
-        loger.debug("Password mismatch when logging in")
+        logger.debug("Password mismatch when logging in")
 
         returnData = {
             "status" : "login failure",
@@ -355,10 +358,16 @@ def login():
 
         return jsonify(returnData), 400
 
+    query = f"SELECT rfid FROM users WHERE username = '{username}'"
+    rfid_data = dbObj.readData(query)
+    rfid_value = rfid_data[0][0] if rfid_data and rfid_data[0][0] else None
+
     returnData = {
         "status" : "login success",
         "userid" : userid,
-        "token" : "temporarytokenfortesting"
+        "username": username,
+        "token" : "temporarytokenfortesting",
+        "rfid": rfid_value
     }
 
     logger.info("Login for user {} was successful. Returning userid and token")
@@ -458,6 +467,7 @@ def carparkPricing():
     }
 
     return jsonify(returnData), 200
+    
 
 @app.route("/carparkLots", methods=["GET", "POST"])
 def carparkLots():
@@ -585,6 +595,10 @@ def getBookings():
         }
 
         return jsonify(returnData), 400
+    
+    if result == False or result == []:
+        logger.info("No bookings found for user.")
+        return jsonify([]), 200  # Return an empty array, not error
 
     logger.info("Returning bookings for user")
     return jsonify(result), 200
@@ -691,14 +705,12 @@ def checkinCarpark():
 @app.route("/PublicTransportRoute", methods=["GET", "POST"])
 def PublicTransportRoute():
     logger.info("Public Transport Route accessed. Verifying information provided")
+
     try:
         data = request.get_json()
         if "currentLocation" not in data.keys() or "destinationLocation" not in data.keys():
             logger.error("Rasing Exception")
             raise Exception
-
-        # latitude = float(data["latitude"])
-        # longitude = float(data["longitude"])
 
         currentLocation = Location(data["currentLocation"]["latitude"],data["currentLocation"]["longitude"])
         destinationLocation = Location(data["destinationLocation"]["latitude"],data["destinationLocation"]["longitude"])
@@ -732,7 +744,6 @@ def PublicTransportRoute():
         return jsonify(returnData), 400
     
     limitWalkingDistanceData = PublicTransportRouteController.limitWalkingDistance(publicTransportRouteData, maxWalkingDistance)
-
     if limitWalkingDistanceData == False or limitWalkingDistanceData == None:
 
         logger.debug("Error when retrieving public transport route with maximum walking distance considered. Returning error 400")
@@ -743,11 +754,10 @@ def PublicTransportRoute():
 
         return jsonify(returnData), 400
     
-    chosenRouteData = PublicTransportRouteController.computeLeastCongestedRoute(limitWalkingDistanceData)
+    chosenLeastCongestedRouteData = PublicTransportRouteController.computeLeastCongestedRoute(limitWalkingDistanceData)
+    if chosenLeastCongestedRouteData == False:
 
-    if chosenRouteData == False:
-
-        logger.debug("Error when retrieving the chosen route. Returning error 400")
+        logger.debug("Error when retrieving the least congested route. Returning error 400")
         returnData = {
             "status" : "failure",
             "reason" : "backend error"
@@ -755,16 +765,60 @@ def PublicTransportRoute():
 
         return jsonify(returnData), 400
     
-    chosenRoutePolylineData = PublicTransportRouteController.getPolylineFromRoute(chosenRouteData)
-    if chosenRoutePolylineData == False or chosenRoutePolylineData == None:
+    sendLeastCongestedRouteInformation = PublicTransportRouteController.sendRouteInformation(chosenLeastCongestedRouteData)
+    if sendLeastCongestedRouteInformation == False or sendLeastCongestedRouteInformation == None:
 
-        logger.debug("Error when retrieving the polyline of the chosen route. Returning error 400")
+        logger.debug("Error when retrieving the information of the least congested route. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "backend error"
+        }
+
+        return jsonify(returnData), 400
+    
+    chosenFastestRouteData = PublicTransportRouteController.computeFastestRoute(limitWalkingDistanceData)
+    if chosenFastestRouteData == False or chosenFastestRouteData == None:
+
+        logger.debug("Error when retrieving the chosen fastest route. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "backend error"
+        }
+
+        return jsonify(returnData), 400
+
+    sendFastestRouteInformation = PublicTransportRouteController.sendRouteInformation(chosenFastestRouteData)
+    if sendFastestRouteInformation == False or sendFastestRouteInformation == None:
+
+        logger.debug("Error when retrieving the information of the chosen fastest route. Returning error 400")
         returnData = {
             "status" : "failure",
             "reason" : "backend error"
         }
         
-    return jsonify(chosenRoutePolylineData), 200
+    return jsonify(sendLeastCongestedRouteInformation, sendFastestRouteInformation), 200
+
+@app.route("/CongestionData", methods=["GET", "POST"])
+def CongestionData():
+    logger.info("Congestion Data accessed. Verifying information provided")
+
+    try:
+        data = request.get_json()
+        congestionList = PublicTransportRouteController.getCongestionList(data)
+
+        if congestionList == None:
+            logger.error("congestionList is None, Rasing Exception")
+            raise Exception("congestionList is None, Rasing Exception")
+
+    except Exception as e:
+        logger.error(f"Route data was not provided. {e} Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Route data was not provided"
+        }
+        return jsonify(returnData), 400
+    
+    return jsonify(congestionList), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
