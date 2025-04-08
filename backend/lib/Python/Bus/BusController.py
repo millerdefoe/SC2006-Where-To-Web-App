@@ -32,11 +32,11 @@ class BusController:
             queryStatement = """
                 SELECT busstopcode 
                 FROM busstops 
-                WHERE landmarkdescription = '{}'; 
-            """ .format(arrivalBusStopName.replace('\'', "\'\'") )
+                WHERE landmarkdescription ILIKE '%{}%'
+                LIMIT 1; 
+            """ .format(arrivalBusStopName.lower().replace('\'', "\'\'").replace('interchange','int')) #Replaces bus stop name that has 'interchange' with 'int' to match database
             #Replaces one singluar quote with double singuar quotes ''.
             logger.debug("Running query string to get bus stop code")
-
             try:
                 data = dbObj.readData(queryStatement)[0][0] #Queries into a list of tuples
                 return data 
@@ -50,6 +50,9 @@ class BusController:
         
 
     def getBusCongestionLevel(arrivalBusStopCode, arrivalBusServiceNumber):
+        if arrivalBusStopCode == "" or arrivalBusServiceNumber == "":
+            raise Exception("arrivalBusStopCode or arrivalBusServiceNumber empty") 
+
         url = f'https://datamall2.mytransport.sg/ltaodataservice/v3/BusArrival?BusStopCode={arrivalBusStopCode}&ServiceNo={arrivalBusServiceNumber}'
 
         headers = {
@@ -59,6 +62,9 @@ class BusController:
 
         response = requests.get(url, headers=headers)
         responseData = response.json()
+        if responseData == {}:
+            raise Exception("responseData is empty, check API")
+        
         if 'Services' in responseData.keys():
             services = responseData['Services']
 
@@ -66,6 +72,8 @@ class BusController:
                 #Extracts the bus load only. NextBus just refers to the current one that is arriving
                 return services[0]['NextBus']['Load']
             else:
+                logger.error("No bus services found")
                 return None
         else:
+            logger.error("No service attribute in response")
             return None

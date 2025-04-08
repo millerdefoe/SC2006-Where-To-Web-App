@@ -40,15 +40,15 @@
 
 .directionDescription-title{
     color: #000;
-    font-family: Poppins, sans-serif;
-    font-size: 1.8vw;
+    font-family: Inter;
+    font-size: 1.5vw;
     font-weight: 570;
 }
 
 .directionDescription-duration{
     color: #000;
-    font-family: Poppins, sans-serif;
-    font-size: 1.8vw;
+    font-family: Inter;
+    font-size: 1.5vw;
     font-weight: 570;
     padding-left: 1%;
     
@@ -78,23 +78,23 @@
     font-family: Poppins, sans-serif;
     font-size: 1vw;
     font-weight: 600;
-    text-align: center;
+    text-align: left;
   }
 
-.directionDescription-mainDirection{
+.main-instruction{
     color: #000;
-    font-family: Poppins, sans-serif;
+    font-family: Inter;
     font-size: 1vw;
     font-weight: 600;
-    text-align: center;
+    text-align: left;
 }
 
-.directionDescription-subDirection{
-    color: #4D4A4A;
-    font-family: Poppins, sans-serif;
+.sub-instruction{
+    color: #000;
+    font-family: Inter;
     font-size: 1vw;
     font-weight: 500;
-    text-align: center;
+    text-align: left;
 }
 
 .transportIconAndBadge-vertical {
@@ -104,7 +104,7 @@
     margin-bottom: 1rem;
 }
   
-  .badgeDD-icon {
+.badgeDD-icon {
     width: 27px;
     aspect-ratio: 2/1;
     display: flex;
@@ -112,7 +112,7 @@
     justify-content: center;
     max-width: 32px;
     background-color: transparent;
-  }
+}
   
   .walkingIconDD-icon {
     width: 16px;

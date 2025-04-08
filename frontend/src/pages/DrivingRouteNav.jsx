@@ -20,6 +20,8 @@ import MapWithRoute from "../components/MapDrivingRoute";
 import axios from "axios";
 import "../styles/DrivingRouteNav.css";
 
+
+
 function DrivingRouteNav() {
   const navigate = useNavigate();
   const [route, setRoute] = useState(null);
@@ -40,38 +42,44 @@ function DrivingRouteNav() {
     DEFAULT: MapPin,
   };
 
+  const selectedLat = parseFloat(localStorage.getItem("selectedCarparkLat"));
+  const selectedLng = parseFloat(localStorage.getItem("selectedCarparkLng"));
+  
+  
   useEffect(() => {
     const fetchRoute = async () => {
       const startLocation = localStorage.getItem("startLocation");
       const endLocation = localStorage.getItem("endLocation");
-
+  
       const sourceCoords = {
         latitude: parseFloat(localStorage.getItem("startLat")),
         longitude: parseFloat(localStorage.getItem("startLng")),
       };
-
+  
       const destinationCoords = {
-        latitude: parseFloat(localStorage.getItem("endLat")),
-        longitude: parseFloat(localStorage.getItem("endLng")),
+        latitude: !isNaN(selectedLat) ? selectedLat : parseFloat(localStorage.getItem("endLat")),
+        longitude: !isNaN(selectedLng) ? selectedLng : parseFloat(localStorage.getItem("endLng")),
       };
+      
+  
+      setDestination(!isNaN(selectedLat) ? "Selected Carpark" : endLocation);
 
-      setSource(startLocation);
-      setDestination(endLocation);
-
+  
       try {
         const response = await axios.post("http://127.0.0.1:5000/getRoute", {
           source: sourceCoords,
           destination: destinationCoords,
         });
-
+  
         setRoute(response.data);
       } catch (err) {
         console.error("Error fetching route:", err);
       }
     };
-
+  
     fetchRoute();
   }, []);
+  
 
   return (
     <div className="main-container">

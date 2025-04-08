@@ -37,6 +37,8 @@ const ViewDrivingRoute = () => {
           destination
         });
         setRoute(response.data);
+        const etaSeconds = parseInt(response.data.duration.replace("s", ""));
+        localStorage.setItem("etaSeconds", etaSeconds); // ✅ Store for booking page
       } catch (err) {
         console.error("Error fetching route:", err);
         setError("Could not retrieve route.");
