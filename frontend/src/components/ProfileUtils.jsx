@@ -36,7 +36,8 @@ export const isValidIdentifier = (identifier) => {
     }
   };
 
-  export const saveUserToCookie = (user) => {
-    document.cookie = `user=${JSON.stringify(user)}; path=/; max-age=86400`;
+  export const saveUserToCookie = (user, days = 7) => {
+    const maxAge = days * 24 * 60 * 60; // convert days to seconds
+    document.cookie = `user=${encodeURIComponent(JSON.stringify(user))}; path=/; max-age=${maxAge}`;
   };
   

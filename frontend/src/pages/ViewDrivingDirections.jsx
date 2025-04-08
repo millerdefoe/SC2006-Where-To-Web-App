@@ -41,6 +41,7 @@ const ViewDrivingDirections = () => {
         latitude: parseFloat(localStorage.getItem("endLat")),
         longitude: parseFloat(localStorage.getItem("endLng")),
       };
+      console.log("Destination coordinates used:", destinationCoords);
 
       const endLocation = localStorage.getItem("endLocation");
       setDestination(endLocation); // You can set this to a default destination name

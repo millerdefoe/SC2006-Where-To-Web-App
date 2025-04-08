@@ -117,6 +117,7 @@ function ViewPublicTransportRoute() {
       <div className="leftContainer2">
         <div className="map-container3">
           <MapWithRoute
+            key={selectedRoute.routeType}
             encodedPolyline={selectedRoute.polyline?.encodedPolyline}
             mapContainerClassName="map-image3"
           />

@@ -60,6 +60,12 @@ class UserController():
 
         logger.info("Deleting user {}".format(userid))
 
+        deleteStatement = "DELETE FROM bookings WHERE userid = {}".format(userid)
+
+        if not dbObj.writeData(deleteStatement):
+
+            return False
+
         deleteStatement = "DELETE FROM users WHERE userid = {}".format(userid)
 
         if dbObj.writeData(deleteStatement):

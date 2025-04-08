@@ -8,6 +8,7 @@ import { ReactComponent as Car } from "../assets/Car.svg";
 import { ReactComponent as ComputeRoute } from "../assets/ComputeRoute.svg";
 import { ReactComponent as ChangeBooking } from "../assets/ChangeBooking.svg";
 import { ReactComponent as DeleteBooking } from "../assets/DeleteBooking.svg";
+import {ReactComponent as Ghost} from "../assets/Ghost.svg";
 import "../styles/MyBookings.css";
 import { getUserFromCookie } from "../utils/getUserFromCookie"; 
 
@@ -130,7 +131,12 @@ function MyBookings() {
       <div className="bookingsPage-typography">My Bookings</div>
 
       {bookings.length === 0 ? (
-        <div>No bookings found.</div>
+        <div className="no-bookings-section">
+          <div className="ghost-container">
+            <Ghost className="ghost-icon" />
+          </div>
+          <p className="no-bookings-text">No bookings found.</p>
+        </div>
       ) : (
         bookings.map((booking, idx) => (
           <div key={idx} className="greyCarPark-container">

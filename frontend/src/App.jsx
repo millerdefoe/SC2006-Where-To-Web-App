@@ -16,7 +16,6 @@ import ViewPublicTransportRoute from './pages/ViewPublicTransportRoute';
 import ViewCarParks from "./pages/ViewCarParks";
 import PredictedCarParkAvail from "./components/PredictedCarParkAvail";
 import MyBookings from "./pages/MyBookings";
-import NoBookings from "./pages/NoBookings";
 import Settings from "./pages/Settings";
 import SettingsPage from "./pages/SettingsPage";
 import FeedbackPage from "./pages/FeedbackPage";
@@ -50,7 +49,6 @@ function App() {
           <Route path="/view-car-parks" element={<ViewCarParks />}/>
           <Route path="/predicted-car-park-avail" element={<PredictedCarParkAvail />}/>
           <Route path="/my-bookings" element={<MyBookings />}/>
-          <Route path="/no-bookings" element={<NoBookings />}/>
           <Route path="/view-driving-route" element={<ViewDrivingRoute />} />
           <Route path="/view-driving-directions" element={<ViewDrivingDirections />} />
           <Route path="/driving-route-nav" element={<DrivingRouteNav />} />
