@@ -215,7 +215,47 @@ def createUser():
     }
     return jsonify(returnData), 200
 
-@app.route("/editUser", methods=["GET"])
+@app.route("/deleteUser", methods=["GET", "POST"])
+def deleteUser():
+
+    logger.info("Delete user route accessed. Attempting to create new user")
+    logger.info("Checking for validity of information provided")
+
+    try:
+        data = request.get_json()
+        if "userid" not in data.keys():
+            raise Exception
+
+        userid = data["userid"]
+
+    except Exception as e:
+
+        logger.error("Required information to delete user was not provided. Returning error 400")
+        returnData = {
+            "status" : "user not deleted",
+            "reason" : "userid was not provided"
+        }
+
+        return jsonify(returnData), 400
+
+    result = userController.deleteUser(userid, dbObj)
+
+    if result == False:
+        logger.debug("Database error when deleting user. Please check logs")
+        returnData = {
+            "status": "user not deleted",
+            "reason" : "backend error"
+        }
+        return jsonify(returnData), 400
+
+    logger.info("Returning json specifying deleted user's userid")
+    returnData = {
+        "status": "user deleted",
+        "userid" : result
+    }
+    return jsonify(returnData), 200
+
+@app.route("/editUser", methods=["GET", "POST"])
 def editUser():
 
     logger.info("Create user route accessed. Attempting to create new user")
@@ -324,7 +364,7 @@ def login():
     logger.info("Login for user {} was successful. Returning userid and token")
     return jsonify(returnData), 200
 
-@app.route("/carparksNearby", methods=["GET"])
+@app.route("/carparksNearby", methods=["GET", "POST"])
 def carparksNearby():
 
     logger.info("carparksNearby route accessed. Verifying information provided")
@@ -384,7 +424,7 @@ def carparksNearby():
 
     return jsonify(data), 200
 
-@app.route("/carparkPricing", methods=["GET"])
+@app.route("/carparkPricing", methods=["GET", "POST"])
 def carparkPricing():
 
     logger.info("carparkPricing route accessed. Verifying information provided")
@@ -419,7 +459,7 @@ def carparkPricing():
 
     return jsonify(returnData), 200
 
-@app.route("/carparkLots", methods=["GET"])
+@app.route("/carparkLots", methods=["GET", "POST"])
 def carparkLots():
 
     logger.info("carparkLots route accessed. Verifying information provided")
@@ -458,7 +498,7 @@ def carparkLots():
 
     return jsonify(returnData), 200
 
-@app.route("/bookCarpark", methods=["GET"])
+@app.route("/bookCarpark", methods=["GET", "POST"])
 def bookCarpark():
 
     logger.info("bookCarpark route accessed. Verifying information provided")
@@ -507,6 +547,144 @@ def bookCarpark():
     returnData = {
         "status" : "success",
         "reason" : "Booking for {}/{} : {} | {}-{} was successful".format(carparkId, lotType, userId, startTime, duration)
+    }
+
+    return jsonify(returnData), 200
+
+@app.route("/PublicTransportRoute", methods=["GET", "POST"])
+@app.route("/getBookings", methods=["GET", "POST"])
+def getBookings():
+
+    logger.info("getBookings route accessed. Verifying information provided")
+
+    try:
+        data = request.get_json()
+
+        if "username" not in data.keys():
+            raise Exception("username was not provided")
+    
+    except Exception as e:
+
+        logger.error("{}. Returning error 400".format(e))
+        returnData = {
+            "status" : "failure",
+            "reason" : str(e)
+        }
+
+        return jsonify(returnData), 400
+
+    username = data["username"]
+
+    logger.info("Data has been verified, attempting to retrieve bookings for user")
+    result = carparkController.getBookings(username, dbObj)
+
+    if result == False:
+        logger.error("Error retrieiving booking. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "No bookings available"
+        }
+
+        return jsonify(returnData), 400
+
+    logger.info("Returning bookings for user")
+    return jsonify(result), 200
+
+@app.route("/deleteBooking", methods=["GET", "POST"])
+def deleteBooking():
+    
+    logger.info("deleteBooking route accessed. Verifying information provided")
+
+    try:
+        data = request.get_json()
+
+        if "username" not in data.keys():
+            raise Exception("username was not provided")
+        if "carparkid" not in data.keys():
+            raise Exception("carparkid was not provided")
+        if "starttime" not in data.keys():
+            raise Exception("starttime was not provided")
+
+        username = data["username"]
+        carparkid = data["carparkid"]
+        starttime = data["starttime"]
+    
+    except Exception as e:
+
+        logger.error("{}. Returning error 400".format(e))
+        returnData = {
+            "status" : "failure",
+            "reason" : str(e)
+        }
+
+        return jsonify(returnData), 400
+
+    logger.info("Data has been verified, attempting to retrieve bookings for user")
+    result = carparkController.deleteBooking(username, carparkid, starttime, dbObj)
+
+    if result == False:
+        logger.error("Error retrieiving booking. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Contact backend team"
+        }
+
+        return jsonify(returnData), 400
+
+    logger.info("Successfully deleted booking")
+    returnData = {
+        "status" : "success",
+        "reason" : "deleted booking"
+    }
+    return jsonify(returnData), 200
+
+@app.route("/checkinCarpark", methods=["GET", "POST"])
+def checkinCarpark():
+
+    logger.info("checkinCarpark route accessed. Verifying information provided")
+
+    try:
+        data = request.get_json()
+
+        if "carparkId" not in data.keys():
+            raise Exception("CarparkID was not provided")
+        if "lotType" not in data.keys():
+            raise Exception("LotType was not provided")
+        if "rfid" not in data.keys():
+            raise Exception("Userid was not provided")
+        if "time" not in data.keys():
+            raise Exception("StartTime was not provided")
+
+        carparkId = data["carparkId"]
+        lotType = data["lotType"]
+        rfid = data["rfid"]
+        time = data["time"]
+
+    except Exception as e:
+
+        logger.error("{}. Returning error 400".format(e))
+        returnData = {
+            "status" : "failure",
+            "reason" : str(e)
+        }
+
+        return jsonify(returnData), 400
+
+    result = carparkController.checkinCarpark(carparkid, lottype, rfid, time, dbObj)
+
+    if result == False:
+
+        logger.error("Unable to checkin. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Booking not available. Else, contact backend team"
+        }
+
+        return jsonify(returnData), 400
+
+    returnData = {
+        "status" : "success",
+        "reason" : "Checkin successful"
     }
 
     return jsonify(returnData), 200
