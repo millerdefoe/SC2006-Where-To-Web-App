@@ -1,0 +1,188 @@
+.leftContainer4{
+    float: left;
+    width: 70%;
+    aspect-ratio: 5 / 3; 
+    background-color: #FFF;
+    padding: 1em;
+    margin-top: 3%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rightContainer4{
+    float: right;
+    width: 30%;
+    aspect-ratio: 5/ 7; 
+    background-color: #FFF;
+    margin-top: 5%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.drivingRouteNav-container{
+    height: 92%; 
+    aspect-ratio: 2/3;
+    background-color: transparent;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #000;
+    border-radius: 30px;
+    margin-top: 2.5%;
+    margin-right: 2%;
+    display: flex;
+    flex-direction: column;
+    object-fit: contain;
+    align-items: center;
+}
+
+.directions-header1 {
+    height: 10%; 
+    width: 100%;
+    background: transparent;
+    border: none;
+    display: flex; 
+    flex-direction: row; 
+    align-items: center;
+    justify-content: flex-start; 
+    margin-top: 5%;
+    margin-left: -3%;
+}
+
+.directions-title1 {
+    color: #000;
+    font-family: Inter;
+    font-size: 1.5vw;
+    font-weight: 570;
+    display: flex;
+    align-items: center; 
+    flex-grow: 1;
+    margin-left: 9%;
+    margin-top: -2%;
+}
+
+.directions-timer1 {
+    padding-left: 0;
+    object-fit: contain;
+    display: flex;
+    align-items: center;
+    margin-top: -2%;
+}
+
+.directions-duration1 {
+    color: #000;
+    font-family: Inter;
+    font-size: 1.3vw;
+    font-weight: 570;
+    padding-left: 3%;
+    white-space: nowrap; 
+    margin-right: 6%;
+    margin-top: -2%;
+}
+
+.map-container5 {
+    margin-top: 1%;
+    margin-left: 2%;
+    height: 98%;
+    max-width: 1000px;
+    aspect-ratio: 8/3; /* Keeps proper map aspect ratio */
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.map-image5 {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    border-radius: 20px;
+}
+
+.endButton1-container{
+    position: absolute;
+    bottom: -8%;
+    right: 2%;
+    width: clamp(120px, 20vw, 160px);
+    height: clamp(120px, 20vw, 160px);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.endButton1-container:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.endButton1-icon {
+    width: 100%; 
+    height: 100%;
+    object-fit: contain; 
+    cursor: pointer;
+}
+
+
+.driving-direction-wrapper .directionTransportIcon-icon {
+    margin-bottom: 4.5vh; /* vertical spacing between icons */
+  }
+  
+.step-list1 {
+    list-style: none;
+    padding: 0;
+    overflow-y: auto;
+    margin-top: -2%;
+}
+
+.step-item1 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.2rem;
+    justify-content: space-between;
+}
+
+.step-icon1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    margin-left: 7%;
+}
+
+.step-text1 {
+    margin: 0;
+    font-size: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
+    margin-left: 5%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1%;
+}
+
+.step-description1 {
+    display: flex;
+    flex-grow: 1; 
+    text-align: left;
+    margin-left: 3%;
+}
+
+.step-distance-duration1 {
+    font-size: 0.9rem; 
+    margin-top: -5%;
+    color: #555; 
+    margin-left: 3%;
+}
