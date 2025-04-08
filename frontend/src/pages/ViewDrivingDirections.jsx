@@ -9,6 +9,7 @@ import { ReactComponent as TurnRight } from "../assets/TurnRight.svg";
 import { ReactComponent as Road } from "../assets/Road.svg";
 import { ReactComponent as Merge } from "../assets/Merge.svg";
 import { ReactComponent as Continue } from "../assets/ContinueStraight.svg";
+import { ReactComponent as UTurn } from "../assets/UTurn.svg";
 import { ReactComponent as TimerIcon} from "../assets/Timer.svg";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
@@ -67,6 +68,8 @@ const ViewDrivingDirections = () => {
   const iconMap = {
     TURN_LEFT: TurnLeft,
     TURN_RIGHT: TurnRight,
+    UTURN_RIGHT: UTurn,
+    UTURN_LEFT: UTurn,
     STRAIGHT: Continue,
     MERGE: Merge,
     RAMP_LEFT: Road,

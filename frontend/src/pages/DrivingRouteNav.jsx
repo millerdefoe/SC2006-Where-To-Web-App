@@ -8,6 +8,7 @@ import { ReactComponent as Merge } from "../assets/Merge.svg";
 import { ReactComponent as Continue } from "../assets/ContinueStraight.svg";
 import { ReactComponent as TurnLeft } from "../assets/TurnLeft.svg";
 import { ReactComponent as TurnRight } from "../assets/TurnRight.svg";
+import { ReactComponent as UTurn } from "../assets/UTurn.svg";
 import { ReactComponent as TimerIcon } from "../assets/Timer.svg";
 import { ReactComponent as EndJourneyButton } from "../assets/EndJourney.svg";
 import SettingsButton from "../components/SettingsButton";
@@ -28,6 +29,8 @@ function DrivingRouteNav() {
   const iconMap = {
     TURN_LEFT: TurnLeft,
     TURN_RIGHT: TurnRight,
+    UTURN_RIGHT: UTurn,
+    UTURN_LEFT: UTurn,
     STRAIGHT: Continue,
     MERGE: Merge,
     RAMP_LEFT: Road,
@@ -107,24 +110,31 @@ function DrivingRouteNav() {
               </div>
             )}
             <ol className="step-list1">
-              {route?.steps?.slice(0, 10).map((step, index) => {
-                const Icon = iconMap[step.maneuver?.toUpperCase()] || iconMap.DEFAULT;
-                return (
-                  <li key={index} className="step-item1">
-                    <div className="step-icon1">
-                      <Icon />
-                    </div>
-                    <div className="step-text1">
-                      <div className="step-description1">
-                        <p><strong>{step.instructions}</strong></p>
+            {route?.steps && (
+              <div className="step-list1"> 
+                {route.steps.map((step, index) => {
+                  const maneuverType = step.maneuver?.toUpperCase(); 
+                  const Icon = iconMap[maneuverType] || iconMap.DEFAULT;
+                  console.log(`Maneuver: ${maneuverType}, Icon: ${Icon}`);
+
+                  return (
+                    <li key={index} className="step-item1"> 
+                      <div className="step-icon1"> 
+                        <Icon />
                       </div>
-                      <div className="step-distance-duration1">
-                        <p>{step.distance} ({step.duration})</p>
+                      <div className="step-text1"> 
+                        <div className="step-description1"> 
+                          <p><strong>{step.instructions}</strong></p>
+                        </div>
+                        <div className="step-distance-duration1"> 
+                          <p>{step.distance} ({step.duration})</p>
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                );
-              })}
+                    </li>
+                  );
+                })}
+              </div>
+            )}
             </ol>
           </div>
         </div>
