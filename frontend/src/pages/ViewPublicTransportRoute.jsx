@@ -39,6 +39,9 @@ function ViewPublicTransportRoute() {
           console.error("Invalid coordinates in localStorage");
           return;
         }
+        const rawWalkingLimit = localStorage.getItem("walkingLimit");
+        const maxWalkingDistance = parseInt(rawWalkingLimit) || 800; // fallback to 800m if not set
+
 
         const response = await fetch("http://127.0.0.1:5000/PublicTransportRoute", {
           method: "POST",
@@ -48,7 +51,7 @@ function ViewPublicTransportRoute() {
           body: JSON.stringify({
             currentLocation,
             destinationLocation,
-            maxWalkingDistance: 800,
+            maxWalkingDistance,
           }),
         });
 

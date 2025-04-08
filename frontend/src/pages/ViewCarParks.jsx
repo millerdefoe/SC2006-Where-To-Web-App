@@ -37,8 +37,13 @@ function ViewCarParks() {
         const longitude = parseFloat(localStorage.getItem("endLng"));
         setEndLat(latitude);
         setEndLng(longitude);
+        let carparkLimit = parseFloat(localStorage.getItem("carparkMaxDistance"));
+        if (isNaN(carparkLimit)) {
+          carparkLimit = 1000; // default to 1000 meters if not found
+        }
+        const maxrange = carparkLimit / 1000;
 
-        const requestData = { latitude, longitude, maxrange: 1 };
+        const requestData = { latitude, longitude, maxrange };
         const response = await axios.post("http://127.0.0.1:5000/carparksNearby", requestData, {
           headers: { "Content-Type": "application/json" },
         });

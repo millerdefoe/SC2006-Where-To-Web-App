@@ -59,7 +59,9 @@ const ProfileDetails = () => {
           username: user.identifier,
         };
       
-        // Include password only if it was changed
+        let hasChanges = false;
+      
+        // Check password change
         if (password !== user.password) {
           const hashedPassword = await generateDeterministicHash(password);
           if (!hashedPassword) {
@@ -67,14 +69,16 @@ const ProfileDetails = () => {
             return;
           }
           requestData.password = hashedPassword;
+          hasChanges = true;
         }
       
-        // Include RFID only if it was changed
+        // Check RFID change (including deletion)
         if (rfid !== user.rfid) {
-          requestData.rfid = rfid;
+          requestData.rfid = rfid;  // Can be an empty string
+          hasChanges = true;
         }
       
-        if (!requestData.password && !requestData.rfid) {
+        if (!hasChanges) {
           alert("No changes detected.");
           return;
         }
@@ -94,7 +98,7 @@ const ProfileDetails = () => {
             const updatedUser = {
               ...user,
               password: requestData.password || user.password,
-              rfid: requestData.rfid || user.rfid,
+              rfid: requestData.rfid !== undefined ? requestData.rfid : user.rfid,
             };
             setUser(updatedUser);
             saveUserToCookie(updatedUser);
@@ -108,6 +112,7 @@ const ProfileDetails = () => {
           alert("Something went wrong while updating your profile.");
         }
       };
+      
       
       
     
