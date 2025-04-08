@@ -12,6 +12,7 @@ import MyBookingsButton from "../components/MyBookingsButton";
 import PredictedCarParkAvail from "../components/PredictedCarParkAvail";
 import axios from "axios";
 import "../styles/ViewCarParks.css";
+import { getUserFromCookie } from "../utils/getUserFromCookie";
 
 function ViewCarParks() {
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ function ViewCarParks() {
   const userId = localStorage.getItem("userId") || "1";
   const user = JSON.parse(localStorage.getItem("user")) || {};
   const [selectedCarparkIndex, setSelectedCarparkIndex] = useState(null);
+
 
   useEffect(() => {
     const fetchCarparks = async () => {

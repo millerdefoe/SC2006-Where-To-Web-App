@@ -15,13 +15,13 @@
     max-height: 450px;
     overflow-y: auto;
     padding-right: 2rem;
-    padding-left: 3rem;
+    padding-left: 2rem;
   }
   
   .direction-row {
     display: grid;
     grid-template-columns: auto 1fr;
-    column-gap: 4rem;
+    column-gap: 3rem;
     align-items: center;
   }
   
@@ -35,27 +35,27 @@
     flex-direction: row; 
     align-items: center;
     justify-content: center;
-    margin-top: 2%;
+    margin-top: 3%;
 }
 
 .directionDescription-title{
     color: #000;
     font-family: Inter;
-    font-size: 1.5vw;
+    font-size: 1.3vw;
     font-weight: 570;
 }
 
 .directionDescription-duration{
     color: #000;
     font-family: Inter;
-    font-size: 1.5vw;
+    font-size: 1.3vw;
     font-weight: 570;
     padding-left: 1%;
     
 }
 
 .directionDescription-timer{
-    padding-left: 22%;
+    padding-left: 40%;
     object-fit: contain;
 }
 

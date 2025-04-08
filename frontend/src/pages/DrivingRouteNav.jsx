@@ -14,6 +14,10 @@ import { ReactComponent as EndJourneyButton } from "../assets/EndJourney.svg";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
+<<<<<<< HEAD
+=======
+
+>>>>>>> main
 import MyBookingsButton from "../components/MyBookingsButton";
 import ModeOfTransport from "../components/ModeOfTransport";
 import MapWithRoute from "../components/MapDrivingRoute";
@@ -42,8 +46,6 @@ function DrivingRouteNav() {
     DEFAULT: MapPin,
   };
 
-  const selectedLat = parseFloat(localStorage.getItem("selectedCarparkLat"));
-  const selectedLng = parseFloat(localStorage.getItem("selectedCarparkLng"));
   
   
   useEffect(() => {
@@ -57,12 +59,13 @@ function DrivingRouteNav() {
       };
   
       const destinationCoords = {
-        latitude: !isNaN(selectedLat) ? selectedLat : parseFloat(localStorage.getItem("endLat")),
-        longitude: !isNaN(selectedLng) ? selectedLng : parseFloat(localStorage.getItem("endLng")),
+        latitude: parseFloat(localStorage.getItem("endLat")),
+        longitude: parseFloat(localStorage.getItem("endLng")),
       };
       
   
-      setDestination(!isNaN(selectedLat) ? "Selected Carpark" : endLocation);
+      
+      setDestination(localStorage.getItem("endLocation"));
 
   
       try {

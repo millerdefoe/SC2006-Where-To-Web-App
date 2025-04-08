@@ -3,26 +3,21 @@ import Badge from "./Badge";
 import {hexToRgb} from "../context/hexToRgb.js"
 import "../styles/CongestionLevelIndicator.css";
 
-const CongestionLevelIndicator = ({CrowdLevel, StopName, BadgeLabel}) => {
+const CongestionLevelIndicator = ({CrowdLevel, StopName, BadgeLabel, TravelMode}) => {
     let isBus = false;
-    let congestionLevel = CrowdLevel;
-    let colour = "#ECE9E9"; 
-    let width = "10";
+    let congestionLevel = CrowdLevel ?? ""; // fallback to empty string
+    let colour = "#ECE9E9"; // default grey
 
-    if (congestionLevel === "SEA" || congestionLevel === "l"){
-        colour = "#7ed957"; // green 
-        width = "20";
-    }
-    else if (congestionLevel === "LSD" || congestionLevel === "h"){
-        colour = "#ff5757"; // red
-        width = "80";
-    }
-    else {
-        colour = "#ffbd59"; // yellow
-        width = "50";
-    }
+    if (["SEA", "l"].includes(congestionLevel)) {
+    colour = "#7ed957"; // green
+    } else if (["LSD", "h"].includes(congestionLevel)) {
+    colour = "#ff5757"; // red
+    } else if (["SDA", "m"].includes(congestionLevel)) {
+    colour = "#ffbd59"; // yellow
+}
 
-    if (!isNaN(Number(BadgeLabel))){
+
+    if (TravelMode === "BUS") {
         isBus = true;
     }
 

@@ -55,6 +55,8 @@ function ViewPublicTransportRoute() {
         if (!response.ok) throw new Error("Failed to fetch route data");
 
         const [leastCongested, fastest] = await response.json();
+        localStorage.setItem("leastCongestedRouteData", JSON.stringify([leastCongested, fastest]));
+
 
         const transformedRouteData = [
           {
@@ -65,7 +67,10 @@ function ViewPublicTransportRoute() {
               travelMode: step.travelMode,
               instructions: step.instructions || "",
               MRTStopLine: step.transitDetails?.line?.short_name || "",
-              ServiceNumberOrLine: step.ServiceNumberOrLine || ""
+              ServiceNumberOrLine: step.ServiceNumberOrLine || "",
+              numberOfStops: step.numberOfStops || 0,
+              staticDuration: step.staticDuration || "",
+              distance: step.distance || ""
 
             }))
           },
@@ -77,7 +82,10 @@ function ViewPublicTransportRoute() {
               travelMode: step.travelMode,
               instructions: step.instructions || "",
               MRTStopLine: step.transitDetails?.line?.short_name || "",
-              ServiceNumberOrLine: step.ServiceNumberOrLine || ""
+              ServiceNumberOrLine: step.ServiceNumberOrLine || "",
+              numberOfStops: step.numberOfStops || 0,
+              staticDuration: step.staticDuration || "",
+              distance: step.distance || ""
 
             }))
           }
