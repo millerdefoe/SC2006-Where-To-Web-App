@@ -114,6 +114,14 @@ function ViewCarParks() {
   const handleBooking = (carparkId, lotType, index, lat, lng) => {
     setSelectedCarparkIndex(index);
   
+    // ✅ Check for RFID first
+    if (!user?.rfid || user.rfid.trim() === "") {
+      // Just show the sticky bar with warning
+      setStickyVisible(prev => ({ ...prev, [index]: true }));
+      setBookingStatus(prev => ({ ...prev, [index]: "failure" }));
+      return;
+    }
+  
     const etaSeconds = parseInt(localStorage.getItem("etaSeconds") || 60);
     const now = new Date(Date.now() + etaSeconds * 1000);
     const startTime = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
@@ -147,6 +155,7 @@ function ViewCarParks() {
         setStickyVisible(prev => ({ ...prev, [index]: true }));
       });
   };
+  
   
   
   
