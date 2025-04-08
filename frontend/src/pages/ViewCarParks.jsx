@@ -196,6 +196,7 @@ function ViewCarParks() {
                       <button
                         className="computeRoute-button"
                         onClick={() => {
+                          console.log("Selected Carpark Coordinates:", lat, lng);
                           localStorage.setItem("endLat", parseFloat(lat));
                           localStorage.setItem("endLng", parseFloat(lng));
                           navigate("/view-driving-directions", {
