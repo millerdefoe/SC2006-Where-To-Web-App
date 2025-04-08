@@ -12,7 +12,6 @@ import MyBookingsButton from "../components/MyBookingsButton";
 import PredictedCarParkAvail from "../components/PredictedCarParkAvail";
 import axios from "axios";
 import "../styles/ViewCarParks.css";
-import { getUserFromCookie } from "../utils/getUserFromCookie";
 
 function ViewCarParks() {
   const navigate = useNavigate();
@@ -25,7 +24,6 @@ function ViewCarParks() {
   const userId = localStorage.getItem("userId") || "1";
   const user = JSON.parse(localStorage.getItem("user")) || {};
   const [selectedCarparkIndex, setSelectedCarparkIndex] = useState(null);
-
 
   useEffect(() => {
     const fetchCarparks = async () => {
@@ -105,18 +103,8 @@ function ViewCarParks() {
 
   const handleBooking = (carparkId, lotType, index, lat, lng) => {
     setSelectedCarparkIndex(index);
-  
-    // Ensure to get the updated user object, as it might have changed
-    const updatedUser = JSON.parse(localStorage.getItem("user")) || {};
-    const isRFIDValid = updatedUser?.rfid && updatedUser.rfid.trim() !== "";
-  
-    // Show the graph sticky bar if RFID is missing or invalid
-    if (!isRFIDValid) {
-      setStickyVisible(prevState => ({ ...prevState, [index]: true }));
-      return;
-    }
-  
-    // Proceed with booking if RFID is valid
+
+    // Continue with the booking process
     const etaSeconds = parseInt(localStorage.getItem("etaSeconds") || 60);
     const now = new Date(Date.now() + etaSeconds * 1000);
     const startTime = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
@@ -133,6 +121,7 @@ function ViewCarParks() {
       })
       .then((res) => {
         if (res.status === 200 && res.data.status === "success") {
+          // Show success bar after successful booking
           setStickyVisible(prevState => ({ ...prevState, [index]: true }));
         } else {
           alert(res.data.reason || "Booking failed");
@@ -145,7 +134,6 @@ function ViewCarParks() {
         setStickyVisible(prevState => ({ ...prevState, [index]: false }));
       });
   };
-  
   
   
   const toggleStickyBar = (index) => {
@@ -188,36 +176,35 @@ function ViewCarParks() {
                   <Book className="book-icon" onClick={() => handleBooking(id, lotType, index, parseFloat(lat), parseFloat(lng))} />
                 </div>
   
+                {/* Display the correct sticky bar based on RFID status */}
                 {stickyVisible[index] && (
-                <div className="sticky-overlay">
-                  <div className="sticky-bar">
-                    <Cross className="close-icon" onClick={() => toggleStickyBar(index)} />
-                    {user?.rfid && user.rfid.trim() !== "" ? (
-                      <p>{name} Booked Successfully!</p>
-                    ) : (
-                      <div>
-                        <div className="prediction-typography">
-                        <h3>RFID Tag Not Detected!</h3>
+                  <div className="sticky-overlay">
+                    <div className="sticky-bar">
+                      <Cross className="close-icon" onClick={() => toggleStickyBar(index)} />
+                      {user?.rfid && user.rfid.trim() !== "" ? (
+                        <p>{name} Booked Successfully!</p>
+                      ) : (
+                        <div>
+                          <h3>RFID Tag Not Detected!</h3>
+                          <PredictedCarParkAvail />
                         </div>
-                        <PredictedCarParkAvail />
-                      </div>
-                    )}
-                    <button
-                      className="computeRoute-button"
-                      onClick={() => {
-                        navigate("/view-driving-directions", {
-                          state: {
-                            destinationLat: parseFloat(lat),
-                            destinationLng: parseFloat(lng),
-                          },
-                        });
-                      }}
-                    >
-                      <ComputeRoute className="computeRoute-icon" />
-                    </button>
+                      )}
+                      <button
+                        className="computeRoute-button"
+                        onClick={() => {
+                          navigate("/view-driving-directions", {
+                            state: {
+                              destinationLat: parseFloat(lat),
+                              destinationLng: parseFloat(lng),
+                            },
+                          });
+                        }}
+                      >
+                        <ComputeRoute className="computeRoute-icon" />
+                      </button>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
               </div>
             );
           })
