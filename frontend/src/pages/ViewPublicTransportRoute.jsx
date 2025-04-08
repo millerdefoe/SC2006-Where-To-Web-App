@@ -67,7 +67,10 @@ function ViewPublicTransportRoute() {
               travelMode: step.travelMode,
               instructions: step.instructions || "",
               MRTStopLine: step.transitDetails?.line?.short_name || "",
-              ServiceNumberOrLine: step.ServiceNumberOrLine || ""
+              ServiceNumberOrLine: step.ServiceNumberOrLine || "",
+              numberOfStops: step.numberOfStops || 0,
+              staticDuration: step.staticDuration || "",
+              distance: step.distance || ""
 
             }))
           },
@@ -79,7 +82,10 @@ function ViewPublicTransportRoute() {
               travelMode: step.travelMode,
               instructions: step.instructions || "",
               MRTStopLine: step.transitDetails?.line?.short_name || "",
-              ServiceNumberOrLine: step.ServiceNumberOrLine || ""
+              ServiceNumberOrLine: step.ServiceNumberOrLine || "",
+              numberOfStops: step.numberOfStops || 0,
+              staticDuration: step.staticDuration || "",
+              distance: step.distance || ""
 
             }))
           }

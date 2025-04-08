@@ -156,6 +156,10 @@
     border-radius: 20px;
 }
 
+.sticky-bar-typography1{
+    color: black;
+}
+
 .close-icon {
     position: absolute;
     top: 20px;
@@ -163,6 +167,7 @@
     width: min(3vw, 30px);
     height: min(3vw, 30px);
     cursor: pointer;
+    z-index: 999;
 }
 
 .computeRoute-button {
@@ -196,4 +201,8 @@
     color: #FF2D2D;
     border-radius: 20px;
     line-height: 50px; 
+}
+
+.prediction-typography{
+    color: black;
 }

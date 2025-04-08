@@ -10,6 +10,8 @@ import "../styles/common.css";
 
 function DisplayCongestionLevels() {
   const [congestionData, setCongestionData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
     const fetchCongestionData = async () => {
@@ -31,7 +33,24 @@ function DisplayCongestionLevels() {
         if (!response.ok) throw new Error("Failed to fetch congestion data");
 
         const congestionList = await response.json();
-        setCongestionData(congestionList);
+
+        const transformed = congestionList.flatMap(route => [
+            {
+              routeType: route.CongestionInfo,
+              ServiceNumberOrLine: route.FirstCurrentStopCongestionLevel.ServiceNumberOrLine,
+              crowdLevel: route.FirstCurrentStopCongestionLevel.crowdLevel,
+              currentStopName: route.FirstCurrentStopCongestionLevel.currentStopName,
+              travelMode: route.FirstCurrentStopCongestionLevel.travelMode,
+            },
+            {
+              routeType: route.CongestionInfo,
+              ServiceNumberOrLine: route.lastDestinationStopCongestionLevel.ServiceNumberOrLine,
+              crowdLevel: route.lastDestinationStopCongestionLevel.crowdLevel,
+              currentStopName: route.lastDestinationStopCongestionLevel.destinationStopName,
+              travelMode: route.lastDestinationStopCongestionLevel.travelMode,
+            },
+          ]);
+        setCongestionData(transformed);
       } catch (e) {
         console.error("Error fetching congestion data:", e);
       }
@@ -48,12 +67,13 @@ function DisplayCongestionLevels() {
       <CongestionLevelIndicator
         key={index}
         CrowdLevel={station.crowdLevel}
-        StopName={station.stationName}
-        BadgeLabel={station.badgeLabel}
+        StopName={station.currentStopName}
+        BadgeLabel={station.ServiceNumberOrLine}
+        TravelMode={station.travelMode}
       />
     );
 
-    if (!isNaN(Number(station.badgeLabel))) {
+    if (station.travelMode === "BUS") {
       busIndicators.push(indicator);
     } else {
       mrtIndicators.push(indicator);
@@ -69,23 +89,26 @@ function DisplayCongestionLevels() {
 
       <div className="congestionLevel-container">
         <div className="congestionLevel-header">Congestion Levels</div>
+
         <div className="congestionLevel-container2">
           <div className="mrt-container">
             <div className="congestionLevel-header" style={{ fontSize: "1.5vw", paddingRight: "70%" }}>
               MRT Stations
             </div>
-            {mrtIndicators}
+            {mrtIndicators.length > 0 ? mrtIndicators : <div>No MRT data</div>}
           </div>
+
           <div className="bus-container">
             <div className="congestionLevel-header" style={{ fontSize: "1.5vw", paddingRight: "70%" }}>
               Bus Stops
             </div>
-            {busIndicators}
+            {busIndicators.length > 0 ? busIndicators : <div>No Bus data</div>}
           </div>
         </div>
       </div>
     </div>
   );
 }
+  
 
 export default DisplayCongestionLevels;
