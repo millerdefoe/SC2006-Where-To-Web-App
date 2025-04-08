@@ -22,6 +22,8 @@ function ViewCarParks() {
   const [endLng, setEndLng] = useState(null);
   const [pricingMap, setPricingMap] = useState({});
   const [lotsMap, setLotsMap] = useState({});
+  const [bookingStatus, setBookingStatus] = useState({});  // track success/failure per index
+
 
 
   const user = getUserFromCookie() || {};
@@ -106,12 +108,10 @@ function ViewCarParks() {
 
   const handleBooking = (carparkId, lotType, index, lat, lng) => {
     setSelectedCarparkIndex(index);
-
-    // Continue with the booking process
+  
     const etaSeconds = parseInt(localStorage.getItem("etaSeconds") || 60);
     const now = new Date(Date.now() + etaSeconds * 1000);
     const startTime = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
-  
     const duration = 0;
   
     axios
@@ -123,20 +123,26 @@ function ViewCarParks() {
         duration,
       })
       .then((res) => {
+        setStickyVisible(prev => ({ ...prev, [index]: true }));
         if (res.status === 200 && res.data.status === "success") {
-          // Show success bar after successful booking
-          setStickyVisible(prevState => ({ ...prevState, [index]: true }));
+          setBookingStatus(prev => ({ ...prev, [index]: "success" }));
         } else {
-          alert(res.data.reason || "Booking failed");
-          setStickyVisible(prevState => ({ ...prevState, [index]: false }));
+          setBookingStatus(prev => ({ ...prev, [index]: "failure" }));
+          alert(res.data.reason || "Booking failed.");
         }
       })
-      .catch((e) => {
-        console.error("Booking error:", e);
-        alert("You have an active booking. Please end your current booking before making a new one.");
-        setStickyVisible(prevState => ({ ...prevState, [index]: false }));
+      .catch((err) => {
+        const reason = err.response?.data?.reason || "Unknown error occurred.";
+        if (reason.toLowerCase().includes("active booking")) {
+          alert("You already have an active booking. Please end it before making a new one.");
+        } else {
+          alert(reason);
+        }
+        setBookingStatus(prev => ({ ...prev, [index]: "failure" }));
+        setStickyVisible(prev => ({ ...prev, [index]: true }));
       });
   };
+  
   
   
   const toggleStickyBar = (index) => {
@@ -185,22 +191,27 @@ function ViewCarParks() {
                   <div className="sticky-overlay">
                     <div className="sticky-bar">
                       <Cross className="close-icon" onClick={() => toggleStickyBar(index)} />
-                      {user?.rfid && user.rfid.trim() !== "" ? (
+
+                      {bookingStatus[index] === "success" && user?.rfid && user.rfid.trim() !== "" ? (
                         <p>{name} BOOKED SUCCESSFULLY!</p>
                       ) : (
                         <div>
-                          <h3 className="sticky-bar-typography1">RFID TAG NOT DETECTED!</h3>
+                          <h3 className="sticky-bar-typography1">
+                            {user?.rfid && user.rfid.trim() !== "" 
+                              ? "Booking failed or you already have one!" 
+                              : "RFID TAG NOT DETECTED!"}
+                          </h3>
                           <PredictedCarParkAvail />
                         </div>
                       )}
+
                       <button
                         className="computeRoute-button"
                         onClick={() => {
                           console.log("Selected Carpark Coordinates:", lat, lng);
                           localStorage.setItem("endLat", parseFloat(lat));
                           localStorage.setItem("endLng", parseFloat(lng));
-                          navigate("/view-driving-directions", {
-                          });
+                          navigate("/view-driving-directions");
                         }}
                       >
                         <ComputeRoute className="computeRoute-icon" />
@@ -208,6 +219,7 @@ function ViewCarParks() {
                     </div>
                   </div>
                 )}
+
               </div>
             );
           })
