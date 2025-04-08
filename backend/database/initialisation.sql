@@ -84,6 +84,7 @@ CREATE TABLE bookings(
     userid INTEGER NOT NULL,
     startTime TIMESTAMP NOT NULL,
     duration INTEGER NOT NULL,
+    status INTEGER,
     CONSTRAINT fk_carparkid
         FOREIGN KEY(carparkid, lottype)
             REFERENCES carpark(carparkid, lottype),

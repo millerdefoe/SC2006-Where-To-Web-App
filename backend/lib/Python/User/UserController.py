@@ -162,4 +162,4 @@ class UserController():
 
         else:
             logger.info("RFID belongs to user {}".format(data[0]))
-            return data[0]
+            return data[0][0]

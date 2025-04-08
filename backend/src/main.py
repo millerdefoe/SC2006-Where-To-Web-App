@@ -669,7 +669,7 @@ def checkinCarpark():
 
         return jsonify(returnData), 400
 
-    result = carparkController.checkinCarpark(carparkid, lottype, rfid, time, dbObj)
+    result = carparkController.checkinCarpark(carparkId, lotType, rfid, time, dbObj)
 
     if result == False:
 
@@ -767,4 +767,4 @@ def PublicTransportRoute():
     return jsonify(chosenRoutePolylineData), 200
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0")
