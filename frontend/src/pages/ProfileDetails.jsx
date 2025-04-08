@@ -148,7 +148,8 @@ const ProfileDetails = () => {
       const handleLogout = () => {
         localStorage.removeItem("user"); 
         document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        navigate("/profile-sign-up"); 
+        document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=";
+        window.location.href = "/profile-sign-up";
       };
     
       if (!user) return null;
