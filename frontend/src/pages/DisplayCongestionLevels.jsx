@@ -12,93 +12,61 @@ function DisplayCongestionLevels() {
   const [congestionData, setCongestionData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  // 🧠 Utility to extract first/last transit steps (skip WALK)
-  const getFirstAndLastTransitSteps = (steps = []) => {
-    const transitSteps = steps.filter(
-      (step) => step.travelMode === "BUS" || step.travelMode === "SUBWAY"
-    );
-    return {
-      first: transitSteps[0],
-      last: transitSteps.at(-1),
-    };
-  };
-
   useEffect(() => {
-    const fetchRouteData = async () => {
-      try {
-        const currentLocation = {
-          latitude: parseFloat(localStorage.getItem("startLat")),
-          longitude: parseFloat(localStorage.getItem("startLng")),
-        };
+    // Sample mock data
+    const routeData = [
+      {
+        CongestionInfo: "leastCongested",
+        FirstCurrentStopCongestionLevel: {
+          ServiceNumberOrLine: "154",
+          crowdLevel: "SDA",
+          currentStopName: "Carrier S'pore",
+          travelMode: "BUS",
+        },
+        lastDestinationStopCongestionLevel: {
+          ServiceNumberOrLine: "Thomson East Coast Line",
+          crowdLevel: "m",
+          currentStopName: "Tanjong Katong",
+          travelMode: "SUBWAY",
+        },
+      },
+      {
+        CongestionInfo: "fastest",
+        FirstCurrentStopCongestionLevel: {
+          ServiceNumberOrLine: "201",
+          crowdLevel: "LSD",
+          currentStopName: "Aft Teban Gdns Cres",
+          travelMode: "BUS",
+        },
+        lastDestinationStopCongestionLevel: {
+          ServiceNumberOrLine: "201",
+          crowdLevel: "SDA",
+          currentStopName: "Clementi Stn Exit A",
+          travelMode: "BUS",
+        },
+      },
+    ];
 
-        const destinationLocation = {
-          latitude: parseFloat(localStorage.getItem("endLat")),
-          longitude: parseFloat(localStorage.getItem("endLng")),
-        };
+    // Flatten and transform to a usable format
+    const transformed = routeData.flatMap(route => [
+      {
+        routeType: route.CongestionInfo,
+        ServiceNumberOrLine: route.FirstCurrentStopCongestionLevel.ServiceNumberOrLine,
+        crowdLevel: route.FirstCurrentStopCongestionLevel.crowdLevel,
+        currentStopName: route.FirstCurrentStopCongestionLevel.currentStopName,
+        travelMode: route.FirstCurrentStopCongestionLevel.travelMode,
+      },
+      {
+        routeType: route.CongestionInfo,
+        ServiceNumberOrLine: route.lastDestinationStopCongestionLevel.ServiceNumberOrLine,
+        crowdLevel: route.lastDestinationStopCongestionLevel.crowdLevel,
+        currentStopName: route.lastDestinationStopCongestionLevel.currentStopName,
+        travelMode: route.lastDestinationStopCongestionLevel.travelMode,
+      },
+    ]);
 
-        if (
-          isNaN(currentLocation.latitude) ||
-          isNaN(currentLocation.longitude) ||
-          isNaN(destinationLocation.latitude) ||
-          isNaN(destinationLocation.longitude)
-        ) {
-          console.error("Invalid coordinates in localStorage");
-          return;
-        }
-
-        const response = await fetch("http://127.0.0.1:5000/PublicTransportRoute", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            currentLocation,
-            destinationLocation,
-            maxWalkingDistance: 800,
-          }),
-        });
-
-        const [leastCongested, fastest] = await response.json();
-
-        const leastSteps = getFirstAndLastTransitSteps(leastCongested.steps);
-        const fastestSteps = getFirstAndLastTransitSteps(fastest.steps);
-
-        const extractedStops = [
-          {
-            travelMode: leastSteps.first?.travelMode,
-            badgeLabel: leastSteps.first?.ServiceNumberOrLine || leastSteps.first?.MRTStopLine || "?",
-            stationName: leastSteps.first?.currentStopName || "Start (Least)",
-            crowdLevel: leastCongested.firstArrivalCongestionLevel,
-          },
-          {
-            travelMode: leastSteps.last?.travelMode,
-            badgeLabel: leastSteps.last?.ServiceNumberOrLine || leastSteps.last?.MRTStopLine || "?",
-            stationName: leastSteps.last?.destinationStopName || "End (Least)",
-            crowdLevel: leastCongested.lastDestinationCongestionLevel,
-          },
-          {
-            travelMode: fastestSteps.first?.travelMode,
-            badgeLabel: fastestSteps.first?.ServiceNumberOrLine || fastestSteps.first?.MRTStopLine || "?",
-            stationName: fastestSteps.first?.currentStopName || "Start (Fastest)",
-            crowdLevel: fastest.firstArrivalCongestionLevel,
-          },
-          {
-            travelMode: fastestSteps.last?.travelMode,
-            badgeLabel: fastestSteps.last?.ServiceNumberOrLine || fastestSteps.last?.MRTStopLine || "?",
-            stationName: fastestSteps.last?.destinationStopName || "End (Fastest)",
-            crowdLevel: fastest.lastDestinationCongestionLevel,
-          }
-        ];
-
-        setCongestionData(extractedStops);
-        setIsLoading(false);
-      } catch (err) {
-        console.error("Error fetching route data:", err);
-        setIsLoading(false);
-      }
-    };
-
-    fetchRouteData();
+    setCongestionData(transformed);
+    setIsLoading(false);
   }, []);
 
   if (isLoading) {
@@ -114,8 +82,8 @@ function DisplayCongestionLevels() {
       <CongestionLevelIndicator
         key={index}
         CrowdLevel={stop.crowdLevel}
-        StopName={stop.stationName}
-        BadgeLabel={stop.badgeLabel}
+        StopName={stop.currentStopName}
+        BadgeLabel={stop.ServiceNumberOrLine}
         TravelMode={stop.travelMode}
       />
     );
@@ -142,14 +110,14 @@ function DisplayCongestionLevels() {
             <div className="congestionLevel-header" style={{ fontSize: "1.5vw", paddingRight: "70%" }}>
               MRT Stations
             </div>
-            {mrtIndicators}
+            {mrtIndicators.length > 0 ? mrtIndicators : <div>No MRT data</div>}
           </div>
 
           <div className="bus-container">
             <div className="congestionLevel-header" style={{ fontSize: "1.5vw", paddingRight: "70%" }}>
               Bus Stops
             </div>
-            {busIndicators}
+            {busIndicators.length > 0 ? busIndicators : <div>No Bus data</div>}
           </div>
         </div>
       </div>
