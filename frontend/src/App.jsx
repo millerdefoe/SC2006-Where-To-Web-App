@@ -14,6 +14,7 @@ import DrivingRouteNav from './pages/DrivingRouteNav';
 import TPTRouteNav from './pages/TPTRouteNav';
 import ViewPublicTransportRoute from './pages/ViewPublicTransportRoute';
 import ViewCarParks from "./pages/ViewCarParks";
+import PredictedCarParkAvail from "./components/PredictedCarParkAvail";
 import MyBookings from "./pages/MyBookings";
 import NoBookings from "./pages/NoBookings";
 import Settings from "./pages/Settings";
@@ -47,6 +48,7 @@ function App() {
           <Route path="/public-transport-nav" element={<TPTRouteNav />} />
           <Route path="/view-public-transport-route" element={<ViewPublicTransportRoute />} />
           <Route path="/view-car-parks" element={<ViewCarParks />}/>
+          <Route path="/predicted-car-park-avail" element={<PredictedCarParkAvail />}/>
           <Route path="/my-bookings" element={<MyBookings />}/>
           <Route path="/no-bookings" element={<NoBookings />}/>
           <Route path="/view-driving-route" element={<ViewDrivingRoute />} />

@@ -9,22 +9,21 @@ import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
 import ModeOfTransport from "../components/ModeOfTransport";
 import MyBookingsButton from "../components/MyBookingsButton";
+import PredictedCarParkAvail from "../components/PredictedCarParkAvail";
 import axios from "axios";
 import "../styles/ViewCarParks.css";
-import { getUserFromCookie } from "../utils/getUserFromCookie";
 
 function ViewCarParks() {
   const navigate = useNavigate();
   const [carParks, setCarParks] = useState([]);
-  const [stickyVisible, setStickyVisible] = useState({});
+  const [stickyVisible, setStickyVisible] = useState({});  // Store visibility state per car park
   const [endLat, setEndLat] = useState(null);
   const [endLng, setEndLng] = useState(null);
   const [pricingMap, setPricingMap] = useState({});
   const [lotsMap, setLotsMap] = useState({});
-  const user = getUserFromCookie();
-  const userId = user?.userid;
-
-
+  const userId = localStorage.getItem("userId") || "1";
+  const user = JSON.parse(localStorage.getItem("user")) || {};
+  const [selectedCarparkIndex, setSelectedCarparkIndex] = useState(null);
 
   useEffect(() => {
     const fetchCarparks = async () => {
@@ -102,43 +101,48 @@ function ViewCarParks() {
     return (R * c).toFixed(2);
   };
 
-  const handleBooking = async (carparkId, lotType, index, lat, lng) => {
-    try {
-      const etaSeconds = parseInt(localStorage.getItem("etaSeconds") || 60);
-      const now = new Date(Date.now() + etaSeconds * 1000);
-      const startTime = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+  const handleBooking = (carparkId, lotType, index, lat, lng) => {
+    setSelectedCarparkIndex(index);
 
-      const duration = 0;
-      console.log("Booking with userId:", userId);
-
-      const res = await axios.post("http://127.0.0.1:5000/bookCarpark", {
+    // Continue with the booking process
+    const etaSeconds = parseInt(localStorage.getItem("etaSeconds") || 60);
+    const now = new Date(Date.now() + etaSeconds * 1000);
+    const startTime = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+  
+    const duration = 0;
+  
+    axios
+      .post("http://127.0.0.1:5000/bookCarpark", {
         carparkId,
         lotType,
         userId,
         startTime,
         duration,
-      }, {
-        headers: { "Content-Type": "application/json" },
+      })
+      .then((res) => {
+        if (res.status === 200 && res.data.status === "success") {
+          // Show success bar after successful booking
+          setStickyVisible(prevState => ({ ...prevState, [index]: true }));
+        } else {
+          alert(res.data.reason || "Booking failed");
+          setStickyVisible(prevState => ({ ...prevState, [index]: false }));
+        }
+      })
+      .catch((e) => {
+        console.error("Booking error:", e);
+        alert("Something went wrong while booking.");
+        setStickyVisible(prevState => ({ ...prevState, [index]: false }));
       });
-
-      if (res.status === 200 && res.data.status === "success") {
-        setStickyVisible(prev => ({ ...prev, [`carPark${index + 1}`]: true }));
-        localStorage.setItem("selectedCarparkLat", lat);
-        localStorage.setItem("selectedCarparkLng", lng);
-
-      } else {
-        alert(res.data.reason || "Booking failed");
-      }
-    } catch (e) {
-      console.error("Booking error:", e);
-      alert("Something went wrong while booking.");
-    }
   };
-
-  const toggleStickyBar = (id) => {
-    setStickyVisible(prev => ({ ...prev, [id]: !prev[id] }));
+  
+  
+  const toggleStickyBar = (index) => {
+    setStickyVisible(prevState => ({
+      ...prevState,
+      [index]: !prevState[index],
+    }));
   };
-
+  
   return (
     <div className="page-container">
       <SettingsButton />
@@ -147,20 +151,19 @@ function ViewCarParks() {
       <ModeOfTransport Icon={Car} />
       <MyBookingsButton />
       <div className="page-typography">Nearby Available Car Parks</div>
-
       <div className="container-wrapper">
         {carParks.length > 0 ? (
           carParks.map((carPark, index) => {
             const [id, location, name, lat, lng, lotType] = carPark;
-
+  
             if (!lotsMap[id] || lotsMap[id][lotType] === undefined) {
               return null;
             }
-
+  
             const distance = calculateDistance(endLat, endLng, parseFloat(lat), parseFloat(lng));
             const rate = pricingMap[id] || "Fetching...";
             const lots = lotsMap[id][lotType];
-
+  
             return (
               <div key={index} className={index % 2 === 0 ? "leftContainer1" : "rightContainer1"}>
                 <p className="container-text-top" style={{ fontSize: "18px" }}>{name}</p>
@@ -171,27 +174,37 @@ function ViewCarParks() {
                 </p>
                 <div className="book-button">
                   <Book className="book-icon" onClick={() => handleBooking(id, lotType, index, parseFloat(lat), parseFloat(lng))} />
-                  {stickyVisible[`carPark${index + 1}`] && (
-                    <div className="sticky-overlay">
-                      <div className="sticky-bar">
-                        <Cross className="close-icon" onClick={() => toggleStickyBar(`carPark${index + 1}`)} />
-                        <p>{name} Booked Successfully!</p>
-                        <button
-                          className="computeRoute-button"
-                          onClick={() => {
-                            localStorage.setItem("endLat", lat);
-                            localStorage.setItem("endLng", lng);
-                            navigate("/view-driving-directions");
-                          }}
-                          
-                        >
-                          <ComputeRoute className="computeRoute-icon" />
-                        </button>
-
-                      </div>
-                    </div>
-                  )}
                 </div>
+  
+                {/* Display the correct sticky bar based on RFID status */}
+                {stickyVisible[index] && (
+                  <div className="sticky-overlay">
+                    <div className="sticky-bar">
+                      <Cross className="close-icon" onClick={() => toggleStickyBar(index)} />
+                      {user?.rfid && user.rfid.trim() !== "" ? (
+                        <p>{name} BOOKED SUCCESSFULLY!</p>
+                      ) : (
+                        <div>
+                          <h3 className="sticky-bar-typography1">RFID TAG NOT DETECTED!</h3>
+                          <PredictedCarParkAvail />
+                        </div>
+                      )}
+                      <button
+                        className="computeRoute-button"
+                        onClick={() => {
+                          navigate("/view-driving-directions", {
+                            state: {
+                              destinationLat: parseFloat(lat),
+                              destinationLng: parseFloat(lng),
+                            },
+                          });
+                        }}
+                      >
+                        <ComputeRoute className="computeRoute-icon" />
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             );
           })
@@ -200,7 +213,8 @@ function ViewCarParks() {
         )}
       </div>
     </div>
-  );
+  );  
 }
 
 export default ViewCarParks;
+
