@@ -12,6 +12,7 @@ import MyBookingsButton from "../components/MyBookingsButton";
 import PredictedCarParkAvail from "../components/PredictedCarParkAvail";
 import axios from "axios";
 import "../styles/ViewCarParks.css";
+import { getUserFromCookie } from "../utils/getUserFromCookie"; // or wherever your function is
 
 function ViewCarParks() {
   const navigate = useNavigate();
@@ -21,8 +22,10 @@ function ViewCarParks() {
   const [endLng, setEndLng] = useState(null);
   const [pricingMap, setPricingMap] = useState({});
   const [lotsMap, setLotsMap] = useState({});
-  const userId = localStorage.getItem("userId") || "1";
-  const user = JSON.parse(localStorage.getItem("user")) || {};
+
+
+  const user = getUserFromCookie() || {};
+  const userId = user.userid;
   const [selectedCarparkIndex, setSelectedCarparkIndex] = useState(null);
 
   useEffect(() => {
@@ -130,7 +133,7 @@ function ViewCarParks() {
       })
       .catch((e) => {
         console.error("Booking error:", e);
-        alert("Something went wrong while booking.");
+        alert("You have an active booking. Please end your current booking before making a new one.");
         setStickyVisible(prevState => ({ ...prevState, [index]: false }));
       });
   };
@@ -193,11 +196,9 @@ function ViewCarParks() {
                       <button
                         className="computeRoute-button"
                         onClick={() => {
+                          localStorage.setItem("endLat", parseFloat(lat));
+                          localStorage.setItem("endLng", parseFloat(lng));
                           navigate("/view-driving-directions", {
-                            state: {
-                              destinationLat: parseFloat(lat),
-                              destinationLng: parseFloat(lng),
-                            },
                           });
                         }}
                       >
