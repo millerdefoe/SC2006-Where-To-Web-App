@@ -65,7 +65,7 @@ function ProfileSignUp() {
 
       // Handle response
       if (response.ok && data.status === "user created") {
-        const newUser = { identifier: email_phone, hashedPass: hashedPassword, password: password, rfid };
+        const newUser = { identifier: email_phone, hashedPass: hashedPassword, password: password,userid: data.userid, rfid };
         setCookie("user", JSON.stringify(newUser), 7);
         localStorage.setItem("user", JSON.stringify(newUser));
 

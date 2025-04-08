@@ -55,6 +55,8 @@ function ViewPublicTransportRoute() {
         if (!response.ok) throw new Error("Failed to fetch route data");
 
         const [leastCongested, fastest] = await response.json();
+        localStorage.setItem("leastCongestedRouteData", JSON.stringify([leastCongested, fastest]));
+
 
         const transformedRouteData = [
           {

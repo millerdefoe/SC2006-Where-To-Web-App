@@ -11,6 +11,7 @@ import ModeOfTransport from "../components/ModeOfTransport";
 import MyBookingsButton from "../components/MyBookingsButton";
 import axios from "axios";
 import "../styles/ViewCarParks.css";
+import { getUserFromCookie } from "../utils/getUserFromCookie";
 
 function ViewCarParks() {
   const navigate = useNavigate();
@@ -20,7 +21,10 @@ function ViewCarParks() {
   const [endLng, setEndLng] = useState(null);
   const [pricingMap, setPricingMap] = useState({});
   const [lotsMap, setLotsMap] = useState({});
-  const userId = localStorage.getItem("userId") || "1";
+  const user = getUserFromCookie();
+  const userId = user?.userid;
+
+
 
   useEffect(() => {
     const fetchCarparks = async () => {
@@ -105,6 +109,7 @@ function ViewCarParks() {
       const startTime = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
 
       const duration = 0;
+      console.log("Booking with userId:", userId);
 
       const res = await axios.post("http://127.0.0.1:5000/bookCarpark", {
         carparkId,
@@ -173,14 +178,12 @@ function ViewCarParks() {
                         <p>{name} Booked Successfully!</p>
                         <button
                           className="computeRoute-button"
-                          onClick={() =>
-                            navigate("/view-driving-directions", {
-                              state: {
-                                destinationLat: parseFloat(lat),
-                                destinationLng: parseFloat(lng),
-                              },
-                            })
-                          }
+                          onClick={() => {
+                            localStorage.setItem("endLat", lat);
+                            localStorage.setItem("endLng", lng);
+                            navigate("/view-driving-directions");
+                          }}
+                          
                         >
                           <ComputeRoute className="computeRoute-icon" />
                         </button>

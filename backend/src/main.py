@@ -213,7 +213,8 @@ def createUser():
     logger.info("Returning json specifying user has been created alongside userid")
     returnData = {
         "status": "user created",
-        "userid" : result
+        "userid" : result,
+        "rfid" : rfid
     }
     return jsonify(returnData), 200
 
@@ -357,10 +358,16 @@ def login():
 
         return jsonify(returnData), 400
 
+    query = f"SELECT rfid FROM users WHERE username = '{username}'"
+    rfid_data = dbObj.readData(query)
+    rfid_value = rfid_data[0][0] if rfid_data and rfid_data[0][0] else None
+
     returnData = {
         "status" : "login success",
         "userid" : userid,
-        "token" : "temporarytokenfortesting"
+        "username": username,
+        "token" : "temporarytokenfortesting",
+        "rfid": rfid_value
     }
 
     logger.info("Login for user {} was successful. Returning userid and token")
@@ -460,6 +467,7 @@ def carparkPricing():
     }
 
     return jsonify(returnData), 200
+    
 
 @app.route("/carparkLots", methods=["GET", "POST"])
 def carparkLots():
@@ -587,6 +595,10 @@ def getBookings():
         }
 
         return jsonify(returnData), 400
+    
+    if result == False or result == []:
+        logger.info("No bookings found for user.")
+        return jsonify([]), 200  # Return an empty array, not error
 
     logger.info("Returning bookings for user")
     return jsonify(result), 200

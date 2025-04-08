@@ -52,7 +52,8 @@ const ProfileLogIn = () => {
                     hashedPass: hashedPassword,
                     password: password,
                     userid: data.userid,
-                    token: data.token
+                    token: data.token,
+                    rfid: data.rfid
                 };
 
                 localStorage.setItem("user", JSON.stringify(loggedInUser));
