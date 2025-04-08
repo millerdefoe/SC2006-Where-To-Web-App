@@ -6,55 +6,47 @@ import { ReactComponent as MapPin } from "../assets/MapPin.svg";
 import { ReactComponent as Parking } from "../assets/Parking.svg";
 import { ReactComponent as Road } from "../assets/Road.svg";
 import { ReactComponent as Merge } from "../assets/Merge.svg";
-import { ReactComponent as TimerIcon} from "../assets/Timer.svg";
+import { ReactComponent as TimerIcon } from "../assets/Timer.svg";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
-import {ReactComponent as ViewNearbyCarParksIcon} from "../assets/ViewNearbyCarParks.svg"
+import { ReactComponent as ViewNearbyCarParksIcon } from "../assets/ViewNearbyCarParks.svg";
 import MyBookingsButton from "../components/MyBookingsButton";
 import axios from "axios";
 import "../styles/ViewDrivingDirections.css";
 import MapWithRoute from "../components/MapDrivingRoute";
 import ModeOfTransport from "../components/ModeOfTransport";
 
-
-
 const ViewDrivingDirections = () => {
   const navigate = useNavigate();
   const [route, setRoute] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [source, setSource] = useState("");
   const [destination, setDestination] = useState("");
 
-  const selectedLat = parseFloat(localStorage.getItem("selectedCarparkLat"));
-  const selectedLng = parseFloat(localStorage.getItem("selectedCarparkLng"));
-  
-  
   useEffect(() => {
     const fetchRoute = async () => {
-      const startLocation = localStorage.getItem("startLocation");
-      const endLocation = localStorage.getItem("endLocation");
-  
+      // Retrieve the start and destination locations from localStorage
       const sourceCoords = {
         latitude: parseFloat(localStorage.getItem("startLat")),
         longitude: parseFloat(localStorage.getItem("startLng")),
       };
-  
-      const destinationCoords = {
-        latitude: !isNaN(selectedLat) ? selectedLat : parseFloat(localStorage.getItem("endLat")),
-        longitude: !isNaN(selectedLng) ? selectedLng : parseFloat(localStorage.getItem("endLng")),
-      };
-  
-      setDestination(!isNaN(selectedLat) ? "Selected Carpark" : endLocation);
 
-  
+      // Fetch the end coordinates from localStorage, assuming these are updated when a car park is selected
+      const destinationCoords = {
+        latitude: parseFloat(localStorage.getItem("endLat")),
+        longitude: parseFloat(localStorage.getItem("endLng")),
+      };
+
+      const endLocation = localStorage.getItem("endLocation");
+      setDestination(endLocation); // You can set this to a default destination name
+
       try {
         const response = await axios.post("http://127.0.0.1:5000/getRoute", {
           source: sourceCoords,
           destination: destinationCoords,
         });
-  
+
         setRoute(response.data);
         const etaSeconds = parseInt(response.data.duration.replace("s", ""));
         localStorage.setItem("etaSeconds", etaSeconds);
@@ -65,10 +57,9 @@ const ViewDrivingDirections = () => {
         setLoading(false);
       }
     };
-  
+
     fetchRoute();
-  }, []);
-  
+  }, []); // Only run on initial render, as the destination should already be in localStorage
 
   const iconMap = {
     TURN_LEFT: Road,
@@ -119,48 +110,48 @@ const ViewDrivingDirections = () => {
               <div className="step-list-container">
                 <div className="directions-header">
                   <div className="directions-title">Directions</div>
-                    <div className="directions-timer">
-                      <TimerIcon />
-                    </div>
-                    <div className="directions-duration">
-                      <h3><span><strong>{Math.ceil(parseInt(route?.duration) / 60)} mins</strong></span></h3>
-                    </div>
+                  <div className="directions-timer">
+                    <TimerIcon />
+                  </div>
+                  <div className="directions-duration">
+                    <h3><span><strong>{Math.ceil(parseInt(route?.duration) / 60)} mins</strong></span></h3>
+                  </div>
                 </div>
 
                 <div className="step-list">
-                {(() => {
-                  const steps = route.steps;
-                  const total = steps.length;
-                  const limit = 5;
+                  {(() => {
+                    const steps = route.steps;
+                    const total = steps.length;
+                    const limit = 5;
 
-                  if (total <= limit) {
-                    return steps;
-                  }
-                  const interval = Math.floor(total / limit);
-                  return Array.from({ length: limit }, (_, i) => steps[i * interval]);
-                })().map((step, index) => {
-                  const Icon = iconMap[step.maneuver] || iconMap.DEFAULT;
-                  return (
-                    <li key={index} className="step-item">
-                      <div className="step-icon"><Icon /></div>
-                      <div className="step-text">
-                        <div className="step-description">
-                          <p><strong>{step.instructions}</strong></p>
+                    if (total <= limit) {
+                      return steps;
+                    }
+                    const interval = Math.floor(total / limit);
+                    return Array.from({ length: limit }, (_, i) => steps[i * interval]);
+                  })().map((step, index) => {
+                    const Icon = iconMap[step.maneuver] || iconMap.DEFAULT;
+                    return (
+                      <li key={index} className="step-item">
+                        <div className="step-icon"><Icon /></div>
+                        <div className="step-text">
+                          <div className="step-description">
+                            <p><strong>{step.instructions}</strong></p>
+                          </div>
+                          <div className="step-distance-duration">
+                            <p>{step.distance} ({step.duration})</p>
+                          </div>
                         </div>
-                        <div className="step-distance-duration">
-                          <p>{step.distance} ({step.duration})</p>
-                        </div>
-                      </div>
-                    </li>
-                  );
-                })}
+                      </li>
+                    );
+                  })}
+                </div>
               </div>
-              </div>
-              )}
-            </div>
+            )}
           </div>
         </div>
       </div>
+    </div>
   );
 };
 

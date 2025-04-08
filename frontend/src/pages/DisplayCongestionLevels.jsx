@@ -12,83 +12,68 @@ function DisplayCongestionLevels() {
   const [congestionData, setCongestionData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
+
   useEffect(() => {
-    // Sample mock data
-    const routeData = [
-      {
-        CongestionInfo: "leastCongested",
-        FirstCurrentStopCongestionLevel: {
-          ServiceNumberOrLine: "154",
-          crowdLevel: "SDA",
-          currentStopName: "Carrier S'pore",
-          travelMode: "BUS",
-        },
-        lastDestinationStopCongestionLevel: {
-          ServiceNumberOrLine: "Thomson East Coast Line",
-          crowdLevel: "m",
-          currentStopName: "Tanjong Katong",
-          travelMode: "SUBWAY",
-        },
-      },
-      {
-        CongestionInfo: "fastest",
-        FirstCurrentStopCongestionLevel: {
-          ServiceNumberOrLine: "201",
-          crowdLevel: "LSD",
-          currentStopName: "Aft Teban Gdns Cres",
-          travelMode: "BUS",
-        },
-        lastDestinationStopCongestionLevel: {
-          ServiceNumberOrLine: "201",
-          crowdLevel: "SDA",
-          currentStopName: "Clementi Stn Exit A",
-          travelMode: "BUS",
-        },
-      },
-    ];
+    const fetchCongestionData = async () => {
+      try {
+        const savedRouteData = localStorage.getItem("leastCongestedRouteData");
+        if (!savedRouteData) {
+          console.warn("No saved route data found.");
+          return;
+        }
+        const parsedData = JSON.parse(savedRouteData);
+        const response = await fetch("http://127.0.0.1:5000/CongestionData", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(parsedData),  // ✅ Send actual JSON
+          });
 
-    // Flatten and transform to a usable format
-    const transformed = routeData.flatMap(route => [
-      {
-        routeType: route.CongestionInfo,
-        ServiceNumberOrLine: route.FirstCurrentStopCongestionLevel.ServiceNumberOrLine,
-        crowdLevel: route.FirstCurrentStopCongestionLevel.crowdLevel,
-        currentStopName: route.FirstCurrentStopCongestionLevel.currentStopName,
-        travelMode: route.FirstCurrentStopCongestionLevel.travelMode,
-      },
-      {
-        routeType: route.CongestionInfo,
-        ServiceNumberOrLine: route.lastDestinationStopCongestionLevel.ServiceNumberOrLine,
-        crowdLevel: route.lastDestinationStopCongestionLevel.crowdLevel,
-        currentStopName: route.lastDestinationStopCongestionLevel.currentStopName,
-        travelMode: route.lastDestinationStopCongestionLevel.travelMode,
-      },
-    ]);
+        if (!response.ok) throw new Error("Failed to fetch congestion data");
 
-    setCongestionData(transformed);
-    setIsLoading(false);
+        const congestionList = await response.json();
+
+        const transformed = congestionList.flatMap(route => [
+            {
+              routeType: route.CongestionInfo,
+              ServiceNumberOrLine: route.FirstCurrentStopCongestionLevel.ServiceNumberOrLine,
+              crowdLevel: route.FirstCurrentStopCongestionLevel.crowdLevel,
+              currentStopName: route.FirstCurrentStopCongestionLevel.currentStopName,
+              travelMode: route.FirstCurrentStopCongestionLevel.travelMode,
+            },
+            {
+              routeType: route.CongestionInfo,
+              ServiceNumberOrLine: route.lastDestinationStopCongestionLevel.ServiceNumberOrLine,
+              crowdLevel: route.lastDestinationStopCongestionLevel.crowdLevel,
+              currentStopName: route.lastDestinationStopCongestionLevel.destinationStopName,
+              travelMode: route.lastDestinationStopCongestionLevel.travelMode,
+            },
+          ]);
+        setCongestionData(transformed);
+      } catch (e) {
+        console.error("Error fetching congestion data:", e);
+      }
+    };
+
+    fetchCongestionData();
   }, []);
 
-  if (isLoading) {
-    return <div className="loading-container">Loading congestion data...</div>;
-  }
-
-  // Separate MRT and Bus indicators
   const mrtIndicators = [];
   const busIndicators = [];
 
-  for (const [index, stop] of congestionData.entries()) {
+  for (const [index, station] of congestionData.entries()) {
     const indicator = (
       <CongestionLevelIndicator
         key={index}
-        CrowdLevel={stop.crowdLevel}
-        StopName={stop.currentStopName}
-        BadgeLabel={stop.ServiceNumberOrLine}
-        TravelMode={stop.travelMode}
+        CrowdLevel={station.crowdLevel}
+        StopName={station.currentStopName}
+        BadgeLabel={station.ServiceNumberOrLine}
+        TravelMode={station.travelMode}
       />
     );
 
-    if (stop.travelMode === "BUS") {
+    if (station.travelMode === "BUS") {
       busIndicators.push(indicator);
     } else {
       mrtIndicators.push(indicator);
@@ -124,5 +109,6 @@ function DisplayCongestionLevels() {
     </div>
   );
 }
+  
 
 export default DisplayCongestionLevels;

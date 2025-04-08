@@ -82,7 +82,6 @@ class PublicTransportRouteController():
         MRTController.updateCongestionDatabase() #Updates congestion database for MRT 
         sumofCongestion = 0 #Total congestion levels from mrt and bus
         count = 0 #Increments every time you add a congestion level
-
         for step in route["steps"]:
             #For MRT mode of transport
             if step['travelMode'] == "TRANSIT":
@@ -95,7 +94,6 @@ class PublicTransportRouteController():
 
                     arrivalMRTCongestionLevel = MRTController.getMRTCongestionLevel(arrivalStationNumber)
                     destinationMRTCongestionLevel = MRTController.getMRTCongestionLevel(destinationStationNumber)
-
                     count += 1 
                     match arrivalMRTCongestionLevel:
                         case "l":
@@ -118,14 +116,13 @@ class PublicTransportRouteController():
                         case "h":
                             sumofCongestion += 3
                             break
-
                 elif step['transitDetails']['transitLine']['vehicle']['type'] == "BUS": #For Bus mode of transport. Only need arrival bus's congestion level logically since that is where we want to take the bus. 
                     arrivalBusServiceNumber = step['transitDetails']['transitLine']['name'] #Gets bus service number that user is taking  
                     arrivalBusStopName = step['transitDetails']['stopDetails']['arrivalStop']['name'] # Loops through JSON file to extract name of arrival bus stop names
                     arrivalBusStopCode = BusController.getBusStopCode(arrivalBusStopName) #Saves bus stop code to be used for API call for congestion level
                     arrivalBusCongestionLevel = BusController.getBusCongestionLevel(arrivalBusStopCode, arrivalBusServiceNumber)
                     count += 1 
-                    match arrivalBusCongestionLevel: 
+                    match arrivalBusCongestionLevel:
                         case "SEA":
                             sumofCongestion += 1
                             break
@@ -162,9 +159,6 @@ class PublicTransportRouteController():
         result['duration'] = chosenRoute['duration']
 
         tempStepList = []
-        destinationCongestionLevel= ""
-        firstArrivalCongestionLevel= ""
-
         for leg in chosenRoute["legs"]:
             for step in leg['steps']: #Loops through steps
                 tempDict = {}
@@ -184,6 +178,10 @@ class PublicTransportRouteController():
                     if 'stopDetails' in transitDetails.keys():
                         tempDict['currentStopName'] = transitDetails['stopDetails']['arrivalStop']['name']
                         tempDict['destinationStopName'] = transitDetails['stopDetails']['departureStop']['name']
+                        
+                        tempDict['currentStopCode'] = BusController.getBusStopCode(tempDict['currentStopName'])
+                        tempDict['destinationStopCode'] = BusController.getBusStopCode(tempDict['destinationStopName'])
+                        
 
                     #Checks if attribute transitLine is in transitDetails dictionary.  
                     if 'transitLine' in transitDetails.keys():
@@ -203,54 +201,10 @@ class PublicTransportRouteController():
                     else:    
                         tempDict[localizedValuesAttribute] = step['localizedValues'][localizedValuesAttribute]
 
-                #Displays congestion levels of start and endpoints. 
-                if 'ServiceNumberOrLine' in tempDict.keys():
-
-                    if type(tempDict['ServiceNumberOrLine']) is str: #Checking if it's string
-
-                        if tempDict['ServiceNumberOrLine'].lower().find("campus loop") == -1: # IGNORE NTU BUS 
-
-                            # Arrival congestion level
-                            if tempDict['travelMode'] == 'BUS':
-                                ServiceNumber = tempDict['ServiceNumberOrLine']
-                                StopName =  tempDict['currentStopName']
-                                BusStopCode = BusController.getBusStopCode(StopName) #Saves bus stop code to be used for API call for congestion level
-                                arrivalCongestionLevel = BusController.getBusCongestionLevel(BusStopCode, ServiceNumber) #Calls to get bus congestion level
-                                tempDict['arrivalCongestionLevel']  = arrivalCongestionLevel
-
-                                if firstArrivalCongestionLevel == '': #Stores the first result 
-                                    firstArrivalCongestionLevel = arrivalCongestionLevel
-
-                            elif tempDict['travelMode'] == 'SUBWAY':
-                                #Saves station number to be used for API call for congestion level
-                                currentStopName = tempDict['currentStopName']
-                                StationNumber = MRTController.getMRTStationNumber(currentStopName)
-                                arrivalCongestionLevel = MRTController.getMRTCongestionLevel(StationNumber) #Calls API to get MRT congestion level
-                                tempDict['arrivalCongestionLevel']  = arrivalCongestionLevel
-                                
-                                if firstArrivalCongestionLevel == '':
-                                    firstArrivalCongestionLevel = arrivalCongestionLevel
-
-                            # Destionation congestion level
-                            if tempDict['travelMode'] == 'BUS':
-                                ServiceNumber = tempDict['ServiceNumberOrLine']
-                                StopName =  tempDict['destinationStopName']
-                                BusStopCode = BusController.getBusStopCode(StopName) #Saves bus stop code to be used for API call for congestion level
-                                destinationCongestionLevel = BusController.getBusCongestionLevel(BusStopCode, ServiceNumber)
-                                tempDict['destinationCongestionLevel'] = destinationCongestionLevel
-
-                            elif tempDict['travelMode'] == 'SUBWAY':
-                                #Saves station number to be used for API call for congestion level
-                                currentStopName = tempDict['destinationStopName']
-                                StationNumber = MRTController.getMRTStationNumber(currentStopName)
-                                destinationCongestionLevel = MRTController.getMRTCongestionLevel(StationNumber)
-                                tempDict['destinationCongestionLevel'] = destinationCongestionLevel
-
                 tempStepList.append(tempDict) 
-    
+        
         result['steps'] = tempStepList
-        result['firstArrivalCongestionLevel'] = firstArrivalCongestionLevel
-        result['lastDestinationCongestionLevel'] = destinationCongestionLevel
+
         return result
 
     def computeFastestRoute(responseData):
@@ -264,3 +218,81 @@ class PublicTransportRouteController():
                 chosenRoute = route
         #logger.info("Fastest route returned by googlemap api was {}".format(fastestChosenRoute))
         return chosenRoute    
+    
+    def getCongestionList(routes):
+        returnlist = []
+        title = ["leastCongested", "fastest"]
+        for routeindex in range(len(routes)):
+            tempdict = {
+                'CongestionInfo' : title[routeindex]
+            }
+
+            FirstCurrentStopCongestionLevel = ''
+
+            if 'steps' in routes[routeindex].keys():
+                for steps in routes[routeindex]['steps']:
+                    if 'travelMode' in steps.keys():
+                        if steps['travelMode'] == "BUS":
+                            if isinstance(steps['ServiceNumberOrLine'], str):
+                                # Skip NTU Campus buses
+                                service_name = steps['ServiceNumberOrLine'].lower()
+                                if "campus loop" not in service_name and "campus rider" not in service_name:
+                                    if 'ServiceNumberOrLine' in steps.keys() and 'currentStopCode' in steps.keys() and 'destinationStopCode' in steps.keys():
+
+                                        currentStopCongestionLevel = BusController.getBusCongestionLevel(steps['currentStopCode'],steps['ServiceNumberOrLine'])
+                                        destinationStopCongestionLevel = BusController.getBusCongestionLevel(steps['destinationStopCode'],steps['ServiceNumberOrLine'])
+
+                                        if FirstCurrentStopCongestionLevel == '':
+                                            FirstCurrentStopCongestionLevel = { 
+                                                "travelMode": steps['travelMode'],
+                                                "ServiceNumberOrLine": steps['ServiceNumberOrLine'],
+                                                "currentStopName": steps['currentStopName'],
+                                                "crowdLevel" : currentStopCongestionLevel
+                                            } 
+
+                                        lastDestinationStopCongestionLevel = {
+                                            "travelMode": steps['travelMode'],
+                                            "ServiceNumberOrLine": steps['ServiceNumberOrLine'],
+                                            "destinationStopName": steps['destinationStopName'],
+                                            "crowdLevel" : destinationStopCongestionLevel
+                                        }
+
+                                    else:
+                                        logger.error("No Bus information found")
+                                        return None
+                                    
+                        elif steps['travelMode'] == "SUBWAY":
+                            if 'currentStopName' in steps.keys() and 'destinationStopName' in steps.keys():
+                                arrivalStationNumber = MRTController.getMRTStationNumber(steps['currentStopName'])
+                                destinationStationNumber = MRTController.getMRTStationNumber(steps['destinationStopName'])
+
+                                arrivalMRTCongestionLevel = MRTController.getMRTCongestionLevel(arrivalStationNumber)
+                                destinationMRTCongestionLevel = MRTController.getMRTCongestionLevel(destinationStationNumber)
+
+                                if FirstCurrentStopCongestionLevel == '':
+                                    FirstCurrentStopCongestionLevel = { 
+                                        "travelMode": steps['travelMode'],
+                                        "currentStopName": steps['currentStopName'],
+                                        "ServiceNumberOrLine": steps['ServiceNumberOrLine'],
+                                        "crowdLevel" : arrivalMRTCongestionLevel
+                                    } 
+
+                                lastDestinationStopCongestionLevel = {
+                                    "travelMode": steps['travelMode'],
+                                    "ServiceNumberOrLine": steps['ServiceNumberOrLine'],
+                                    "destinationStopName": steps['destinationStopName'],
+                                    "crowdLevel" : destinationMRTCongestionLevel
+                                }
+
+                    else:
+                        logger.error("No Travel Mode information found")
+                        return None
+            else:
+                logger.error("No route information found")
+                return None
+            
+            tempdict['FirstCurrentStopCongestionLevel'] = FirstCurrentStopCongestionLevel
+            tempdict['lastDestinationStopCongestionLevel'] = lastDestinationStopCongestionLevel
+            returnlist.append(tempdict)
+            
+        return returnlist
