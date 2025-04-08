@@ -14,10 +14,6 @@ import { ReactComponent as EndJourneyButton } from "../assets/EndJourney.svg";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 import MyBookingsButton from "../components/MyBookingsButton";
 import ModeOfTransport from "../components/ModeOfTransport";
 import MapWithRoute from "../components/MapDrivingRoute";
