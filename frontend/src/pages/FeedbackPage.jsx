@@ -32,6 +32,9 @@ function FeedbackPage() {
         }
         else {
             alert("Thank you for your feedback!");
+            setName("");
+            setEmail("");
+            setDescription("");
         }
     };
 

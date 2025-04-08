@@ -46,7 +46,7 @@ function SettingsPage() {
                 <div className="preferences-container">
                     <div className="settingsHeader-typography">Walking Range Preferences</div>
                     <div className="line-thin"></div>
-                    <div className="settingsHeader-typography">Maximumn Walking Distance</div>
+                    <div className="settingsHeader-typography">Maximum Walking Distance</div>
                     <div className="settingsContent-typography">
                         Indicate the maximum walking distance to and from Public Transit stations and car parks.
                     </div>
