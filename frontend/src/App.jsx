@@ -14,7 +14,7 @@ import DrivingRouteNav from './pages/DrivingRouteNav';
 import TPTRouteNav from './pages/TPTRouteNav';
 import ViewPublicTransportRoute from './pages/ViewPublicTransportRoute';
 import ViewCarParks from "./pages/ViewCarParks";
-import PredictedCarParkAvail from "./pages/PredictedCarParkAvail";
+import PredictedCarParkAvail from "./components/PredictedCarParkAvail";
 import MyBookings from "./pages/MyBookings";
 import NoBookings from "./pages/NoBookings";
 import Settings from "./pages/Settings";
