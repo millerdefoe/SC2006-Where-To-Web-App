@@ -182,10 +182,10 @@ function ViewCarParks() {
                     <div className="sticky-bar">
                       <Cross className="close-icon" onClick={() => toggleStickyBar(index)} />
                       {user?.rfid && user.rfid.trim() !== "" ? (
-                        <p>{name} Booked Successfully!</p>
+                        <p>{name} BOOKED SUCCESSFULLY!</p>
                       ) : (
                         <div>
-                          <h3>RFID Tag Not Detected!</h3>
+                          <h3 className="sticky-bar-typography1">RFID TAG NOT DETECTED!</h3>
                           <PredictedCarParkAvail />
                         </div>
                       )}
