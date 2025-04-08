@@ -156,9 +156,10 @@ function ViewCarParks() {
           carParks.map((carPark, index) => {
             const [id, location, name, lat, lng, lotType] = carPark;
   
-            if (!lotsMap[id] || lotsMap[id][lotType] === undefined) {
+            if (!lotsMap[id] || lotsMap[id][lotType] === undefined || lotsMap[id][lotType] <= 0) {
               return null;
             }
+            
   
             const distance = calculateDistance(endLat, endLng, parseFloat(lat), parseFloat(lng));
             const rate = pricingMap[id] || "Fetching...";
