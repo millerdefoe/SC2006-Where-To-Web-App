@@ -177,7 +177,7 @@
     flex-direction: column;
     justify-content: flex-start;
     text-align: left;
-    margin-left: clamp(5%, 2vw, 5%);
+    margin-left: clamp(3%, 1vw, 3%);
     width: 100%;
     display: flex;
     justify-content: space-between;

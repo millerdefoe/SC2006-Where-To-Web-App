@@ -8,7 +8,8 @@ import { ReactComponent as Car } from "../assets/Car.svg";
 import { ReactComponent as ComputeRoute } from "../assets/ComputeRoute.svg";
 import { ReactComponent as ChangeBooking } from "../assets/ChangeBooking.svg";
 import { ReactComponent as DeleteBooking } from "../assets/DeleteBooking.svg";
-import {ReactComponent as Ghost} from "../assets/Ghost.svg";
+import { ReactComponent as Ghost } from "../assets/Ghost.svg";
+import { ReactComponent as ViewDrivingRouteButton } from "../assets/ViewDrivingRouteButton.svg";
 import "../styles/MyBookings.css";
 import { getUserFromCookie } from "../utils/getUserFromCookie"; 
 
@@ -136,6 +137,9 @@ function MyBookings() {
             <Ghost className="ghost-icon" />
           </div>
           <p className="no-bookings-text">No bookings found.</p>
+          <button className="view-driving-route-button" onClick={() => navigate("/view-driving-directions")}>
+            <ViewDrivingRouteButton className="view-driving-route-icon"/>
+          </button>
         </div>
       ) : (
         bookings.map((booking, idx) => (

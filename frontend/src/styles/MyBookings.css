@@ -79,7 +79,7 @@
 .bottomRowButtons-container {
     width: 100%; 
     aspect-ratio: 10/1;
-    background-color: #FFF;
+    background-color: transparent;
     margin-bottom: 2%;
     justify-content: center;
     align-items: flex-start;
@@ -163,4 +163,24 @@
     align-items: center;
     justify-content: center;
     margin-top: 0%;
+}
+
+.view-driving-route-button{
+  width: clamp(180px, 50vw, 264px);
+  height: clamp(45px, 10vw, 61px);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 0.5em 1.2em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  margin-top: -5%;
+}
+
+.view-driving-route-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
