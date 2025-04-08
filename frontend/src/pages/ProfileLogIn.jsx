@@ -60,7 +60,7 @@ const ProfileLogIn = () => {
                 document.cookie = `user=${JSON.stringify(loggedInUser)}; max-age=${60 * 60 * 24 * 7}; path=/`;
 
                 alert("Login successful!");
-                navigate("/profile-details");
+                window.location.href = "/profile-details";
             } else {
                 alert(`Login failed: ${data.reason}`);
             }
