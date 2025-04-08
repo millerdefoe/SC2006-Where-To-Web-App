@@ -8,6 +8,8 @@ from flask import request
 import json
 import os
 
+from datetime import datetime, timedelta
+
 import requests
 
 from lib.Python.Logging.PythonLogger import PythonLogger
@@ -542,6 +544,20 @@ def bookCarpark():
         }
 
         return jsonify(returnData), 400
+
+    logger.info("Checking for existing upcoming bookings by user...")
+    try:
+        # Delete any upcoming bookings (within next 30 mins) before inserting a new one
+        timelimit = datetime.now() - timedelta(minutes=30)
+        delete_existing = f"""
+            DELETE FROM bookings 
+            WHERE userid = %s AND starttime > %s
+        """
+        dbObj.writeData(delete_existing, [userId, timelimit.strftime("%Y-%m-%d %H:%M:%S")])
+        logger.info("Existing bookings (if any) were deleted.")
+    except Exception as e:
+        logger.error(f"Error deleting existing bookings: {e}")
+        return jsonify({"status": "failure", "reason": "Failed to remove previous booking"}), 500
 
     logger.info("Data has been verified, attempting to make new booking")
     result, reason = carparkController.bookCarpark(carparkId, lotType, userId, startTime, duration, dbObj)
