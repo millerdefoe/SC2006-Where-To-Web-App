@@ -1,6 +1,8 @@
 import React from 'react';
+import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { ReactComponent as Bus } from "../assets/Bus.svg";
+import { ReactComponent as EndJourneyButton } from "../assets/EndJourney.svg";
 import SettingsButton from "../components/SettingsButton";
 import HomeButton from "../components/HomeButton";
 import NavBar from "../components/NavigationBar";
@@ -12,6 +14,7 @@ import "../styles/TPTRouteNav.css";
 import "../styles/common.css";
 
 function TPTRouteNav() {
+  const navigate = useNavigate();
   const location = useLocation();
   const { routeData } = location.state || {};
 
@@ -28,9 +31,10 @@ function TPTRouteNav() {
             encodedPolyline={routeData?.polyline?.encodedPolyline}
             mapContainerClassName="map-image4"
           />
-          <div className="endButton-container">
-            <EndButton />
-          </div>
+
+          <button className="endButton-container" onClick={() => navigate("/end-location")}>
+              <EndJourneyButton className="endButton1-icon" />
+            </button>
         </div>
       </div>
 
