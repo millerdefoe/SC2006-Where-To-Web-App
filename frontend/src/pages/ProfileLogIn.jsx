@@ -58,7 +58,10 @@ const ProfileLogIn = () => {
                 };
 
                 localStorage.setItem("user", JSON.stringify(loggedInUser));
-                document.cookie = `user=${JSON.stringify(loggedInUser)}; max-age=${60 * 60 * 24 * 7}; path=/`;
+                const secureFlag = window.location.hostname === "localhost" ? "" : "Secure; SameSite=None;";
+                document.cookie = `user=${encodeURIComponent(JSON.stringify(loggedInUser))}; max-age=${60 * 60 * 24 * 7}; path=/; ${secureFlag}`;
+                
+
 
                 alert("Login successful!");
                 window.location.href = "/profile-details";
