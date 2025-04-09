@@ -32,7 +32,7 @@ const ProfileLogIn = () => {
             // Hash the entered password before sending to the backend
             const hashedPassword = await generateDeterministicHash(password);  // You can adjust the salt rounds as needed
 
-            const response = await fetch("http://127.0.0.1:5000/login", {
+            const response = await fetch("${BASE_URL}/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"

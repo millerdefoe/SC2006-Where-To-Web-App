@@ -84,7 +84,7 @@ const ProfileDetails = () => {
         }
       
         try {
-          const res = await fetch("http://127.0.0.1:5000/editUser", {
+          const res = await fetch("${BASE_URL}/editUser", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -120,7 +120,7 @@ const ProfileDetails = () => {
         if (!window.confirm("Are you sure you want to delete your account?")) return;
       
         try {
-          const res = await fetch("http://127.0.0.1:5000/deleteUser", {
+          const res = await fetch("${BASE_URL}/deleteUser", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

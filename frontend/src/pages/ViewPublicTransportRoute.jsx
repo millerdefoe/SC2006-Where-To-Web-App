@@ -43,7 +43,7 @@ function ViewPublicTransportRoute() {
         const maxWalkingDistance = parseInt(rawWalkingLimit) || 800; // fallback to 800m if not set
 
 
-        const response = await fetch("http://127.0.0.1:5000/PublicTransportRoute", {
+        const response = await fetch("${BASE_URL}/PublicTransportRoute", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

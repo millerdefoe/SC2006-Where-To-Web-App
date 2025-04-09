@@ -32,7 +32,7 @@ function MyBookings() {
 
     const fetchBookings = async () => {
       try {
-        const response = await fetch("http://127.0.0.1:5000/getBookings", {
+        const response = await fetch("${BASE_URL}/getBookings", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ username: user.identifier }),
@@ -50,7 +50,7 @@ function MyBookings() {
             let lots = "N/A";
 
             try {
-              const rateRes = await fetch("http://127.0.0.1:5000/carparkPricing", {
+              const rateRes = await fetch("${BASE_URL}/carparkPricing", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ carparkId: carparkid }),
@@ -60,7 +60,7 @@ function MyBookings() {
                 rate = rateData.rate;
               }
 
-              const lotsRes = await fetch("http://127.0.0.1:5000/carparkLots", {
+              const lotsRes = await fetch("${BASE_URL}/carparkLots", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ carparkId: carparkid }),
@@ -100,7 +100,7 @@ function MyBookings() {
     if (!user) return;
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/deleteBooking", {
+      const response = await fetch("${BASE_URL}/deleteBooking", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
