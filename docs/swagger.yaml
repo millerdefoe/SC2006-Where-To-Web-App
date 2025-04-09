@@ -1,17 +1,107 @@
 openapi: 3.0.0
 info:
-  title: Carpark & Route Finder API
-  description: API documentation for carpark booking and route planning services
+  title: Route and User Management API
+  description: API for retrieving routes, managing users, and carpark information
   version: 1.0.0
-servers:
-  - url: https://api.example.com
-    description: Production server
 paths:
+  /getBasicRoute:
+    post:
+      summary: Get route from source to destination with traffic awareness.
+      description: Returns route data including polyline, duration, and distance.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                source:
+                  type: string
+                  description: The origin address.
+                destination:
+                  type: string
+                  description: The destination address.
+      responses:
+        '200':
+          description: Successfully retrieved route.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  polyline:
+                    type: string
+                    description: Encoded polyline of the route.
+                  duration:
+                    type: integer
+                    description: Duration of the route in seconds.
+                  distance:
+                    type: integer
+                    description: Distance of the route in meters.
+        '400':
+          description: Bad request (missing source or destination).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Error message.
+  /getRoute:
+    post:
+      summary: Get route using start and end points with traffic awareness.
+      description: Returns route data from start and end points provided as latitude and longitude.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                source:
+                  type: object
+                  properties:
+                    latitude:
+                      type: number
+                      format: float
+                      description: Latitude of the source.
+                    longitude:
+                      type: number
+                      format: float
+                      description: Longitude of the source.
+                destination:
+                  type: object
+                  properties:
+                    latitude:
+                      type: number
+                      format: float
+                      description: Latitude of the destination.
+                    longitude:
+                      type: number
+                      format: float
+                      description: Longitude of the destination.
+      responses:
+        '200':
+          description: Successfully retrieved route.
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request (missing source or destination).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  reason:
+                    type: string
   /createUser:
     post:
-      summary: Create a new user
+      summary: Create a new user.
+      description: Registers a new user with username, password, and optionally RFID.
       requestBody:
-        required: true
         content:
           application/json:
             schema:
@@ -19,15 +109,16 @@ paths:
               properties:
                 username:
                   type: string
-                  maxLength: 20
+                  description: Username of the user.
                 password:
                   type: string
-              required:
-                - username
-                - password
+                  description: Password for the user.
+                rfid:
+                  type: string
+                  description: RFID of the user (optional).
       responses:
         '200':
-          description: User created successfully
+          description: Successfully created user.
           content:
             application/json:
               schema:
@@ -36,9 +127,87 @@ paths:
                   status:
                     type: string
                   userid:
-                    type: integer
+                    type: string
         '400':
-          description: Error creating user
+          description: Bad request (missing username or password, or duplicate username).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  reason:
+                    type: string
+  /deleteUser:
+    post:
+      summary: Delete an existing user.
+      description: Deletes a user from the system based on the provided user ID.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userid:
+                  type: string
+                  description: ID of the user to be deleted.
+      responses:
+        '200':
+          description: Successfully deleted user.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  userid:
+                    type: string
+        '400':
+          description: Bad request (missing userid or backend error).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  reason:
+                    type: string
+  /editUser:
+    post:
+      summary: Edit an existing user's details.
+      description: Updates a user's username, password, or RFID.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: Username of the user.
+                password:
+                  type: string
+                  description: Password for the user (optional).
+                rfid:
+                  type: string
+                  description: RFID of the user (optional).
+      responses:
+        '200':
+          description: Successfully edited user details.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  userid:
+                    type: string
+        '400':
+          description: Bad request (missing username or required fields).
           content:
             application/json:
               schema:
@@ -50,9 +219,9 @@ paths:
                     type: string
   /login:
     post:
-      summary: Login a user
+      summary: Login a user.
+      description: Logs in a user using their username and password and returns a token.
       requestBody:
-        required: true
         content:
           application/json:
             schema:
@@ -60,15 +229,13 @@ paths:
               properties:
                 username:
                   type: string
-                  maxLength: 20
+                  description: Username of the user.
                 password:
                   type: string
-              required:
-                - username
-                - password
+                  description: Password of the user.
       responses:
         '200':
-          description: Login successful
+          description: Successfully logged in.
           content:
             application/json:
               schema:
@@ -77,11 +244,11 @@ paths:
                   status:
                     type: string
                   userid:
-                    type: integer
+                    type: string
                   token:
                     type: string
-        '401':
-          description: Login failure
+        '400':
+          description: Bad request (missing username or password, incorrect credentials).
           content:
             application/json:
               schema:
@@ -92,83 +259,111 @@ paths:
                   reason:
                     type: string
   /carparksNearby:
-    get:
-      summary: Get nearby carparks
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: latitude
-          in: query
-          required: true
-          schema:
-            type: number
-        - name: longitude
-          in: query
-          required: true
-          schema:
-            type: number
-        - name: maxrange
-          in: query
-          required: false
-          schema:
-            type: integer
+    post:
+      summary: Get nearby carparks based on location.
+      description: Finds carparks within a specified range of a given location.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                latitude:
+                  type: number
+                  format: float
+                  description: Latitude of the user's location.
+                longitude:
+                  type: number
+                  format: float
+                  description: Longitude of the user's location.
+                maxrange:
+                  type: number
+                  format: float
+                  description: Maximum distance from the user's location (default is 0.8 km).
       responses:
         '200':
-          description: Nearby carparks retrieved successfully
+          description: Successfully retrieved nearby carparks.
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  type: array
-                  items:
-                    type: string
+                  type: object
+                  properties:
+                    carparkid:
+                      type: string
+                    availablelots:
+                      type: integer
+                    distance:
+                      type: number
+                      format: float
+                    lottype:
+                      type: string
         '400':
-          description: Error retrieving carparks
+          description: Bad request (invalid coordinates or backend error).
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  reason:
+                    type: string
   /carparkPricing:
     get:
-      summary: Get carpark pricing
-      security:
-        - bearerAuth: []
+      summary: "Get carpark rate"
+      description: "Returns the rate for a specified carpark."
       parameters:
-        - name: carparkId
-          in: query
+        - name: "carparkId"
+          in: "query"
+          description: "The carpark ID to fetch the rate for."
           required: true
           schema:
-            type: string
+            type: "string"
       responses:
         '200':
-          description: Pricing retrieved
+          description: "Carpark rate fetched successfully."
           content:
             application/json:
               schema:
                 type: object
                 properties:
                   rate:
+                    type: string
+        '400':
+          description: "Carpark ID was not provided or invalid."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  reason:
                     type: string
   /carparkLots:
     get:
-      summary: Get available carpark lots
-      security:
-        - bearerAuth: []
+      summary: "Get available carpark lots"
+      description: "Returns the available lots for a specified carpark."
       parameters:
-        - name: carparkId
-          in: query
+        - name: "carparkId"
+          in: "query"
+          description: "The carpark ID to fetch available lots for."
           required: true
           schema:
-            type: string
+            type: "string"
       responses:
         '200':
-          description: Available lots retrieved
+          description: "Available carpark lots fetched successfully."
           content:
             application/json:
               schema:
                 type: object
-                properties:
-                  rate:
-                    type: string
+                additionalProperties:
+                  type: integer
         '400':
-          description: Error retrieving carpark lots
+          description: "Carpark ID was not provided or invalid."
           content:
             application/json:
               schema:
@@ -179,39 +374,29 @@ paths:
                   reason:
                     type: string
   /bookCarpark:
-    get:
-      summary: Book a carpark lot
-      security:
-        - bearerAuth: []
-      parameters:
-        - name: carparkId
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: lotType
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: userId
-          in: query
-          required: true
-          schema:
-            type: integer
-        - name: startTime
-          in: query
-          required: true
-          schema:
-            type: string
-        - name: duration
-          in: query
-          required: true
-          schema:
-            type: integer
+    post:
+      summary: "Book a carpark lot"
+      description: "Allows a user to book a carpark lot for a specified duration."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                carparkId:
+                  type: string
+                lotType:
+                  type: string
+                userId:
+                  type: string
+                startTime:
+                  type: string
+                  format: date-time
+                duration:
+                  type: integer
       responses:
         '200':
-          description: Booking successful
+          description: "Carpark booking successful."
           content:
             application/json:
               schema:
@@ -222,7 +407,7 @@ paths:
                   reason:
                     type: string
         '400':
-          description: Error creating booking
+          description: "Booking failed due to missing or incorrect information."
           content:
             application/json:
               schema:
@@ -232,63 +417,177 @@ paths:
                     type: string
                   reason:
                     type: string
-  /getRoute:
+  /getBookings:
     get:
-      summary: Get the best route
-      security:
-        - bearerAuth: []
+      summary: "Get user bookings"
+      description: "Retrieves all bookings for a specified user."
       parameters:
-        - name: source
-          in: query
+        - name: "username"
+          in: "query"
+          description: "The username to fetch bookings for."
           required: true
           schema:
-            type: object
-            properties:
-              latitude:
-                type: number
-              longitude:
-                type: number
-        - name: destination
-          in: query
-          required: true
-          schema:
-            type: object
-            properties:
-              latitude:
-                type: number
-              longitude:
-                type: number
+            type: string
       responses:
         '200':
-          description: Route retrieved successfully
+          description: "Bookings retrieved successfully."
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    carparkId:
+                      type: string
+                    lotType:
+                      type: string
+                    startTime:
+                      type: string
+                      format: date-time
+                    duration:
+                      type: integer
+        '400':
+          description: "No bookings found for the user."
           content:
             application/json:
               schema:
                 type: object
                 properties:
-                  distance:
-                    type: integer
-                  duration:
+                  status:
                     type: string
+                  reason:
+                    type: string
+  /deleteBooking:
+    post:
+      summary: "Delete a booking"
+      description: "Allows a user to delete a specific booking."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                carparkId:
+                  type: string
+                startTime:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: "Booking deleted successfully."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  reason:
+                    type: string
+        '400':
+          description: "Booking deletion failed."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  reason:
+                    type: string
+  /checkinCarpark:
+    post:
+      summary: "Check-in to a carpark"
+      description: "Allows a user to check-in to a carpark using RFID."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                carparkId:
+                  type: string
+                lotType:
+                  type: string
+                rfid:
+                  type: string
+                time:
+                  type: string
+                  format: date-time
+      responses:
+        '200':
+          description: "Check-in successful."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  reason:
+                    type: string
+        '400':
+          description: "Check-in failed due to missing or incorrect information."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  reason:
+                    type: string
+  /PublicTransportRoute:
+    post:
+      summary: "Get public transport route"
+      description: "Retrieves the best public transport route considering walking distance, congestion, etc."
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                currentLocation:
+                  type: object
+                  properties:
+                    latitude:
+                      type: number
+                      format: float
+                    longitude:
+                      type: number
+                      format: float
+                destinationLocation:
+                  type: object
+                  properties:
+                    latitude:
+                      type: number
+                      format: float
+                    longitude:
+                      type: number
+                      format: float
+                maxWalkingDistance:
+                  type: integer
+      responses:
+        '200':
+          description: "Public transport route fetched successfully."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
                   polyline:
                     type: string
-                  steps:
-                    type: array
-                    items:
-                      type: object
-                      properties:
-                        distance:
-                          type: string
-                        duration:
-                          type: string
-                        instructions:
-                          type: string
-                        maneuver:
-                          type: string
-                        polyline:
-                          type: string
-securitySchemes:
-  bearerAuth:
-    type: http
-    scheme: bearer
-    bearerFormat: JWT
+        '400':
+          description: "Failed to fetch public transport route."
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  reason:
+                    type: string
