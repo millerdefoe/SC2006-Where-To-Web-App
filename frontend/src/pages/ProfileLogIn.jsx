@@ -4,6 +4,7 @@ import SettingsComponents from "../components/SettingsComponents.jsx";
 import ExitSettings from "../components/ExitSettings.jsx";
 import { ReactComponent as OpenEye } from "../assets/OpenEye.svg";
 import { ReactComponent as ClosedEye } from "../assets/ClosedEye.svg";
+import { setCookie } from "../components/ProfileUtils.jsx";
 import bcrypt from 'bcryptjs';  // Import bcryptjs for hashing
 import "../styles/ProfileLogIn.css";
 import { BASE_URL } from "../utils/api";
@@ -58,8 +59,8 @@ const ProfileLogIn = () => {
                 };
 
                 localStorage.setItem("user", JSON.stringify(loggedInUser));
-                const secureFlag = window.location.hostname === "localhost" ? "" : "Secure; SameSite=None;";
-                document.cookie = `user=${encodeURIComponent(JSON.stringify(loggedInUser))}; max-age=${60 * 60 * 24 * 7}; path=/; ${secureFlag}`;
+                setCookie("user", JSON.stringify(loggedInUser), 7);
+
                 
 
 
