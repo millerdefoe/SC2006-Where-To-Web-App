@@ -7,6 +7,7 @@ import { ReactComponent as OpenEye } from "../assets/OpenEye.svg";
 import { ReactComponent as ClosedEye } from "../assets/ClosedEye.svg";
 import "../styles/ProfileSignUp.css";
 import bcrypt from "bcryptjs";
+import { BASE_URL } from "../utils/api";
 
 function ProfileSignUp() {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ function ProfileSignUp() {
         rfid: rfid || null  // Send RFID if provided, otherwise send null
       };
 
-      const response = await fetch("${BASE_URL}/createUser", {
+      const response = await fetch(`${BASE_URL}/createUser`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

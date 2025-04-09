@@ -12,6 +12,7 @@ import { ReactComponent as LogOutButton } from "../assets/LogOutButton.svg";
 import { getUserFromCookie, saveUserToCookie, deleteCookie, isValidPassword } from "../components/ProfileUtils";
 import bcrypt from 'bcryptjs';
 import "../styles/ProfileDetails.css";
+import { BASE_URL } from "../utils/api";
 
 const ProfileDetails = () => {
     const [password, setPassword] = useState("MySecureP@ssw0rd!");
@@ -84,7 +85,7 @@ const ProfileDetails = () => {
         }
       
         try {
-          const res = await fetch("${BASE_URL}/editUser", {
+          const res = await fetch(`${BASE_URL}/editUser`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -120,7 +121,7 @@ const ProfileDetails = () => {
         if (!window.confirm("Are you sure you want to delete your account?")) return;
       
         try {
-          const res = await fetch("${BASE_URL}/deleteUser", {
+          const res = await fetch(`${BASE_URL}/deleteUser`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

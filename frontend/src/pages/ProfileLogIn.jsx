@@ -6,6 +6,7 @@ import { ReactComponent as OpenEye } from "../assets/OpenEye.svg";
 import { ReactComponent as ClosedEye } from "../assets/ClosedEye.svg";
 import bcrypt from 'bcryptjs';  // Import bcryptjs for hashing
 import "../styles/ProfileLogIn.css";
+import { BASE_URL } from "../utils/api";
 
 const ProfileLogIn = () => {
     const navigate = useNavigate();
@@ -32,7 +33,7 @@ const ProfileLogIn = () => {
             // Hash the entered password before sending to the backend
             const hashedPassword = await generateDeterministicHash(password);  // You can adjust the salt rounds as needed
 
-            const response = await fetch("${BASE_URL}/login", {
+            const response = await fetch(`${BASE_URL}/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
