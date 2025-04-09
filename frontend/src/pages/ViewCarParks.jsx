@@ -129,7 +129,7 @@ function ViewCarParks() {
     const duration = 0;
   
     axios
-      .post("${BASE_URL}/bookCarpark", {
+      .post(`${BASE_URL}/bookCarpark`, {
         carparkId,
         lotType,
         userId,
@@ -146,7 +146,7 @@ function ViewCarParks() {
         }
       })
       .catch((err) => {
-        const reason = err.response?.data?.reason || "Unknown error occurred.";
+        const reason = err.response?.data?.reason || "No RFID Detected!";
         if (reason.toLowerCase().includes("active booking")) {
           alert("You already have an active booking. Please end it before making a new one.");
         } else {
