@@ -13,6 +13,7 @@ import PredictedCarParkAvail from "../components/PredictedCarParkAvail";
 import axios from "axios";
 import "../styles/ViewCarParks.css";
 import { getUserFromCookie } from "../utils/getUserFromCookie"; // or wherever your function is
+import { BASE_URL } from "../utils/api";
 
 function ViewCarParks() {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ function ViewCarParks() {
         const maxrange = carparkLimit / 1000;
 
         const requestData = { latitude, longitude, maxrange };
-        const response = await axios.post("http://127.0.0.1:5000/carparksNearby", requestData, {
+        const response = await axios.post(`${BASE_URL}/carparksNearby`, requestData, {
           headers: { "Content-Type": "application/json" },
         });
 
@@ -59,7 +60,7 @@ function ViewCarParks() {
 
             // Fetch pricing
             try {
-              const res = await axios.post("http://127.0.0.1:5000/carparkPricing", { carparkId }, {
+              const res = await axios.post(`${BASE_URL}/carparkPricing`, { carparkId }, {
                 headers: { "Content-Type": "application/json" },
               });
               if (res.status === 200) {
@@ -72,7 +73,7 @@ function ViewCarParks() {
 
             // Fetch lots
             try {
-              const res = await axios.post("http://127.0.0.1:5000/carparkLots", { carparkId }, {
+              const res = await axios.post(`${BASE_URL}/carparkLots`, { carparkId }, {
                 headers: { "Content-Type": "application/json" },
               });
               if (res.status === 200) {
@@ -128,7 +129,7 @@ function ViewCarParks() {
     const duration = 0;
   
     axios
-      .post("http://127.0.0.1:5000/bookCarpark", {
+      .post(`${BASE_URL}/bookCarpark`, {
         carparkId,
         lotType,
         userId,
@@ -145,7 +146,7 @@ function ViewCarParks() {
         }
       })
       .catch((err) => {
-        const reason = err.response?.data?.reason || "Unknown error occurred.";
+        const reason = err.response?.data?.reason || "No RFID Detected!";
         if (reason.toLowerCase().includes("active booking")) {
           alert("You already have an active booking. Please end it before making a new one.");
         } else {
