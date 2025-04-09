@@ -1,0 +1,294 @@
+openapi: 3.0.0
+info:
+  title: Carpark & Route Finder API
+  description: API documentation for carpark booking and route planning services
+  version: 1.0.0
+servers:
+  - url: https://api.example.com
+    description: Production server
+paths:
+  /createUser:
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  maxLength: 20
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  userid:
+                    type: integer
+        '400':
+          description: Error creating user
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  reason:
+                    type: string
+  /login:
+    post:
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  maxLength: 20
+                password:
+                  type: string
+              required:
+                - username
+                - password
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  userid:
+                    type: integer
+                  token:
+                    type: string
+        '401':
+          description: Login failure
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  reason:
+                    type: string
+  /carparksNearby:
+    get:
+      summary: Get nearby carparks
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: latitude
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: longitude
+          in: query
+          required: true
+          schema:
+            type: number
+        - name: maxrange
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Nearby carparks retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: array
+                  items:
+                    type: string
+        '400':
+          description: Error retrieving carparks
+  /carparkPricing:
+    get:
+      summary: Get carpark pricing
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: carparkId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Pricing retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rate:
+                    type: string
+  /carparkLots:
+    get:
+      summary: Get available carpark lots
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: carparkId
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Available lots retrieved
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rate:
+                    type: string
+        '400':
+          description: Error retrieving carpark lots
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  reason:
+                    type: string
+  /bookCarpark:
+    get:
+      summary: Book a carpark lot
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: carparkId
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: lotType
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: userId
+          in: query
+          required: true
+          schema:
+            type: integer
+        - name: startTime
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: duration
+          in: query
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Booking successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  reason:
+                    type: string
+        '400':
+          description: Error creating booking
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                  reason:
+                    type: string
+  /getRoute:
+    get:
+      summary: Get the best route
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: source
+          in: query
+          required: true
+          schema:
+            type: object
+            properties:
+              latitude:
+                type: number
+              longitude:
+                type: number
+        - name: destination
+          in: query
+          required: true
+          schema:
+            type: object
+            properties:
+              latitude:
+                type: number
+              longitude:
+                type: number
+      responses:
+        '200':
+          description: Route retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  distance:
+                    type: integer
+                  duration:
+                    type: string
+                  polyline:
+                    type: string
+                  steps:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        distance:
+                          type: string
+                        duration:
+                          type: string
+                        instructions:
+                          type: string
+                        maneuver:
+                          type: string
+                        polyline:
+                          type: string
+securitySchemes:
+  bearerAuth:
+    type: http
+    scheme: bearer
+    bearerFormat: JWT
