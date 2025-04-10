@@ -236,9 +236,8 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 2%; 
     width: 100%; 
-    margin-top: -1vh; 
+    margin-top: -2vh; 
 }
 
 .leftContainer1{
@@ -256,6 +255,7 @@
     flex-shrink: 0;
     overflow: hidden;
     position: relative;
+    margin-top: 1vh;
 }
 
 .rightContainer1{
@@ -273,6 +273,7 @@
     flex-shrink: 0;
     overflow: hidden;
     position: relative;
+    margin-top: 1vh;
 }
 
 .container-text-top {
@@ -308,6 +309,7 @@
     margin-top: 5%;
     overflow-y: auto;
 }
+
 .book-button {
     position: absolute;
     bottom: -4vh;
