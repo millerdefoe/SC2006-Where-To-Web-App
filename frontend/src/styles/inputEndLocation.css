@@ -129,4 +129,135 @@
     background-color: #f0f0f0;
   }
   
-  
+  @media (max-width: 430px){
+    /* Main Layout */
+    .home-container {
+        display: flex;
+        flex-direction: column; /* Stacks items vertically */
+        height: 100vh;
+        width: 100wh;
+        background-color: #FFF;
+        padding: 20px;
+        align-items: center; /* Centers content horizontally */
+    }
+
+    /* Home Icon */
+    .homeicon-container {
+        display: flex;
+        justify-content: center;
+        border-radius: 30px;
+        background-color: #ECE9E9;
+        height: 6%;
+        width: 50%;
+        margin-top: 25%;
+        flex-shrink: 0;
+    }
+
+    /* Typography inside Home Icon */
+    .homeicon-typography {
+        color: #000;
+        font-family: Poppins, sans-serif;
+        font-size: 3vh; /* Scales based on viewport */
+        font-weight: 600;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Settings Icon still need to dit */ 
+    .settingsicon-container{
+        position: absolute;
+        top: 2vh; /* Keeps it near the top */
+        right: 2vw; /* Keeps it in the top-right */
+        width: min(4vw, 50px); /* Scales with screen size but never too big */
+        aspect-ratio: 1 / 1; /* Keeps it square */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .settings-icon {
+        width: 100%; /* Ensures it scales properly */
+        height: 100%;
+        object-fit: contain; 
+    }
+
+    /* Map Container */
+    .map-container1 {
+        width: 98%;
+        max-width: 1000px;
+        aspect-ratio: 7 / 8; /* Keeps proper map aspect ratio */
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        
+    }
+
+    /* Map Image */
+    .map-image1 {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ensures the map scales correctly */
+        border-radius: 20px;
+    }
+
+    /* Search Bar Container */
+    .search-container {
+        position: relative;
+        width: 60%;
+        max-width: 320px;
+        aspect-ratio: 7 / 1;
+        display: flex;
+        justify-content: center;
+        margin-top: 25px;
+    }
+
+    /* Search Bar */
+    .search-bar {
+        width: 100%;
+        border-radius: 15px;
+        background-color: #ECE9E9;
+        border: 1px solid #ECE9E9;
+        font-size: 80%;
+        text-align: left;
+        padding-left: 20px;
+        outline: none;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .suggestions-list {
+        position: absolute;
+        top: 100%; /* 👈 puts it right below the input box */
+        left: 0;
+        list-style: none;
+        margin: 0;
+        padding-left: 20px;
+        width: 93%;
+        max-width: 900px;
+        font-size: 80%;
+        background-color: #ECE9E9;
+        border-radius: 12px;
+        box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+        position: absolute;
+        z-index: 1000;
+        max-height: 150px;
+        overflow-y: auto;
+    }
+    
+    .suggestions-list li {
+        padding: 8px 12px;
+        font-size: 13px;
+        font-family: "Poppins", sans-serif;
+        cursor: pointer;
+        border-radius: 10px; /* Rounded rectangles */
+        transition: background-color 0.2s ease;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    
+    .suggestions-list li:hover {
+        background-color: #f0f0f0;
+    }
+  }
