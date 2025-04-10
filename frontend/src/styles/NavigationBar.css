@@ -81,4 +81,41 @@
     text-decoration: underline;
   }
   
+  @media (max-width: 430px) {
+    .nav-container {
+      display: flex;
+      flex-direction: row; 
+      align-items: flex-start; 
+      justify-content: flex-start;
+      position: absolute;
+      top: 7.5vh; 
+      left: 49.5vw; 
+      width: auto;
+      gap: 0;
+    }
   
+    .nav-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: center;
+    }
+  
+    .nav-bar {
+      width: 35vw; 
+      height: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+  
+    .nav-text {
+      font-size: 2.5vw;
+      margin-left: 12%;
+    }
+    
+    .arrow {
+      width: 8vw; 
+    }
+  }
