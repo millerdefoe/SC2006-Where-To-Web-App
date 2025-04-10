@@ -110,7 +110,7 @@ function ViewPublicTransportRoute() {
   }
 
   const selectedRoute = routeData[selectedRouteIndex];
-
+  
   return (
     <div className="main-container">
       <HomeButton />

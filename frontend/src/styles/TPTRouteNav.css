@@ -67,3 +67,77 @@
     margin-left: 55%;
     margin-top: 33%;
 }
+
+
+
+@media (max-width: 430px){
+    .leftContainer3{
+        float: left;
+        width: 100%;
+        aspect-ratio: 5 / 3; 
+        background-color: #FFF;
+        padding: 1em;
+        margin-top: 3%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .rightContainer3{
+        float: right;
+        width: 30%;
+        aspect-ratio: 5/ 7; 
+        background-color: #FFF;
+        margin-top: 4%;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .routeNav-container{
+        height: 93%; 
+        aspect-ratio: 2/3;
+        background-color: transparent;
+        border-width: 2px;
+        border-style: solid;
+        border-color: #000;
+        border-radius: 30px;
+        margin-top: 4%;
+        margin-right: 2%;
+        display: flex;
+        flex-direction: column;
+        object-fit: contain;
+        align-items: center;
+    }
+    
+    .map-container4 {
+        margin-top: 1%;
+        margin-left: 4%;
+        width: 98%;
+        max-width: 1000px;
+        aspect-ratio: 8/3; /* Keeps proper map aspect ratio */
+        display: flex;
+        align-items: center;
+    }
+    
+    .map-image4 {
+        width: 100%;
+        height: 100%;
+        object-fit: cover; /* Ensures the map scales correctly */
+        border-radius: 20px;
+    }
+    
+    .endButton-container{
+        position: absolute;
+        height: 7%;
+        width: 10%;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        border-color: transparent;
+        margin-left: 55%;
+        margin-top: 33%;
+    }
+}
