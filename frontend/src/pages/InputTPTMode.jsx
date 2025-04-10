@@ -61,7 +61,7 @@ function InputTPTMode() {
               <TransportButton/>
             </div>
           </div>
-          <div className="greyRectangle-container" style={{fontSize: "14px", fontWeight:"500"}}>
+          <div className="greyRectangle-container" style={{fontSize: "14px", fontWeight:"500", width: "100%"}}>
             <MapPin className="destination-icon" />
             {endLocation}
           </div>
