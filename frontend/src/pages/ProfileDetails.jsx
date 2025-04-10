@@ -81,6 +81,7 @@ const ProfileDetails = () => {
       
         if (!hasChanges) {
           alert("No changes detected.");
+          setIsEditing(false); 
           return;
         }
       
