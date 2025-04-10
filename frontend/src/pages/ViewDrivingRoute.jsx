@@ -11,6 +11,7 @@ import "../styles/ViewDrivingRoute.css";
 import MapWithRoute from "../components/MapDrivingRoute";
 import ModeOfTransport from "../components/ModeOfTransport";
 import MyBookingsButton from "../components/MyBookingsButton";
+import { BASE_URL } from "../utils/api";
 
 const ViewDrivingRoute = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const ViewDrivingRoute = () => {
       };
   
       try {
-        const response = await axios.post("http://127.0.0.1:5000/getRoute", {
+        const response = await axios.post(`${BASE_URL}/getRoute`, {
           source,
           destination
         });

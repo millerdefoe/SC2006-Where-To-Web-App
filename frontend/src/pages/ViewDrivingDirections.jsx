@@ -20,6 +20,7 @@ import axios from "axios";
 import "../styles/ViewDrivingDirections.css";
 import MapWithRoute from "../components/MapDrivingRoute";
 import ModeOfTransport from "../components/ModeOfTransport";
+import { BASE_URL } from "../utils/api";
 
 const ViewDrivingDirections = () => {
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const ViewDrivingDirections = () => {
       setDestination(endLocation); // You can set this to a default destination name
 
       try {
-        const response = await axios.post("http://127.0.0.1:5000/getRoute", {
+        const response = await axios.post(`${BASE_URL}/getRoute`, {
           source: sourceCoords,
           destination: destinationCoords,
         });

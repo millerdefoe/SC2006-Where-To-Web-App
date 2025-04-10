@@ -4,8 +4,10 @@ import SettingsComponents from "../components/SettingsComponents.jsx";
 import ExitSettings from "../components/ExitSettings.jsx";
 import { ReactComponent as OpenEye } from "../assets/OpenEye.svg";
 import { ReactComponent as ClosedEye } from "../assets/ClosedEye.svg";
+import { setCookie } from "../components/ProfileUtils.jsx";
 import bcrypt from 'bcryptjs';  // Import bcryptjs for hashing
 import "../styles/ProfileLogIn.css";
+import { BASE_URL } from "../utils/api";
 
 const ProfileLogIn = () => {
     const navigate = useNavigate();
@@ -32,7 +34,7 @@ const ProfileLogIn = () => {
             // Hash the entered password before sending to the backend
             const hashedPassword = await generateDeterministicHash(password);  // You can adjust the salt rounds as needed
 
-            const response = await fetch("http://127.0.0.1:5000/login", {
+            const response = await fetch(`${BASE_URL}/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -57,10 +59,13 @@ const ProfileLogIn = () => {
                 };
 
                 localStorage.setItem("user", JSON.stringify(loggedInUser));
-                document.cookie = `user=${JSON.stringify(loggedInUser)}; max-age=${60 * 60 * 24 * 7}; path=/`;
+                setCookie("user", JSON.stringify(loggedInUser), 7);
+
+                
+
 
                 alert("Login successful!");
-                navigate("/profile-details");
+                window.location.href = "/profile-details";
             } else {
                 alert(`Login failed: ${data.reason}`);
             }

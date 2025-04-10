@@ -25,13 +25,20 @@ function Feedback() {
 
   const handleSubmit = async () => {
     if (!user) {
-      navigate('/profile', { state: { fromFeedback: true, savedFeedback: feedback } });
+      navigate('/profile', {
+        state: { fromFeedback: true, savedFeedback: feedback },
+      });
       return;
     }
 
-    await submitFeedback({ userId: user.identifier, feedback });
-    alert('Feedback submitted successfully!');
-    setFeedback('');
+    try {
+      await submitFeedback({ userId: user.identifier, feedback });
+      alert('Feedback submitted successfully!');
+      setFeedback(""); // ✅ Clears only after successful submit
+    } catch (err) {
+      console.error("Feedback submission failed:", err);
+      alert("Something went wrong. Please try again.");
+    }
   };
 
   return (
@@ -46,7 +53,11 @@ function Feedback() {
         onChange={(e) => setFeedback(e.target.value)}
         placeholder="Enter your feedback here..."
       ></textarea>
-      <button className="feedback-submit-button" onClick={handleSubmit}>
+      <button
+        className="feedback-submit-button"
+        onClick={handleSubmit}
+        disabled={feedback.trim() === ""}
+      >
         Submit
       </button>
     </div>

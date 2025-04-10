@@ -7,6 +7,7 @@ import ModeOfTransport from '../components/ModeOfTransport';
 import CongestionLevelIndicator from '../components/CongestionLevelIndicator';
 import "../styles/DisplayCongestionLevels.css";
 import "../styles/common.css";
+import { BASE_URL } from "../utils/api";
 
 function DisplayCongestionLevels() {
   const [congestionData, setCongestionData] = useState([]);
@@ -22,7 +23,7 @@ function DisplayCongestionLevels() {
           return;
         }
         const parsedData = JSON.parse(savedRouteData);
-        const response = await fetch("http://127.0.0.1:5000/CongestionData", {
+        const response = await fetch(`${BASE_URL}/CongestionData`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",

@@ -11,6 +11,7 @@ import DirectionDescription from '../components/DirectionDescription';
 import MapWithRoute from "../components/MapDrivingRoute"; // ✅ IMPORT HERE
 import "../styles/ViewPublicTransportRoute.css";
 import "../styles/common.css";
+import { BASE_URL } from "../utils/api";
 
 function ViewPublicTransportRoute() {
   const [selectedRouteIndex, setSelectedRouteIndex] = useState(0);
@@ -39,8 +40,11 @@ function ViewPublicTransportRoute() {
           console.error("Invalid coordinates in localStorage");
           return;
         }
+        const rawWalkingLimit = localStorage.getItem("walkingLimit");
+        const maxWalkingDistance = parseInt(rawWalkingLimit) || 800; // fallback to 800m if not set
 
-        const response = await fetch("http://127.0.0.1:5000/PublicTransportRoute", {
+
+        const response = await fetch(`${BASE_URL}/PublicTransportRoute`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -48,7 +52,7 @@ function ViewPublicTransportRoute() {
           body: JSON.stringify({
             currentLocation,
             destinationLocation,
-            maxWalkingDistance: 800,
+            maxWalkingDistance,
           }),
         });
 

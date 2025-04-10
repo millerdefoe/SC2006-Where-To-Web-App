@@ -12,6 +12,7 @@ import { ReactComponent as LogOutButton } from "../assets/LogOutButton.svg";
 import { getUserFromCookie, saveUserToCookie, deleteCookie, isValidPassword } from "../components/ProfileUtils";
 import bcrypt from 'bcryptjs';
 import "../styles/ProfileDetails.css";
+import { BASE_URL } from "../utils/api";
 
 const ProfileDetails = () => {
     const [password, setPassword] = useState("MySecureP@ssw0rd!");
@@ -59,7 +60,9 @@ const ProfileDetails = () => {
           username: user.identifier,
         };
       
-        // Include password only if it was changed
+        let hasChanges = false;
+      
+        // Check password change
         if (password !== user.password) {
           const hashedPassword = await generateDeterministicHash(password);
           if (!hashedPassword) {
@@ -67,20 +70,23 @@ const ProfileDetails = () => {
             return;
           }
           requestData.password = hashedPassword;
+          hasChanges = true;
         }
       
-        // Include RFID only if it was changed
+        // Check RFID change (including deletion)
         if (rfid !== user.rfid) {
-          requestData.rfid = rfid;
+          requestData.rfid = rfid;  // Can be an empty string
+          hasChanges = true;
         }
       
-        if (!requestData.password && !requestData.rfid) {
+        if (!hasChanges) {
           alert("No changes detected.");
+          setIsEditing(false); 
           return;
         }
       
         try {
-          const res = await fetch("http://127.0.0.1:5000/editUser", {
+          const res = await fetch(`${BASE_URL}/editUser`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -94,7 +100,7 @@ const ProfileDetails = () => {
             const updatedUser = {
               ...user,
               password: requestData.password || user.password,
-              rfid: requestData.rfid || user.rfid,
+              rfid: requestData.rfid !== undefined ? requestData.rfid : user.rfid,
             };
             setUser(updatedUser);
             saveUserToCookie(updatedUser);
@@ -110,12 +116,13 @@ const ProfileDetails = () => {
       };
       
       
+      
     
       const handleDeleteAccount = async () => {
         if (!window.confirm("Are you sure you want to delete your account?")) return;
       
         try {
-          const res = await fetch("http://127.0.0.1:5000/deleteUser", {
+          const res = await fetch(`${BASE_URL}/deleteUser`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -142,7 +149,9 @@ const ProfileDetails = () => {
 
       const handleLogout = () => {
         localStorage.removeItem("user"); 
-        navigate("/profile-sign-up"); 
+        document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        document.cookie = "user=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=";
+        window.location.href = "/profile-sign-up";
       };
     
       if (!user) return null;

@@ -13,6 +13,7 @@ import PredictedCarParkAvail from "../components/PredictedCarParkAvail";
 import axios from "axios";
 import "../styles/ViewCarParks.css";
 import { getUserFromCookie } from "../utils/getUserFromCookie"; // or wherever your function is
+import { BASE_URL } from "../utils/api";
 
 function ViewCarParks() {
   const navigate = useNavigate();
@@ -22,9 +23,13 @@ function ViewCarParks() {
   const [endLng, setEndLng] = useState(null);
   const [pricingMap, setPricingMap] = useState({});
   const [lotsMap, setLotsMap] = useState({});
+  const [bookingStatus, setBookingStatus] = useState({});  // track success/failure per index
 
+
+  console.log("Parsed user from cookie:", getUserFromCookie());
 
   const user = getUserFromCookie() || {};
+  
   const userId = user.userid;
   const [selectedCarparkIndex, setSelectedCarparkIndex] = useState(null);
 
@@ -35,9 +40,14 @@ function ViewCarParks() {
         const longitude = parseFloat(localStorage.getItem("endLng"));
         setEndLat(latitude);
         setEndLng(longitude);
+        let carparkLimit = parseFloat(localStorage.getItem("carparkMaxDistance"));
+        if (isNaN(carparkLimit)) {
+          carparkLimit = 1000; // default to 1000 meters if not found
+        }
+        const maxrange = carparkLimit / 1000;
 
-        const requestData = { latitude, longitude, maxrange: 1 };
-        const response = await axios.post("http://127.0.0.1:5000/carparksNearby", requestData, {
+        const requestData = { latitude, longitude, maxrange };
+        const response = await axios.post(`${BASE_URL}/carparksNearby`, requestData, {
           headers: { "Content-Type": "application/json" },
         });
 
@@ -52,7 +62,7 @@ function ViewCarParks() {
 
             // Fetch pricing
             try {
-              const res = await axios.post("http://127.0.0.1:5000/carparkPricing", { carparkId }, {
+              const res = await axios.post(`${BASE_URL}/carparkPricing`, { carparkId }, {
                 headers: { "Content-Type": "application/json" },
               });
               if (res.status === 200) {
@@ -65,7 +75,7 @@ function ViewCarParks() {
 
             // Fetch lots
             try {
-              const res = await axios.post("http://127.0.0.1:5000/carparkLots", { carparkId }, {
+              const res = await axios.post(`${BASE_URL}/carparkLots`, { carparkId }, {
                 headers: { "Content-Type": "application/json" },
               });
               if (res.status === 200) {
@@ -106,16 +116,24 @@ function ViewCarParks() {
 
   const handleBooking = (carparkId, lotType, index, lat, lng) => {
     setSelectedCarparkIndex(index);
-
-    // Continue with the booking process
+  
+    // ✅ Check for RFID first
+    if (!user?.rfid || user.rfid.trim() === "") {
+      // Just show the sticky bar with warning
+      setStickyVisible(prev => ({ ...prev, [index]: true }));
+      setBookingStatus(prev => ({ ...prev, [index]: "failure" }));
+      return;
+    }
+  
     const etaSeconds = parseInt(localStorage.getItem("etaSeconds") || 60);
     const now = new Date(Date.now() + etaSeconds * 1000);
-    const startTime = `${String(now.getDate()).padStart(2, '0')}-${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
-  
+    const startTime = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}:${String(now.getSeconds()).padStart(2, '0')}`;
+
+
     const duration = 0;
   
     axios
-      .post("http://127.0.0.1:5000/bookCarpark", {
+      .post(`${BASE_URL}/bookCarpark`, {
         carparkId,
         lotType,
         userId,
@@ -123,20 +141,27 @@ function ViewCarParks() {
         duration,
       })
       .then((res) => {
+        setStickyVisible(prev => ({ ...prev, [index]: true }));
         if (res.status === 200 && res.data.status === "success") {
-          // Show success bar after successful booking
-          setStickyVisible(prevState => ({ ...prevState, [index]: true }));
+          setBookingStatus(prev => ({ ...prev, [index]: "success" }));
         } else {
-          alert(res.data.reason || "Booking failed");
-          setStickyVisible(prevState => ({ ...prevState, [index]: false }));
+          setBookingStatus(prev => ({ ...prev, [index]: "failure" }));
+          alert(res.data.reason || "Booking failed.");
         }
       })
-      .catch((e) => {
-        console.error("Booking error:", e);
-        alert("You have an active booking. Please end your current booking before making a new one.");
-        setStickyVisible(prevState => ({ ...prevState, [index]: false }));
+      .catch((err) => {
+        const reason = err.response?.data?.reason || "No RFID Detected!";
+        if (reason.toLowerCase().includes("active booking")) {
+          alert("You already have an active booking. Please end it before making a new one.");
+        } else {
+          alert(reason);
+        }
+        setBookingStatus(prev => ({ ...prev, [index]: "failure" }));
+        setStickyVisible(prev => ({ ...prev, [index]: true }));
       });
   };
+  
+  
   
   
   const toggleStickyBar = (index) => {
@@ -185,22 +210,27 @@ function ViewCarParks() {
                   <div className="sticky-overlay">
                     <div className="sticky-bar">
                       <Cross className="close-icon" onClick={() => toggleStickyBar(index)} />
-                      {user?.rfid && user.rfid.trim() !== "" ? (
+
+                      {bookingStatus[index] === "success" && user?.rfid && user.rfid.trim() !== "" ? (
                         <p>{name} BOOKED SUCCESSFULLY!</p>
                       ) : (
                         <div>
-                          <h3 className="sticky-bar-typography1">RFID TAG NOT DETECTED!</h3>
+                          <h3 className="sticky-bar-typography1">
+                            {user?.rfid && user.rfid.trim() !== "" 
+                              ? "Booking failed or you already have one!" 
+                              : "RFID TAG NOT DETECTED!"}
+                          </h3>
                           <PredictedCarParkAvail />
                         </div>
                       )}
+
                       <button
                         className="computeRoute-button"
                         onClick={() => {
                           console.log("Selected Carpark Coordinates:", lat, lng);
                           localStorage.setItem("endLat", parseFloat(lat));
                           localStorage.setItem("endLng", parseFloat(lng));
-                          navigate("/view-driving-directions", {
-                          });
+                          navigate("/view-driving-directions");
                         }}
                       >
                         <ComputeRoute className="computeRoute-icon" />
@@ -208,6 +238,7 @@ function ViewCarParks() {
                     </div>
                   </div>
                 )}
+
               </div>
             );
           })
@@ -220,4 +251,3 @@ function ViewCarParks() {
 }
 
 export default ViewCarParks;
-

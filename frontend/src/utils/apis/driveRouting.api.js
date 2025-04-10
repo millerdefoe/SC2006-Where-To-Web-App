@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { BASE_URL } from "../utils/api";
 
 function RouteFinder() {
   const [source, setSource] = useState("");
@@ -8,7 +9,7 @@ function RouteFinder() {
 
   const getBasicRoute = async () => {
     try {
-      const response = await axios.post("http://127.0.0.1:5000/getBasicRoute", {
+      const response = await axios.post(`${BASE_URL}/getBasicRoute`, {
         source: source,
         destination: destination
       });

@@ -19,6 +19,7 @@ import ModeOfTransport from "../components/ModeOfTransport";
 import MapWithRoute from "../components/MapDrivingRoute";
 import axios from "axios";
 import "../styles/DrivingRouteNav.css";
+import { BASE_URL } from "../utils/api";
 
 
 
@@ -65,7 +66,7 @@ function DrivingRouteNav() {
 
   
       try {
-        const response = await axios.post("http://127.0.0.1:5000/getRoute", {
+        const response = await axios.post(`${BASE_URL}/getRoute`, {
           source: sourceCoords,
           destination: destinationCoords,
         });
