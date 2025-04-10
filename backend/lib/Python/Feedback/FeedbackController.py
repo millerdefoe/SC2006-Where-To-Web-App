@@ -1,6 +1,7 @@
 import requests
 import json
 import os
+import re
 
 from lib.Python.Logging.PythonLogger import PythonLogger
 from lib.Python.Database.Database import Database
@@ -24,11 +25,24 @@ class FeedbackController():
     def __init__():
 
         return True
+    
+    #Used to validate if the email field is properly inputted
+    def is_valid_email(email):
+        pattern = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+        return re.match(pattern, email) is not None
 
     def storeFeedback(feedback):
 
         feedbackName = feedback["feedbackName"]
         feedbackEmail = feedback["feedbackEmail"]  
+
+        if FeedbackController.is_valid_email(feedbackEmail):
+            logger.info(f"{feedbackEmail} is a valid email.")
+        else:
+            logger.error(f"{feedbackEmail} is not a valid email.")
+            return False
+
+
         feedbackDescription = feedback["feedbackDescription"]  
 
         insertStatement = f"""
