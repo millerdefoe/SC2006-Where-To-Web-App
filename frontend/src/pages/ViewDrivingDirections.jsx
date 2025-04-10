@@ -97,10 +97,10 @@ const ViewDrivingDirections = () => {
               <p className="text-red-600">{error}</p>
             ) : (
               route && (
-                <div className="map-container5">
+                <div className="map-container6">
                   <MapWithRoute
                     encodedPolyline={route.polyline}
-                    mapContainerClassName="map-image5"
+                    mapContainerClassName="map-image6"
                   />
                   <button className="view-car-parks-button1" onClick={() => navigate("/view-car-parks")}>
                     <ViewNearbyCarParksIcon className="view-car-parks-icon1" />
@@ -109,54 +109,56 @@ const ViewDrivingDirections = () => {
               )
             )}
           </div>
+          
+          <div className="rightContainer5">
+            <div className="directions-container3">
+              <button className="start-container" onClick={() => navigate("/driving-route-nav")}>
+                <Start className="start-icon" />
+              </button>
 
-          <div className="directions-container3">
-            <button className="start-container" onClick={() => navigate("/driving-route-nav")}>
-              <Start className="start-icon" />
-            </button>
-
-            {route?.steps && (
-              <div className="step-list-container">
-                <div className="directions-header">
-                  <div className="directions-title">Directions</div>
-                  <div className="directions-timer">
-                    <TimerIcon />
+              {route?.steps && (
+                <div className="step-list-container">
+                  <div className="directions-header">
+                    <div className="directions-title">Directions</div>
+                    <div className="directions-timer">
+                      <TimerIcon />
+                    </div>
+                    <div className="directions-duration">
+                      <h3><span><strong>{Math.ceil(parseInt(route?.duration) / 60)} mins</strong></span></h3>
+                    </div>
                   </div>
-                  <div className="directions-duration">
-                    <h3><span><strong>{Math.ceil(parseInt(route?.duration) / 60)} mins</strong></span></h3>
+
+                  <div className="step-list">
+                    {(() => {
+                      const steps = route.steps;
+                      const total = steps.length;
+                      const limit = 5;
+
+                      if (total <= limit) {
+                        return steps;
+                      }
+                      const interval = Math.floor(total / limit);
+                      return Array.from({ length: limit }, (_, i) => steps[i * interval]);
+                    })().map((step, index) => {
+                      const Icon = iconMap[step.maneuver] || iconMap.DEFAULT;
+                      return (
+                        <li key={index} className="step-item">
+                          <div className="step-icon"><Icon /></div>
+                          <div className="step-text">
+                            <div className="step-description">
+                              <p><strong>{step.instructions}</strong></p>
+                            </div>
+                            <div className="step-distance-duration">
+                              <p>{step.distance} ({step.duration})</p>
+                            </div>
+                          </div>
+                        </li>
+                      );
+                    })}
                   </div>
                 </div>
-
-                <div className="step-list">
-                  {(() => {
-                    const steps = route.steps;
-                    const total = steps.length;
-                    const limit = 5;
-
-                    if (total <= limit) {
-                      return steps;
-                    }
-                    const interval = Math.floor(total / limit);
-                    return Array.from({ length: limit }, (_, i) => steps[i * interval]);
-                  })().map((step, index) => {
-                    const Icon = iconMap[step.maneuver] || iconMap.DEFAULT;
-                    return (
-                      <li key={index} className="step-item">
-                        <div className="step-icon"><Icon /></div>
-                        <div className="step-text">
-                          <div className="step-description">
-                            <p><strong>{step.instructions}</strong></p>
-                          </div>
-                          <div className="step-distance-duration">
-                            <p>{step.distance} ({step.duration})</p>
-                          </div>
-                        </div>
-                      </li>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>

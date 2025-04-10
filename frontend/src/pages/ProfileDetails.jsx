@@ -164,7 +164,7 @@ const ProfileDetails = () => {
             <div className="profile3-container">
                 <div className="profileHeader3-typography" style={{ fontSize: "24px", paddingLeft: "0px" }}>PROFILE</div>
                 <div className="profileContent3-typography" style={{ paddingLeft: "0px" }}>Create an account or log in!</div>
-                <div className="line-thick"></div>
+                <div className="line-thick2"></div>
 
                 <div className="user-profile-container">
                     <UserIcon className="user-profile-icon" />
@@ -174,7 +174,7 @@ const ProfileDetails = () => {
           <div className="emailPhone3-typography">{user?.identifier || "Not set"}</div>
         </div>
 
-        <div className="line-thick"></div>
+        <div className="line-thick2"></div>
 
         <div className="password3-container">
           <div className="password-rfid-typography">Password</div>
@@ -196,7 +196,7 @@ const ProfileDetails = () => {
           </div>
         </div>
 
-        <div className="line-thick"></div>
+        <div className="line-thick2"></div>
 
         <div className="rfid2-container">
           <div className="password-rfid-typography">RFID Tag</div>
@@ -213,7 +213,7 @@ const ProfileDetails = () => {
           </div>
         </div>
 
-        <div className="line-thick"></div>
+        <div className="line-thick2"></div>
 
         <div className="button-group">
           <button
@@ -236,7 +236,7 @@ const ProfileDetails = () => {
           )}
 
           <button
-            className={`deleteAccount-button ${!isEditing ? "shift-left" : ""}`}
+            className={`deleteAccount-button ${isEditing ? "shift-left" : ""}`}
             onClick={handleDeleteAccount}
           >
             <DeleteAccountButton className="deleteAccount-icon" />

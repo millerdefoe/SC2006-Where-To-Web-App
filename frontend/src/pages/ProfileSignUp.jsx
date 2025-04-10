@@ -89,7 +89,7 @@ function ProfileSignUp() {
       <div className="profile1-container">
         <div className="profileHeader1-typography" style={{ fontSize: "24px", paddingLeft: "0px" }}>PROFILE</div>
         <div className="profileContent1-typography" style={{ paddingLeft: "0px" }}>Create an account or log in!</div>
-        <div className="line-thick"></div>
+        <div className="line-thick3"></div>
 
         <div className="emailPhone-container">
           <div className="profileHeader1-typography">Email / Phone Number</div>
