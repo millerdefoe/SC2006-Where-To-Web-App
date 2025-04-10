@@ -20,3 +20,28 @@
   z-index: 9999;  
   pointer-events: auto;
 }
+
+@media (max-width: 430px) {
+  .home-button {
+    position: absolute;
+    top: 1.5vh;
+    left: 12vw;
+    width: 12vw; 
+    height: 6vh;
+    color: #000;
+    font-family: "Poppins", sans-serif;
+    font-size: 4vw;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: 0%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    padding: 0;
+    white-space: nowrap;
+    z-index: 9999;  
+    pointer-events: auto;
+  }
+}
