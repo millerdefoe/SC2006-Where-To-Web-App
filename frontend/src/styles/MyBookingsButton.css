@@ -26,7 +26,7 @@
 @media (max-width: 430px) {
     .my-bookings-button {
         position: absolute;
-        top: 2.5vh;
+        top: 3vh;
         right: 0;
         padding: 0;
         width: 6vw;

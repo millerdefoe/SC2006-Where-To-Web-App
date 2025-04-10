@@ -117,7 +117,7 @@ function DrivingRouteNav() {
                 </div>
               </div>
             )}
-            <ol className="step-list1">
+            <ol className="step-list1-container">
             {route?.steps && (
               <div className="step-list1"> 
                 {route.steps.map((step, index) => {

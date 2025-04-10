@@ -75,7 +75,7 @@
     display: flex;
     align-items: center;
     flex-grow: 1;
-    margin-left: clamp(7%, 2vw, 7%);
+    margin-left: clamp(8%, 2vw, 8%);
 }
 
 .directions-timer1 {
@@ -145,6 +145,17 @@
     margin-bottom: clamp(4.5vh, 3vw, 4.5vh); /* Vertical spacing scaling */
 }
 
+.step-list1-container{
+    flex: 1;
+    margin-top: 0;
+    margin-left: -14%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 90%;
+    height: 90%;
+}
+
 .step-list1 {
     list-style: none;
     padding: 0;
@@ -167,21 +178,19 @@
     width: clamp(20px, 2.5vw, 30px);
     height: clamp(20px, 2.5vw, 30px);
     flex-shrink: 0;
-    margin-left: clamp(3.5%, 1vw, 3.5%);
 }
 
 .step-text1 {
     margin: 0;
-    font-size: clamp(0.75rem, 1vw, 1.05rem); /* Font size scaling */
+    font-size: clamp(0.75rem, 1vw, 1.05rem);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     text-align: left;
-    margin-left: clamp(3%, 1vw, 3%);
+    margin-left: clamp(0.5rem, 1.5vw, 6%);
     width: 100%;
     display: flex;
     justify-content: space-between;
-    margin-top: clamp(1%, 1vw, 2%);
 }
 
 .step-description1 {
@@ -196,4 +205,213 @@
     margin-top: clamp(-5%, -0.5vw, -5%);
     color: #555;
     margin-left: clamp(3%, 2vw, 3%);
+}
+
+@media (max-width: 430px) {
+    .container4 {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        gap: clamp(0.5rem, 2vw, 2%);
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .leftContainer4 {
+        position: relative;
+        width: 70%;
+        aspect-ratio: 5 / 3;
+        background-color: transparent;
+        margin-top: 10vh;
+        box-sizing: border-box;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .rightContainer4 {
+        position: relative;
+        width: 30%;
+        aspect-ratio: 5 / 7;
+        background-color: transparent;
+        box-sizing: border-box;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+    }
+    
+    .drivingRouteNav-container {
+        position: relative;
+        height: 48vh;
+        width: 75vw;
+        aspect-ratio: 2 / 3;
+        background-color: transparent;
+        border: clamp(1px, 0.2vw, 2px) solid #000;
+        border-radius: 20px;
+        margin-top: 1vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: clamp(0.5rem, 2vw, 1rem);
+        overflow: hidden;
+        align-items: center;
+        margin-left: 6vw;
+    }
+    
+    .directions-header1 {
+        height: clamp(10%, 10vw, 15%); 
+        width: 100%;
+        background: transparent;
+        border: none;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+        margin-top: 0;
+    }
+    
+    .directions-title1 {
+        color: #000;
+        font-family: Inter;
+        font-size: 4.5vw;
+        font-weight: 570;
+        display: flex;
+        align-items: center;
+        flex-grow: 1;
+        margin-left: clamp(7%, 2vw, 7%);
+    }
+    
+    .directions-timer1 {
+        padding-left: clamp(1rem, 5vw, 26%);
+        object-fit: contain;
+        display: flex;
+        align-items: center;
+    }
+    
+    .directions-duration1 {
+        color: #000;
+        font-family: Inter;
+        font-size: 4vw;
+        font-weight: 570;
+        padding-left: clamp(0.5rem, 3%, 3%);
+        white-space: nowrap;
+    }
+    
+    .map-container5 {
+        height: 32vh;
+        max-width: 80vw;
+        aspect-ratio: 8/3;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+    
+    .map-image5 {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 20px;
+    }
+    
+    .endButton1-container {
+        position: absolute;
+        bottom: -37%;
+        right: -13%;
+        transform: translateX(-50%);
+        width: 30vw;
+        height: 30vh;
+        background: transparent;
+        border: none;
+        outline: none;
+        padding: 0;
+        margin: 0;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+    }
+    
+    .endButton1-container:focus {
+        outline: none;
+        box-shadow: none;
+    }
+    
+    .endButton1-icon {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        cursor: pointer;
+    }
+    
+    .driving-direction-wrapper .directionTransportIcon-icon {
+        margin-bottom: clamp(4.5vh, 3vw, 4.5vh);
+    }
+    
+
+    .step-list1-container{
+        flex: 1;
+        margin-top: 0.7vh;
+        margin-left: -14%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        width: 90%;
+        height: 90%;
+    }
+    
+    .step-list1 {
+        list-style: none;
+        padding: 0;
+        overflow-y: auto;
+        margin-top: clamp(-3%, -1vw, -3%);
+    }
+    
+    .step-item1 {
+        display: flex;
+        align-items: center;
+        gap: clamp(0.3rem, 1vw, 10px);
+        margin-bottom: clamp(0.1rem, 0.5vw, 0.2rem);
+        justify-content: space-between;
+    }
+    
+    .step-icon1 {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: clamp(20px, 2.5vw, 30px);
+        height: clamp(20px, 2.5vw, 30px);
+        flex-shrink: 0;
+    }
+    
+    .step-text1 {
+        margin: 0;
+        font-size: 3vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        text-align: left;
+        margin-left: clamp(0.5rem, 1.5vw, 6%);
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .step-description1 {
+        display: flex;
+        flex-grow: 1;
+        text-align: left;
+        margin-left: clamp(3%, 2vw, 3%);
+    }
+    
+    .step-distance-duration1 {
+        font-size: 3vw; 
+        margin-top: clamp(-5%, -0.5vw, -5%);
+        color: #555;
+        margin-left: clamp(3%, 2vw, 3%);
+    }
+    
 }
