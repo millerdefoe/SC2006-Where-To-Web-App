@@ -19,6 +19,7 @@ from lib.Python.Carpark.CarparkController import CarparkController
 from lib.Python.Driving.DrivingRouteController import DrivingRouteController
 from lib.Python.Location.Location import Location
 from lib.Python.PublicTransportRoute.PublicTransportRouteController import PublicTransportRouteController
+from lib.Python.Feedback.FeedbackController import FeedbackController
 
 logger = PythonLogger(os.path.basename(__file__))
 
@@ -468,7 +469,6 @@ def carparkPricing():
 
     return jsonify(returnData), 200
     
-
 @app.route("/carparkLots", methods=["GET", "POST"])
 def carparkLots():
 
@@ -561,7 +561,6 @@ def bookCarpark():
 
     return jsonify(returnData), 200
 
-@app.route("/PublicTransportRoute", methods=["GET", "POST"])
 @app.route("/getBookings", methods=["GET", "POST"])
 def getBookings():
 
@@ -704,7 +703,7 @@ def checkinCarpark():
     return jsonify(returnData), 200
 
 @app.route("/PublicTransportRoute", methods=["GET", "POST"])
-def PublicTransportRoute():
+def publicTransportRoute():
     logger.info("Public Transport Route accessed. Verifying information provided")
 
     try:
@@ -800,7 +799,7 @@ def PublicTransportRoute():
     return jsonify(sendLeastCongestedRouteInformation, sendFastestRouteInformation), 200
 
 @app.route("/CongestionData", methods=["GET", "POST"])
-def CongestionData():
+def congestionData():
     logger.info("Congestion Data accessed. Verifying information provided")
 
     try:
@@ -820,6 +819,54 @@ def CongestionData():
         return jsonify(returnData), 400
     
     return jsonify(congestionList), 200
+
+@app.route("/storeFeedback", methods=["GET", "POST"])
+def storeFeedback():
+    logger.info("storeFeedback route accessed. Verifying information provided")
+    
+    try:
+        data = request.get_json()
+        
+        if "feedbackName" not in data.keys():
+            raise Exception("feedbackName was not provided")
+
+        if "feedbackEmail" not in data.keys():
+            raise Exception("feedbackEmail was not provided")
+        
+        if "feedbackDescription" not in data.keys():
+            raise Exception("feedbackDescription was not provided")
+
+        feedbackName = data["feedbackName"]
+        feedbackEmail = data["feedbackEmail"]
+        feedbackDescription = data["feedbackDescription"]
+
+    except Exception as e:
+        logger.error(f"Feedback data was not provided. {e} Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Feedback data was not provided"
+        }
+
+        return jsonify(returnData), 400
+    
+    storeFeedback = FeedbackController.storeFeedback(data)
+
+    if storeFeedback == False:
+
+        logger.error("Unable to store feedback. Returning error 400")
+        returnData = {
+            "status" : "failure",
+            "reason" : "Failed to succesfully store feedback in database. Else, contact backend team"
+        }
+
+        return jsonify(returnData), 400
+
+    returnData = {
+        "status" : "success",
+        "reason" : "Feedback stored in database successful"
+    }
+    
+    return jsonify(returnData), 200
 
 if __name__ == "__main__":
     app.run()
