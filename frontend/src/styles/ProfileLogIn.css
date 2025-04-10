@@ -1,0 +1,157 @@
+.profile2-page {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+  }
+  
+  .profile2-container {
+    width: 67%;
+    height: 90%;
+    display: flex; 
+    flex-direction: column;
+    background-color: transparent;
+    margin-top: 5%;
+    margin-left: 6vw;
+  }
+  
+  .emailPhone2-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: transparent;
+    border-radius: 10px;
+    border: none;
+    margin-top: 3%;
+    margin-bottom: 1%;
+  }
+
+  .profileHeader2-typography{
+    color: #000;
+    font-family: Inter;
+    font-size: 1.125rem; 
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    text-align: left;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding-left: 1%;
+  }
+  
+  .line1-thick {
+    width: 100%;
+    border-bottom: 1px solid #000;
+    margin-bottom: 2vh;
+  }
+  
+  .line-thin {
+    width: 100%;
+    border-bottom: 0.5px solid #000;
+  }
+
+  .welcome-back-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    margin-top: 6vh;
+  }
+
+  .welcome-back-typography {
+    color: #000;
+    font-family: Inter;
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+  }
+  
+  .profileContent2-typography{
+    color: #000;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+    margin-bottom: 1%;
+    padding-left: 1%;
+  }
+  
+  .inputRectangle-container {
+    width: 100%;
+    height: 8vh;
+    margin-bottom: 20px;
+    position: relative;
+    border: 0.5px solid #000;
+    border-radius: 15px;
+    box-sizing: border-box;
+  }
+  
+  .custom-input-inside-rectangle {
+    position: absolute;
+    top: 50%;
+    left: 15px; 
+    transform: translateY(-50%);
+    height: 70%; 
+    width: calc(100% - 30px); 
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-family: Inter;
+    font-size: 1rem;
+    font-weight: 400;
+    color: #000;
+  }
+
+  .password2-container{
+    width: 100%;
+    height:23%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: transparent;
+    border-radius: 10px;
+    border: none;
+    margin-top: 2%;
+    margin-bottom: 1%;
+  }
+
+  .signIn2-container {
+    width: 100%;
+    height: 7vh;
+    background-color: #000;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    font-weight: 600;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-top: 2vh;
+    margin-bottom: 4vh;
+  }
+  
+  .eye-container {
+    width: 10%;  
+    max-width: 40px; 
+    height: 100%;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    background: transparent;
+    border: none;
+  }
+  
+  .eye-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }

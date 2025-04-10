@@ -1,63 +1,160 @@
 .container5 {
     display: flex;
-    align-items: stretch; 
+    align-items: stretch;
     width: 100%;
-    gap: 2%; 
+    gap: clamp(0.5rem, 2vw, 2%);
 }
 
 .leftContainer5 {
     position: relative;
     float: left;
     width: 70%;
-    aspect-ratio: 5 / 3; 
+    aspect-ratio: 5 / 3;
     background-color: transparent;
-    padding: 1em;
-    margin-top: 5%;
+    padding: clamp(0.5rem, 2vw, 1em);
+    margin-top: clamp(1rem, 3.5%, 3.5%);
     box-sizing: border-box;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    row-gap: 5%;
+    row-gap: clamp(1rem, 5%, 5%);
 }
 
-.rightContainer5{
+.rightContainer5 {
     position: relative;
     float: right;
     width: 30%;
-    aspect-ratio: 5/ 7; 
+    aspect-ratio: 5 / 7;
     background-color: transparent;
-    margin-top: 4%;
     box-sizing: border-box;
     flex-grow: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start; 
+    justify-content: flex-start;
     height: auto;
 }
 
-.directions-container3{
-    position: relative; 
-    height: 85%;
-    aspect-ratio: 2/3;
+.directions-container3 {
+    position: relative;
+    height: clamp(300px, 40vw, 543px);
+    aspect-ratio: 2 / 3;
     background-color: transparent;
-    border-width: 2px;
-    border-style: solid;
-    border-color: #000;
-    border-radius: 30px;
-    margin-top: 7%;
-    margin-right: 3%;
+    border: clamp(1px, 0.2vw, 2px) solid #000;
+    border-radius: clamp(10px, 3vw, 30px);
+    margin-top: clamp(2rem, 5.7%, 5.7%);
     display: flex;
-    justify-content: center; 
-    align-items: flex-end; 
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(0.5rem, 2vw, 1rem);
+    overflow: hidden;
+    align-items: center;
+    margin-right: clamp(0.5rem, 2%, 2%);
+}
+
+.directions-header {
+    height: 10%;
+    width: 100%;
+    background: transparent;
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.directions-title {
+    color: #000;
+    font-family: Inter;
+    font-size: clamp(1rem, 1.5vw, 2rem);
+    font-weight: 570;
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.directions-timer {
+    padding-left: clamp(1rem, 5vw, 26%);
+    object-fit: contain;
+    display: flex;
+    align-items: center;
+}
+
+.directions-duration {
+    color: #000;
+    font-family: Inter;
+    font-size: clamp(1rem, 1.3vw, 2rem);
+    font-weight: 570;
+    padding-left: clamp(0.5rem, 3%, 3%);
+    white-space: nowrap;
+}
+
+.step-list-container {
+    flex: 1;
+    margin-bottom: clamp(0.5rem, 1vw, 1rem);
+    padding-right: clamp(0.25rem, 1vw, 5px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 90%;
+    height: 90%;
+}
+
+.step-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 0;
+    overflow-y: auto;
+}
+
+.step-item {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.3rem, 1vw, 10px);
+    margin-bottom: clamp(0.1rem, 0.5vw, 0.2rem);
+    justify-content: space-between;
+}
+
+.step-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: clamp(20px, 2.5vw, 30px);
+    height: clamp(20px, 2.5vw, 30px);
+    flex-shrink: 0;
+}
+
+.step-text {
+    margin: 0;
+    font-size: clamp(0.75rem, 1vw, 1.05rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
+    margin-left: clamp(0.5rem, 2vw, 8%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.step-description {
+    display: flex;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.step-distance-duration {
+    font-size: clamp(0.75rem, 1vw, 1.05rem);
+    margin-top: -5%;
+    color: #555;
 }
 
 .start-container {
     position: absolute;
-    bottom: 0%;  
-    width: clamp(70px, 12vw, 120px); 
-    height: clamp(70px, 12vw, 120px);
+    bottom: -2.5%;
+    width: clamp(70px, 12vw, 95px);
+    height: clamp(70px, 12vw, 95px);
     background: transparent;
     border: none;
     cursor: pointer;
@@ -75,81 +172,303 @@
 
 .rowContainer5 {
     width: 100%;
-    max-width: 900px; 
-    aspect-ratio: 10/1;
+    max-width: clamp(600px, 90vw, 900px);
+    aspect-ratio: 10 / 1;
     background-color: #FFF;
-    margin-top: 2%;
+    margin-top: clamp(1rem, 2%, 2%);
     display: flex;
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 20px;
+    gap: clamp(10px, 2vw, 20px);
 }
 
 .map-container6 {
-    width: 100%;
-    max-width: 900px; 
-    aspect-ratio: 8/3;
+    position: relative;
+    width: min(80vw, 1020px);
+    height: clamp(300px, 40vw, 580px);
+    max-width: clamp(600px, 90vw, 900px);
+    aspect-ratio: 8 / 3;
     display: flex;
     align-items: center;
+    background: transparent;
+    flex-shrink: 0;
+    border-radius: clamp(10px, 2vw, 20px);
+    margin-top: -1%;
+    margin-left: 1%;
 }
 
 .map-image6 {
     width: 100%;
     height: 100%;
-    object-fit: cover; 
-    border-radius: 20px;
+    object-fit: cover;
+    border-radius: clamp(10px, 2vw, 20px);
 }
 
-.greyRectangle-container4 {
+.view-car-parks-button1 {
+    position: absolute;
+    bottom: -8%;
+    right: -5%;
+    transform: translateX(-50%);
+    width: clamp(120px, 20vw, 160px);.container5 {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+    gap: clamp(0.5rem, 2vw, 2%);
+}
+
+.leftContainer5 {
     position: relative;
-    flex: 1;
-    width: min(50vw, 587px);
-    height: min(10vh, 112px);
-    border-radius: 20px;
-    background-color: #ECE9E9;
-    color: #000;
-    font-family: Poppins, sans-serif;
-    font-size: min(2.5vh, 18px);
-    font-weight: 600;
+    float: left;
+    width: 70%;
+    aspect-ratio: 5 / 3;
+    background-color: transparent;
+    padding: clamp(0.5rem, 2vw, 1em);
+    margin-top: clamp(1rem, 3.5%, 3.5%);
+    box-sizing: border-box;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    row-gap: clamp(1rem, 5%, 5%);
+}
+
+.rightContainer5 {
+    position: relative;
+    float: right;
+    width: 30%;
+    aspect-ratio: 5 / 7;
+    background-color: transparent;
+    box-sizing: border-box;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: auto;
+}
+
+.directions-container3 {
+    position: relative;
+    height: clamp(300px, 40vw, 540px);
+    aspect-ratio: 2 / 3;
+    background-color: transparent;
+    border: clamp(1px, 0.2vw, 2px) solid #000;
+    border-radius: clamp(10px, 3vw, 30px);
+    margin-top: clamp(2rem, 5.3%, 5.3%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: clamp(0.5rem, 2vw, 1rem);
+    overflow: hidden;
+    align-items: center;
+    margin-right: clamp(0.5rem, 2%, 2%);
+}
+
+.directions-header {
+    height: 10%;
+    width: 100%;
+    background: transparent;
+    border: none;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between; /* Pushes items to edges */
-    flex-shrink: 0;
-    border: 1px solid #ECE9E9;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-    padding: 1vw;
-    gap: 10px;
+    justify-content: flex-start;
 }
 
-.greyRectangle-typography4 {
+.directions-title {
+    color: #000;
+    font-family: Inter;
+    font-size: clamp(1rem, 1.5vw, 2rem);
+    font-weight: 570;
+    display: flex;
+    align-items: center;
     flex-grow: 1;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-left: 5%;
-    text-align: left;
-    padding-right: 10px; 
 }
 
-.view-icon-container2 {
-    position: relative;
-    margin-top: 5%;
-    width: min(8vw, 85px);
-    height: min(8vw, 35px);
-    aspect-ratio: 1 / 1;
+.directions-timer {
+    padding-left: clamp(1rem, 5vw, 26%);
+    object-fit: contain;
+    display: flex;
+    align-items: center;
+}
+
+.directions-duration {
+    color: #000;
+    font-family: Inter;
+    font-size: clamp(1rem, 1.3vw, 2rem);
+    font-weight: 570;
+    padding-left: clamp(0.5rem, 3%, 3%);
+    white-space: nowrap;
+}
+
+.step-list-container {
+    flex: 1;
+    margin-bottom: clamp(0.5rem, 1vw, 1rem);
+    padding-right: clamp(0.25rem, 1vw, 5px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    width: 90%;
+    height: 90%;
+}
+
+.step-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 0;
+    overflow-y: auto;
+}
+
+.step-item {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.3rem, 1vw, 10px);
+    margin-bottom: clamp(0.1rem, 0.5vw, 0.2rem);
+    justify-content: space-between;
+}
+
+.step-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: clamp(20px, 2.5vw, 30px);
+    height: clamp(20px, 2.5vw, 30px);
+    flex-shrink: 0;
+}
+
+.step-text {
+    margin: 0;
+    font-size: clamp(0.75rem, 1vw, 1.05rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    text-align: left;
+    margin-left: clamp(0.5rem, 2vw, 8%);
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.step-description {
+    display: flex;
+    flex-grow: 1;
+    text-align: left;
+}
+
+.step-distance-duration {
+    font-size: clamp(0.75rem, 1vw, 1.05rem);
+    margin-top: -5%;
+    color: #555;
+}
+
+.start-container {
+    position: absolute;
+    bottom: -2.5%;
+    width: clamp(70px, 12vw, 95px);
+    height: clamp(70px, 12vw, 95px);
     background: transparent;
     border: none;
     cursor: pointer;
     display: flex;
-    align-items: right;
+    align-items: center;
     justify-content: center;
     flex-shrink: 0;
 }
 
-.view-icon2{
+.start-icon {
     width: 100%;
     height: 100%;
     object-fit: contain;
+}
+
+.rowContainer5 {
+    width: 100%;
+    max-width: clamp(600px, 90vw, 900px);
+    aspect-ratio: 10 / 1;
+    background-color: #FFF;
+    margin-top: clamp(1rem, 2%, 2%);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(10px, 2vw, 20px);
+}
+
+.map-container6 {
+    position: relative;
+    width: min(80vw, 1020px);
+    height: clamp(300px, 40vw, 580px);
+    max-width: clamp(600px, 90vw, 900px);
+    aspect-ratio: 8 / 3;
+    display: flex;
+    align-items: center;
+    background: transparent;
+    flex-shrink: 0;
+    border-radius: clamp(10px, 2vw, 20px);
+    margin-top: -1%;
+    margin-left: 1%;
+}
+
+.map-image6 {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: clamp(10px, 2vw, 20px);
+}
+
+.view-car-parks-button1 {
+    position: absolute;
+    bottom: -8%;
+    right: -5%;
+    transform: translateX(-50%);
+    width: clamp(120px, 20vw, 160px);
+    height: clamp(120px, 20vw, 160px);
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.view-car-parks-button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.view-car-parks-icon1 {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    cursor: pointer;
+}
+
+    height: clamp(120px, 20vw, 160px);
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.view-car-parks-button:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.view-car-parks-icon1 {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    cursor: pointer;
 }

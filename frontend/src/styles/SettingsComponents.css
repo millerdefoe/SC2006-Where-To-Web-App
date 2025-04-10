@@ -1,0 +1,60 @@
+.sidebar-container {
+    width: min(20vw, 250px);
+    height: 100vh; 
+    background: rgba(233, 231, 228, 0.50); 
+    display: flex;
+    flex-direction: column;
+    padding: min(3vw, 30px); 
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.where-to-button {
+    color: #000;
+    font-family: Poppins, sans-serif;
+    font-size: min(4vw, 36px);
+    font-weight: 600;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    width: min(20vw, 194px);
+    height: min(7vh, 54px);
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.where-to-button:hover {
+    color: gray;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.nav-item {
+    color: #000;
+    font-family: Inter, sans-serif;
+    font-size: min(3vw, 20px);
+    font-weight: 500;
+    padding: 10px;
+    width:  min(18vw, 200px);
+    height: min(5vh, 40px);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; 
+    padding-left: 15px;
+}
+
+.nav-item:hover {
+    background: rgba(217, 217, 217, 0.80);
+}
+
+.nav-item.active {
+    background: rgba(217, 217, 217, 0.80); 
+}
