@@ -101,8 +101,8 @@ class CarparkController():
 
         logger.info("Checking if user {} has a booking within 30mins before and after starttime {}".format(userId, startTime))
 
-        beforeTiming = datetime.strptime(startTime, "%d-%m-%Y %H:%M:%S") - timedelta(minutes=30)
-        afterTiming = datetime.strptime(startTime, "%d-%m-%Y %H:%M:%S") + timedelta(minutes=30)
+        beforeTiming = datetime.strptime(startTime, "%Y-%m-%d %H:%M:%S") - timedelta(minutes=30)
+        afterTiming = datetime.strptime(startTime, "%Y-%m-%d %H:%M:%S") + timedelta(minutes=30)
         queryString = "SELECT * FROM bookings WHERE userid = {} AND starttime > '{}' AND starttime < '{}'".format(userId, beforeTiming, afterTiming)
 
         data = dbObj.readData(queryString)
@@ -129,7 +129,7 @@ class CarparkController():
                 return False, "Error with duration provided: {}".format(duration)
 
             try:
-                startTime = datetime.strptime(startTime, "%d-%m-%Y %H:%M:%S")
+                startTime = datetime.strptime(startTime, "%Y-%m-%d %H:%M:%S")
             except ValueError:
                 logger.error("Start time provided was not valid: {}".format(startTime))
                 return False, "Start time provided was not valid: {}".format(startTime)
@@ -223,7 +223,7 @@ class CarparkController():
         timenow = datetime.now()
         bookingFound = False
         for booking in data:
-            timediff = booking[3] - datetime.timenow()
+            timediff = booking[3] - datetime.now()
             if timediff.total_seconds() < 900:
                 bookingFound = booking
                 break
