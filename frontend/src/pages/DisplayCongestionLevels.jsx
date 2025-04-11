@@ -93,14 +93,14 @@ function DisplayCongestionLevels() {
 
         <div className="congestionLevel-container2">
           <div className="mrt-container">
-            <div className="congestionLevel-header" style={{ fontSize: "1.5vw", paddingRight: "70%" }}>
+            <div className="congestionLevel-header" style={{ fontSize: "2.5vw", paddingRight: "62%" }}>
               MRT Stations
             </div>
             {mrtIndicators.length > 0 ? mrtIndicators : <div>No MRT data</div>}
           </div>
 
           <div className="bus-container">
-            <div className="congestionLevel-header" style={{ fontSize: "1.5vw", paddingRight: "70%" }}>
+            <div className="congestionLevel-header" style={{ fontSize: "2.5vw", paddingRight: "62%" }}>
               Bus Stops
             </div>
             {busIndicators.length > 0 ? busIndicators : <div>No Bus data</div>}
