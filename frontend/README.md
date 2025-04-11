@@ -2,6 +2,21 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+
+## Setup Instructions
+
+### `npm install`
+
+To install the dependecies needed for our app. 
+
+### Create a .env file
+    REACT_APP_GOOGLE_MAPS_API_KEY = [YOUR_KEY]
+    REACT_APP_BACKEND_URL=http://127.0.0.1:5000
+
+The backend URL, "http://127.0.0.1:5000", can only be used for local testing. \
+Replace REACT_APP_BACKEND_URL with your own URL if you want to host with your own website.
+
+
 ## Available Scripts
 
 In the project directory, you can run:
