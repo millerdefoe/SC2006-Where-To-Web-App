@@ -19,10 +19,8 @@ import MyBookings from "./pages/MyBookings";
 import Settings from "./pages/Settings";
 import SettingsPage from "./pages/SettingsPage";
 import FeedbackPage from "./pages/FeedbackPage";
-import Feedback from './pages/Feedback';
 import NotFoundPage from './pages/NotFoundPage';
 import DisplayCongestionLevels from './pages/DisplayCongestionLevels';
-import Profile from './pages/Profile';
 import ProfileSignUp from "./pages/ProfileSignUp";
 import ProfileLogIn from "./pages/ProfileLogIn";
 import ProfileDetails from "./pages/ProfileDetails";
@@ -55,13 +53,10 @@ function App() {
           <Route path="/settings-page" element={<SettingsPage />} />
           <Route path="/feedback-page" element={<FeedbackPage />} />
           <Route path="/settings" element={<Settings />} />
-          <Route path="/profile" element={<Profile />} />
           <Route path="/profile-sign-up" element={<ProfileSignUp />} />
           <Route path="/profile-details" element={<ProfileDetails />} />
           <Route path="/profile-log-in" element={<ProfileLogIn />} />
-          <Route path="/feedback" element={<Feedback />} />
           <Route path="*" element={<NotFoundPage />} />
-          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
     </Router> 
