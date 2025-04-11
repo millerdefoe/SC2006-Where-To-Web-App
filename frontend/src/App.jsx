@@ -4,10 +4,6 @@ import './App.css';
 import InputEndLocation from "./pages/InputEndLocation";
 import InputStartLocation from "./pages/InputStartLocation";
 import InputTPTMode from './pages/InputTPTMode';
-import FastestRoute from './pages/FastestRoute';
-import FastestRouteDirections from './pages/FastestRouteDirections'; 
-import LeastCongestedRoute from "./pages/LeastCongestedRoute";
-import ViewLessCongestedRouteDirections from './pages/ViewLessCongestedRouteDirections';
 import ViewDrivingRoute from "./pages/ViewDrivingRoute";
 import ViewDrivingDirections from "./pages/ViewDrivingDirections";
 import DrivingRouteNav from './pages/DrivingRouteNav';
@@ -16,10 +12,8 @@ import ViewPublicTransportRoute from './pages/ViewPublicTransportRoute';
 import ViewCarParks from "./pages/ViewCarParks";
 import PredictedCarParkAvail from "./components/PredictedCarParkAvail";
 import MyBookings from "./pages/MyBookings";
-import Settings from "./pages/Settings";
 import SettingsPage from "./pages/SettingsPage";
 import FeedbackPage from "./pages/FeedbackPage";
-import NotFoundPage from './pages/NotFoundPage';
 import DisplayCongestionLevels from './pages/DisplayCongestionLevels';
 import ProfileSignUp from "./pages/ProfileSignUp";
 import ProfileLogIn from "./pages/ProfileLogIn";
@@ -37,11 +31,7 @@ function App() {
           <Route path="/end-location" element={<InputEndLocation />} />
           <Route path="/start-location" element={<InputStartLocation />} />
           <Route path="/input-TPT-mode" element={<InputTPTMode />} />
-          <Route path="/fastest-route" element={<FastestRoute />} />
           <Route path="/display-congestion-levels" element={<DisplayCongestionLevels />}/>
-          <Route path="/fastest-route-directions" element={<FastestRouteDirections />} />
-          <Route path="/least-congested-route" element={<LeastCongestedRoute />} />
-          <Route path="/view-less-congested-directions" element={<ViewLessCongestedRouteDirections />} />
           <Route path="/public-transport-nav" element={<TPTRouteNav />} />
           <Route path="/view-public-transport-route" element={<ViewPublicTransportRoute />} />
           <Route path="/view-car-parks" element={<ViewCarParks />}/>
@@ -52,11 +42,9 @@ function App() {
           <Route path="/driving-route-nav" element={<DrivingRouteNav />} />
           <Route path="/settings-page" element={<SettingsPage />} />
           <Route path="/feedback-page" element={<FeedbackPage />} />
-          <Route path="/settings" element={<Settings />} />
           <Route path="/profile-sign-up" element={<ProfileSignUp />} />
           <Route path="/profile-details" element={<ProfileDetails />} />
           <Route path="/profile-log-in" element={<ProfileLogIn />} />
-          <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </div>
     </Router> 
