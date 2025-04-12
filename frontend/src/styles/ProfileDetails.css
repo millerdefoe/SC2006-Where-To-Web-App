@@ -53,7 +53,7 @@
 
   }
   
-  .line-thick {
+  .line-thick2 {
     width: 100%;
     border-bottom: 1px solid #000;
   }
@@ -154,10 +154,18 @@
     object-fit: contain;
   }
 
+  .button-group{
+    width: 100%;
+    height: auto;
+    justify-content: flex;
+    flex-direction: row;
+    margin-top: 1vh;
+  }
+
   .editProfile-container {
     position: fixed;
     bottom: 3vh;
-    right: 3vw;
+    right: 2vw;
     width: clamp(120px, 20vw, 250px);
     height: clamp(40px, 7vh, 70px);
     background: transparent;
@@ -211,6 +219,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    margin-left: -1%;
   }
 
   .deleteAccount-icon{
@@ -220,7 +229,7 @@
   }
 
   .shift-left{
-    transform: translateX(-5%);
+    transform: translateX(3%);
   }
 
   .logOut-button{
@@ -242,3 +251,265 @@
     object-fit: contain;
   }
 
+  @media (max-width: 430px) {
+    .profile3-page {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+  }
+  
+  .profile3-container {
+    width: 67%;
+    height: 90%;
+    display: flex; 
+    flex-direction: column;
+    background-color: transparent;
+    margin-top: 5%;
+  }
+  
+  .emailPhone3-container{
+    width: 100%;
+    height:15%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+    border-radius: 10px;
+    border: none;
+    margin-top: -2vh;
+    margin-bottom: -2vh;
+    margin-left: -1vh !important;
+  }
+
+  .emailPhone3-typography{
+    color: #000;
+    font-family: Inter;
+    font-size: 4vw;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-top: 2vh;
+  }
+
+  .profileHeader3-typography{
+    color: #000;
+    font-family: Inter;
+    font-size: 2vw;
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    text-align: left;
+    margin-top: 1%;
+    margin-bottom: 1%;
+    padding-left: 0;
+    white-space: nowrap;
+    margin-left: -1vh !important;
+
+  }
+  
+  .line-thick2 {
+    width: 100%;
+    border-bottom: 1px solid #000;
+    margin-left: -1vh !important;
+  }
+  
+  .line-thin {
+    width: 100%;
+    border-bottom: 0.5px solid #000;
+  }
+  
+  .profileContent3-typography{
+    color: #000;
+    font-family: Inter;
+    font-size: 3vw;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: left;
+    margin-bottom: 1%;
+    padding-left: 0;
+    margin-left: -1vh !important;
+  }
+
+  .user-profile-container{
+    width: clamp(100px, 15vw, 180px);
+    height: clamp(100px, 15vw, 180px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2% auto;
+    margin-top: 5vh;
+    margin-left: 20vw;
+  }
+
+  .user-profile-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .password3-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    gap: 2vw;
+    margin: 3vh 0;
+    position: relative;
+    margin-left: -1vh !important;
+  }
+
+  .password-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-right: 50px;
+  }  
+
+.rfid2-container{
+    width: 100%;
+    display: flex;
+    justify-content: space-between; 
+    align-items: center;
+    gap: 2vw;
+    margin: 3vh 0;
+    margin-left: -1vh !important;
+  }
+
+  .rfid-left-container{
+    object-fit:contain;
+    align-items: flex-start;
+  }
+
+  .rfid-right-container{
+    object-fit:contain;
+    align-items: flex-end;
+  }
+
+  .details-typography{
+    color: #000;
+    font-family: Inter;
+    font-size: clamp(16px, 2vw, 24px);
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    align-items: flex-end;
+  }
+
+  .eye1-container{
+    width: 10%;  
+    max-width: 40px; 
+    height: 100%;
+    position: absolute;
+    right: 0;  
+    cursor: pointer;
+    background: transparent;
+    border: none;
+  }
+
+  .eye-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .button-group{
+    width: 100%;
+    height: auto;
+    justify-content: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: -1vh;
+  }
+
+  .editProfile-container {
+    position: fixed;
+    bottom: 0.5vh;
+    right: 3vw;
+    width: 45vw;
+    height: 7vh;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .editProfile-icon {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  .password-rfid-typography{
+    color: #000;
+    font-family: Inter;
+    font-size: clamp(16px, 2vw, 24px);
+    font-style: normal;
+    font-weight: 800;
+    line-height: normal;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  .saveProfile-button {
+    background: transparent;
+    border: none;
+    width: 22vw;   
+    height: 5vh;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-left: -1%;
+  }
+
+  .saveProfile-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .deleteAccount-button{
+    background: transparent;
+    border: none;
+    width: 22vw;   
+    height: 5vh;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-left: -0.5vw;
+  }
+
+  .deleteAccount-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .shift-left{
+    transform: translateX(1.5%);
+  }
+
+  .logOut-button{
+    background: transparent;
+    border: none;
+    width: 22vw;   
+    height: 5vh;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-right: -1%;
+  }
+
+  .logOut-icon{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  }

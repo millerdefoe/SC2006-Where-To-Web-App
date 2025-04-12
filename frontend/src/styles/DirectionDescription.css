@@ -176,3 +176,181 @@
   }
 
 
+@media (max-width: 430px){
+    .directionDescription-wrapper{
+        height:87%;
+        width: 100%; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: transparent;
+    }
+    
+    .directionDescription-wrapper2 {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem; /* This replaces row-gap */
+        margin-top: 10px;
+        max-height: 450px;
+        overflow-y: auto;
+        padding-right: 2rem;
+        padding-left: 2rem;
+      }
+      
+      .direction-row {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        column-gap: 3rem;
+        align-items: center;
+      }
+      
+    
+    .directionDescription-header{
+        height: 10%; 
+        width: 100%;
+        background: transparent;
+        border: none;
+        display: flex; 
+        flex-direction: row; 
+        align-items: center;
+        justify-content: center;
+        margin-top: 3%;
+    }
+    
+    .directionDescription-title{
+        color: #000;
+        font-family: Inter;
+        font-size: 3.5vw;
+        font-weight: 570;
+    }
+    
+    .directionDescription-duration{
+        color: #000;
+        font-family: Inter;
+        font-size: 3.5vw;
+        font-weight: 570;
+        padding-left: 1%;
+        
+    }
+    
+    .directionDescription-timer{
+        padding-left: 45%;
+        object-fit: contain;
+    }
+    
+    .directionsIcon-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 0.5rem;
+    }
+    
+    
+    .directionDescription-container {
+        width: 100%;
+        height: auto; 
+    }
+    
+    .instructionGroup {
+        margin-bottom: 1rem;
+        color: #000;
+        font-family: Poppins, sans-serif;
+        font-size: 1vw;
+        font-weight: 600;
+        text-align: left;
+      }
+    
+    .main-instruction{
+        color: #000;
+        font-family: Inter;
+        font-size: 3vw;
+        font-weight: 600;
+        text-align: left;
+    }
+    
+    .sub-instruction{
+        color: #000;
+        font-family: Inter;
+        font-size: 2.5vw;
+        font-weight: 500;
+        text-align: left;
+    }
+    
+    .transportIconAndBadge-vertical {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+      
+    .badgeDD-icon {
+        width: 27px;
+        aspect-ratio: 2/1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 32px;
+        background-color: transparent;
+    }
+      
+      .walkingIconDD-icon {
+        width: 16px;
+        aspect-ratio: 1/2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 32px;
+        background-color: transparent;
+        padding-right: 15px;
+      }
+      
+      .busIconDD-icon {
+        flex: 1 1 auto;
+        width: auto;
+        aspect-ratio: 1/1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 32px;
+        padding-left: 4px;
+      }
+      
+      
+      .trainIconDD-icon {
+        flex: 1 1 auto;
+        width: auto;
+        aspect-ratio: 1/1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 32px;
+        background-color: transparent;
+        margin-bottom: 3px;
+      }
+      
+      
+      .directionDescriptionWalkingIcon-icon svg {
+        width: 100%;
+        height: 100%;
+        transform: scale(1.6);
+        transform-origin: 1px 16px;
+        display: block;
+      }
+    
+      
+      .walkingIconDD-icon svg {
+        width: 100%;
+        height: 100%;
+        transform: scale(1.6);
+        transform-origin: 1px 16px;
+        display: block;
+      }
+      
+      .busIconDD-icon svg,
+      .trainIconDD-icon svg{
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: contain;
+      }
+}

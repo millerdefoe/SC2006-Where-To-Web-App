@@ -24,3 +24,33 @@
     align-items: center;
     justify-content: center;
 }
+
+@media (max-width: 430px){
+    .homeicon-container1 {
+        position: relative; 
+        top: 5vh;
+        left: 0vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 30px;
+        background-color: #ECE9E9;
+        height: 6%;
+        width: 49%;
+        border: none; 
+        flex-shrink: 0;
+        border-bottom: 5%;
+    }
+    
+    /* Typography inside Home Icon */
+    .homeicon-typography1 {
+        color: #000;
+        font-family: Poppins, sans-serif;
+        font-size: 3vh; /* Scales based on viewport */
+        font-weight: 600;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}

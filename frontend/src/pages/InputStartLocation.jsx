@@ -54,7 +54,7 @@ function InputStartLocation(){
             <HomeButton1/>
             <SettingsButton/>
 
-            <div className="leftContainer">
+            <div className="leftContainer0">
                 <Map
                     markerPosition={mapCenter}
                     mapCenter={mapCenter}

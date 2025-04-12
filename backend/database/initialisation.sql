@@ -54,7 +54,9 @@ CREATE TABLE settings(
 
 CREATE TABLE feedbackrecords(
     feedbackid INTEGER NOT NULL,
-    feedbackmessage TEXT NOT NULL,
+    feedbackname TEXT NOT NULL,
+    feedbackemail TEXT NOT NULL,
+    feedbackdescription TEXT NOT NULL,
     createdAt TIMESTAMP NOT NULL,
     CONSTRAINT feedbackkey PRIMARY KEY (feedbackid)
 );

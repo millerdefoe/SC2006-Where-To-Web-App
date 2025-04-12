@@ -178,7 +178,7 @@ function ViewCarParks() {
       <NavBar />
       <ModeOfTransport Icon={Car} />
       <MyBookingsButton />
-      <div className="page-typography">Nearby Available Car Parks</div>
+      <div className="page12-typography">Nearby Available Car Parks</div>
       <div className="container-wrapper">
         {carParks.length > 0 ? (
           carParks.map((carPark, index) => {

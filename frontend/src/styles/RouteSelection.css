@@ -159,3 +159,169 @@
   margin-left: 2%;
   margin-bottom: 2%;
 }
+
+@media (max-width: 430px){
+  .routeSelection-container {
+    width: 95%;
+    aspect-ratio: 7 / 1;
+    background: #FFF;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    color: #4d4a4a;
+    font-family: Poppins, sans-serif;
+    font-size: 1.1vw;
+    font-weight: 600;
+    white-space: nowrap;
+    margin-left: 1%;
+    margin-bottom: 4%;
+  }
+  
+  .routeSelection-title {
+    margin-bottom: 1%;
+    text-align: left;
+    font-size: 3vw;
+  }
+  
+  .routeSelection-content {
+    width: 100%;
+    height: 100%;
+    background: #ece9e9;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+  }
+  
+  .transportIcon-container {
+    height: 44%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: left;
+    overflow-x: auto;
+    object-fit: contain;
+    gap: 0px;
+    padding-top: 3px;
+    padding-left: 5px;
+  }
+  
+  .transportIconAndBadge-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    padding: 0px 0px;
+    background-color: transparent;
+  }
+  
+  .badge-icon {
+    width: 27px;
+    aspect-ratio: 2/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 32px;
+    background-color: transparent;
+    margin-left: 0%;
+  }
+  
+  .walkingIcon-icon {
+    width: 16px;
+    aspect-ratio: 1/2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 32px;
+    background-color: transparent;
+    padding-right: 2px;
+  }
+  
+  .busIcon-icon {
+    flex: 1 1 auto;
+    width: 20%;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 32px;
+    padding-left: 4px;
+  }
+  
+  
+  .trainIcon-icon {
+    flex: 1 1 auto;
+    width: 10%;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 32px;
+    background-color: transparent;
+  }
+  
+  .transportArrow-icon{
+    width: 22px;
+    aspect-ratio: 1/1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 32px;
+    background-color: transparent;
+  }
+  
+  .walkingIcon-icon svg {
+    width: 60%;
+    height: 100%;
+    transform: scale(1.6);
+    transform-origin: 1px 16px;
+    display: block;
+  }
+  
+  .transportArrow-icon svg {
+    width: 60%;
+    height: 100%;
+    transform: scale(1);
+    transform-origin: 1px 10px;
+    display: block;
+    margin-right: 2%;
+  }
+  
+  
+  .busIcon-icon svg,
+  .trainIcon-icon svg{
+    width: 60%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+  }
+  
+  
+  .duration-text {
+    font-family: Poppins, sans-serif;
+    font-size: 2.5vw;
+    font-weight: 550;
+    text-align: left;
+    padding-left: 12px;
+    color: #4d4a4a;
+    margin-bottom: 1%;
+  }
+  
+  .view-button {
+    width: 12%;
+    aspect-ratio: 4/2;
+    background-color: #4f723d;
+    border-radius: 15px;
+    border: none;
+    font-family: Poppins, sans-serif;
+    font-size: 2vw;
+    font-weight: 500;
+    color: #fff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    margin-left: 2%;
+    margin-bottom: 2%;
+  }
+  
+}
