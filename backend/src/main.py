@@ -703,7 +703,7 @@ def checkinCarpark():
     return jsonify(returnData), 200
 
 @app.route("/PublicTransportRoute", methods=["GET", "POST"])
-def publicTransportRoute():
+def getPublicTransportRoute():
     logger.info("Public Transport Route accessed. Verifying information provided")
 
     try:
