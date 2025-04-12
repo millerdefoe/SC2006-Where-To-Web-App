@@ -157,9 +157,11 @@
   .button-group{
     width: 100%;
     height: auto;
-    justify-content: flex;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     flex-direction: row;
-    margin-top: 1vh;
+    margin-top: 2vh;
   }
 
   .editProfile-container {
@@ -418,10 +420,12 @@
   .button-group{
     width: 100%;
     height: auto;
-    justify-content: flex;
-    flex-direction: row;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    margin-left: -1vh;
+    flex-direction: row;
+    margin-top: 1vh;
+    margin-left: -2vw;
   }
 
   .editProfile-container {

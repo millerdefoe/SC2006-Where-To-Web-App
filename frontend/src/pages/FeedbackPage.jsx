@@ -62,7 +62,7 @@ function FeedbackPage() {
                 <div className="feedbackContent-typography" >
                     We value all kinds of feedback!
                 </div>
-                <div className="line-thick2"></div>
+                <div className="line-thick0" ></div>
 
                 {/* Input Name */}
                 <div className="feedbackHeader-typography" >Name</div>

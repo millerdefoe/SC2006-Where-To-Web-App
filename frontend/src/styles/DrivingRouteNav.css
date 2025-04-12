@@ -368,6 +368,8 @@
         padding: 0;
         overflow-y: auto;
         margin-top: clamp(-3%, -1vw, -3%);
+        padding-right: 1rem;
+        box-sizing: content-box;
     }
     
     .step-item1 {

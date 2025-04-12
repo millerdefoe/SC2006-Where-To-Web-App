@@ -31,3 +31,37 @@
     left: 34px;
   }
   
+  @media (max-width: 430px){
+    .toggle-switch {
+        position: relative;
+        width: 18%;
+        height: 20%;
+        border-radius: 999px;
+        border: 1px solid #000;
+        background-color: #D3D4D8;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 4%;
+        margin-left: 77%;
+    
+      }
+      
+      .toggle-switch.on {
+        background-color: #4F723D;
+      }
+      
+      .toggle-thumb {
+        width: 20px;
+        height: 20px;
+        background: white;
+        border-radius: 50%;
+        position: relative;
+        top: 2.5px;
+        left: 3px;
+        transition: left 0.3s ease;
+      }
+      
+      .toggle-switch.on .toggle-thumb {
+        left: 28px;
+      }
+  }

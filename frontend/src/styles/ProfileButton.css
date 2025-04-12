@@ -22,7 +22,7 @@
 @media (max-width: 430px){
     .profileIcon-container {
         position: absolute;
-        top: 1.45vh; 
+        top: 2.4vh; 
         right: 8vw; 
         width: min(4.2vw, 50px); 
         aspect-ratio: 1 / 1; 

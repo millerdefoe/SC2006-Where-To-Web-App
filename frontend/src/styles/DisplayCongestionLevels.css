@@ -58,3 +58,70 @@
     align-items: center;
     margin-left: 14%;
 }
+
+@media (max-width: 430px){
+    .congestionLevel-container{
+        width: 100%; 
+        height: 90%;
+        background: transparent;
+        border: none; 
+        display: flex; 
+        flex-direction: column;
+        margin-top: 20%;
+    }
+    
+    .congestionLevel-header{
+        width: 50%;
+        height: 3%;
+        display: flex;
+        align-items: center;
+        color: #000;
+        font-family: Poppins, sans-serif;
+        font-size: 3vw;
+        font-weight: 600;
+        white-space: nowrap;
+        text-align:left;
+        margin-top: 5%;
+        margin-bottom: -3%;
+        padding-left: 15%;
+    }
+    
+    .congestionLevel-container2{
+        width: 100%;
+        height: 95%;
+        background: transparent;
+        border: none; 
+        display: flex; 
+        flex-direction: column;
+    }
+    
+    .mrt-container{
+        float: left;
+        width: 70%;
+        height: 50%;
+        background-color:transparent;
+        padding: 2vh 0;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: top;
+        margin-left: 14%;
+    }
+    
+    .bus-container{
+        float: left;
+        width: 70%;
+        height: 50%;
+        background-color: transparent;
+        padding: 2vh 0;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: top;
+        margin-left: 14%;
+        background-color: transparent;
+        margin-top: -5%;
+    }
+}

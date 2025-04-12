@@ -52,20 +52,20 @@ class PublicTransportRouteController():
         logger.info("Querying google map api for various public transport routes")
         response = requests.post(url, headers=headers, json=body)
 
-        responseData = response.json()
-        if responseData == {}:
+        routeData = response.json()
+        if routeData == {}:
 
             logger.info("No route was returned by googlemaps api")
             return None
         else:
-            return responseData
+            return routeData
     
-    def limitWalkingDistance(responseData, maxWalkingDistance):
+    def limitWalkingDistance(routeData, maxWalkingDistance):
         result = {
             "routes" : [] #Template
         }
         
-        for route in responseData['routes']:
+        for route in routeData['routes']:
             sumofWalking = 0 #Total Walking Distance from current location to mrt station or bus stop
             for step in route["legs"][0]["steps"]:
                 if step["travelMode"] == 'WALK':
@@ -76,13 +76,13 @@ class PublicTransportRouteController():
             if sumofWalking < maxWalkingDistance: #If total walking is less than what the user has set the max to be
                 result["routes"].append(route) # Resulted route that will be saved into the list
 
-        return result #Converts dictionary object to JSON
+        return result 
 
-    def getCongestionLevel(route):
-        MRTController.updateCongestionDatabase() #Updates congestion database for MRT 
+    def getCongestionLevel(routeData):
+        # MRTController.updateCongestionDatabase() #Updates congestion database for MRT 
         sumofCongestion = 0 #Total congestion levels from mrt and bus
         count = 0 #Increments every time you add a congestion level
-        for step in route["steps"]:
+        for step in routeData["steps"]:
             #For MRT mode of transport
             if step['travelMode'] == "TRANSIT":
                 if step['transitDetails']['transitLine']['vehicle']['type'] == "SUBWAY": 
@@ -134,10 +134,10 @@ class PublicTransportRouteController():
                             break
         return sumofCongestion / count #Returns average congestion level of this one route
 
-    def computeLeastCongestedRoute(responseData):
+    def computeLeastCongestedRoute(routeData):
         chosenRoute = {}
         minCongestionLevel = 99999 #Arbitary number 
-        for route in responseData['routes']:
+        for route in routeData['routes']:
             congestionLevel = PublicTransportRouteController.getCongestionLevel(route["legs"][0]) #Refers to the list in legs
             if congestionLevel < minCongestionLevel: #Stores the smallest congestion values all the routes have
                 minCongestionLevel = congestionLevel
@@ -207,10 +207,10 @@ class PublicTransportRouteController():
 
         return result
 
-    def computeFastestRoute(responseData):
+    def computeFastestRoute(routeData):
         chosenRoute = {}
         shortestDuration = 99999 #Arbitary number 
-        for route in responseData['routes']:
+        for route in routeData['routes']:
             duration_str = route["duration"]
             duration = int(duration_str.rstrip('s')) #Removes the 's' and converts str to int
             if duration < shortestDuration:
@@ -219,18 +219,18 @@ class PublicTransportRouteController():
         #logger.info("Fastest route returned by googlemap api was {}".format(fastestChosenRoute))
         return chosenRoute    
     
-    def getCongestionList(routes):
-        returnlist = []
+    def getCongestionList(chosenRouteList):
+        congestionList = []
         title = ["leastCongested", "fastest"]
-        for routeindex in range(len(routes)):
+        for routeindex in range(len(chosenRouteList)):
             tempdict = {
                 'CongestionInfo' : title[routeindex]
             }
 
             FirstCurrentStopCongestionLevel = ''
 
-            if 'steps' in routes[routeindex].keys():
-                for steps in routes[routeindex]['steps']:
+            if 'steps' in chosenRouteList[routeindex].keys():
+                for steps in chosenRouteList[routeindex]['steps']:
                     if 'travelMode' in steps.keys():
                         if steps['travelMode'] == "BUS":
                             if isinstance(steps['ServiceNumberOrLine'], str):
@@ -293,6 +293,6 @@ class PublicTransportRouteController():
             
             tempdict['FirstCurrentStopCongestionLevel'] = FirstCurrentStopCongestionLevel
             tempdict['lastDestinationStopCongestionLevel'] = lastDestinationStopCongestionLevel
-            returnlist.append(tempdict)
+            congestionList.append(tempdict)
             
-        return returnlist
+        return congestionList
