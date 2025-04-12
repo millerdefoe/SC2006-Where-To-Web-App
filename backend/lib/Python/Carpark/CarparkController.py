@@ -69,15 +69,15 @@ class CarparkController():
 
             return priceString
 
-        # queryStatement = "SELECT rate FROM carpark WHERE carparkid = '{}'".format(carparkId)
+        queryStatement = "SELECT rate FROM carparkrate WHERE carparkid = '{}'".format(carparkId)
 
-        # data = dbObj.readData(queryStatement)
+        data = dbObj.readData(queryStatement)
 
-        # if data[0] == []:
+        if data[0] == []:
 
-        #     return False
+            return False
 
-        # return data[0][0]
+        return data[0][0]
 
         return "7am-6pm: $2.14 for 1st hr; $1.39 for sub. half hr"
 

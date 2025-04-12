@@ -1,0 +1,19 @@
+version: "3.9"
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"  
+    environment:
+      - TZ=Asia/Singapore
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"  # Flask app
+    environment:
+      - FLASK_ENV=development
+      - TZ=Asia/Singapore
+    depends_on:
+      - frontend

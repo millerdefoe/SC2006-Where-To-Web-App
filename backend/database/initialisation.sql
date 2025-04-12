@@ -92,3 +92,12 @@ CREATE TABLE bookings(
         FOREIGN KEY(userid)
             REFERENCES users(userid)
 );
+
+CREATE TABLE carparkrate(
+    carparkid VARCHAR(8) NOT NULL,
+    lottype VARCHAR(2) NOT NULL,
+    rate TEXT NOT NULL,
+    CONSTRAINT fk_carparkid
+        FOREIGN KEY(carparkid, lottype)
+            REFERENCES carpark(carparkid, lottype)
+);

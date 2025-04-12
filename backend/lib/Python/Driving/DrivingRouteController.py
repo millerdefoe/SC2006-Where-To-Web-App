@@ -115,10 +115,6 @@ class DrivingRouteController():
         
         return data["distance"]
 
-    def getTrafficInfo(self):
-
-        return True
-
     def getNearbyCarparks(self, latitude, longitude, maxrange, dbObj):
 
         logger.info("Finding nearby carparks given latitude: {}, longitude: {} and max range {}".format(latitude, longitude, maxrange))
