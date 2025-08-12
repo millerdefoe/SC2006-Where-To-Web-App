@@ -40,15 +40,8 @@ frontend/
 
 ### Backend Framework
 
+Flask, Postgre Database
+
 ### Frontend Framework
 
-### Database design
-
-## Deployment
-
-### Deployment Strategy
-
-### Deployment Guide
----
-
-### Project File Structure
+React.js
