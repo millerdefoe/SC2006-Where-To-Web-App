@@ -1,6 +1,7 @@
 # SC2006
 SC2006 Group Project Work
 
+Please view attached [SRS]((./SRS_Documentation))
 
 ## Project Architecture & Design
 
