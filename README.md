@@ -1,13 +1,10 @@
 # SC2006
 SC2006 Group Project Work
 
-## Project Description
-
-TODO
 
 ## Project Architecture & Design
 
-\<Insert Screenshot of Design\>
+
 
 ```
 SC2006/
